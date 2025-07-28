@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Topic 2.3: Comparison of Numbers - Interactive Learning for Standard 5">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Comparison of Numbers | Unit 2 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <style>
+        .topic-header {
+            background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .comparison-interactive {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .comparison-arena {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .number-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .number-box:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .number-box.winner {
+            background: #4CAF50;
+            transform: scale(1.1);
+        }
+        
+        .number-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .number-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .comparison-symbol {
+            font-size: 4rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 15px;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .symbol-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .symbol-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .symbol-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .symbol-btn.correct {
+            background: #4CAF50;
+        }
+        
+        .symbol-btn.incorrect {
+            background: #F44336;
+        }
+        
+        .comparison-game {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #E91E63;
+        }
+        
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .stat-card {
+            background: #F8F9FA;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E91E63;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6C757D;
+        }
+        
+        .strategies-section {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .strategy-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+        
+        .strategy-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .practice-section {
+            background: #F8F9FA;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .practice-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #E91E63;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+        
+        .number-line-section {
+            background: linear-gradient(135deg, #3F51B5 0%, #303F9F 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .number-line {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .line-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 600px;
+            position: relative;
+        }
+        
+        .line-point {
+            background: white;
+            color: #3F51B5;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .line-point:hover {
+            transform: scale(1.1);
+            background: #FFE082;
+        }
+        
+        .line-point.highlight {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-arena {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .number-display {
+                font-size: 2rem;
+            }
+            
+            .comparison-symbol {
+                font-size: 3rem;
+            }
+            
+            .game-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+    </header>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav" style="background: white; padding: 1rem 2rem; border-bottom: 1px solid #E9ECEF;">
+        <a href="../unit2.html" style="color: #E91E63; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Unit 2
+        </a>
+    </nav>
+
+    <!-- Topic Header -->
+    <header class="topic-header">
+        <h1 class="topic-title">2.3 Comparison of Numbers</h1>
+        <p>Learn to compare numbers using >, <, and = symbols!</p>
+    </header>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Interactive Comparison Arena -->
+        <div class="comparison-interactive">
+            <h2>🎯 Interactive Comparison Arena</h2>
+            <p>Compare the numbers and choose the correct symbol!</p>
+            
+            <div class="comparison-arena">
+                <div class="number-box" id="leftNumber">
+                    <div class="number-display" id="leftDisplay">25,847</div>
+                    <div class="number-label">First Number</div>
+                </div>
+                
+                <div class="comparison-symbol" id="symbolDisplay">?</div>
+                
+                <div class="number-box" id="rightNumber">
+                    <div class="number-display" id="rightDisplay">12,500</div>
+                    <div class="number-label">Second Number</div>
+                </div>
+            </div>
+            
+            <div class="symbol-options">
+                <button class="symbol-btn" onclick="selectSymbol('>')">></button>
+                <button class="symbol-btn" onclick="selectSymbol('<')"><</button>
+                <button class="symbol-btn" onclick="selectSymbol('=')">=</button>
+            </div>
+            
+            <button class="btn btn-warning" onclick="generateNewComparison()">New Numbers</button>
+            <div id="comparisonResult" style="margin-top: 1rem; font-size: 1.2rem; font-weight: 600;"></div>
+        </div>
+
+        <!-- Comparison Game -->
+        <div class="comparison-game">
+            <h2>🎮 Comparison Challenge Game</h2>
+            
+            <div class="game-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="correctCount">0</div>
+                    <div class="stat-label">Correct</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalQuestions">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="scorePercentage">0%</div>
+                    <div class="stat-label">Score</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn btn-primary" onclick="startGame()">Start Challenge</button>
+                <button class="btn btn-secondary" onclick="resetGame()">Reset Score</button>
+            </div>
+        </div>
+
+        <!-- Comparison Strategies -->
+        <div class="strategies-section">
+            <h2>🧠 Smart Comparison Strategies</h2>
+            <p>Learn the best ways to compare large numbers quickly!</p>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <div class="strategy-icon">1️⃣</div>
+                    <h3>Count the Digits</h3>
+                    <p>A number with more digits is usually larger!</p>
+                    <p><strong>Example:</strong> 1,000 > 999</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon">2️⃣</div>
+                    <h3>Compare from Left</h3>
+                    <p>Start comparing from the leftmost digit.</p>
+                    <p><strong>Example:</strong> 78,000 > 67,999</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon">3️⃣</div>
+                    <h3>Place Value Matters</h3>
+                    <p>Higher place value means larger number.</p>
+                    <p><strong>Example:</strong> 50,000 > 49,999</p>
+                </div>
+                
+                <div class="strategy-card">
+                    <div class="strategy-icon">4️⃣</div>
+                    <h3>Equal Means Same</h3>
+                    <p>Numbers are equal only if all digits match.</p>
+                    <p><strong>Example:</strong> 45,678 = 45,678</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Number Line Visualization -->
+        <div class="number-line-section">
+            <h2>📏 Number Line Comparison</h2>
+            <p>See how numbers are positioned on a number line!</p>
+            
+            <div class="number-line">
+                <div class="line-container" id="numberLine">
+                    <div class="line-point" onclick="highlightPoint(this)">10,000</div>
+                    <div class="line-point" onclick="highlightPoint(this)">20,000</div>
+                    <div class="line-point" onclick="highlightPoint(this)">30,000</div>
+                    <div class="line-point" onclick="highlightPoint(this)">40,000</div>
+                    <div class="line-point" onclick="highlightPoint(this)">50,000</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="btn btn-warning" onclick="generateNumberLine()">Generate New Range</button>
+                <p style="margin-top: 1rem; opacity: 0.9;">
+                    <strong>Remember:</strong> Numbers on the right are larger than numbers on the left!
+                </p>
+            </div>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="practice-section">
+            <h2>✏️ Practice Exercises</h2>
+            
+            <div class="practice-grid">
+                <div class="practice-card">
+                    <h3>Exercise 1: Fill in the Symbol</h3>
+                    <p>Compare: <strong>67,432 ___ 67,423</strong></p>
+                    <div style="margin: 1rem 0;">
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="ex1" value=">"> >
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="ex1" value="<"> <
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="ex1" value="="> =
+                        </label>
+                    </div>
+                    <button class="btn btn-success" onclick="checkExercise1()">Check Answer</button>
+                    <div id="ex1Result"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 2: Greatest Number</h3>
+                    <p>Which is the greatest?</p>
+                    <p><strong>45,678 | 54,876 | 48,567 | 56,487</strong></p>
+                    <input type="text" placeholder="Enter the greatest number" id="greatestAnswer" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;">
+                    <button class="btn btn-success" onclick="checkGreatest()">Check Answer</button>
+                    <div id="greatestResult"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 3: Arrange in Order</h3>
+                    <p>Arrange in ascending order:</p>
+                    <p><strong>78,432 | 87,234 | 74,823 | 84,372</strong></p>
+                    <textarea placeholder="Write numbers in ascending order..." id="orderAnswer" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; height: 60px;"></textarea>
+                    <button class="btn btn-success" onclick="checkOrder()">Check Answer</button>
+                    <div id="orderResult"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 4: True or False</h3>
+                    <p><strong>1,25,000 > 125,000</strong></p>
+                    <div style="margin: 1rem 0;">
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="ex4" value="true"> True
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="ex4" value="false"> False
+                        </label>
+                    </div>
+                    <button class="btn btn-success" onclick="checkTrueFalse()">Check Answer</button>
+                    <div id="tfResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="topic2-2.html" class="btn btn-secondary">← Previous: Place Value</a>
+            <a href="topic2-4.html" class="btn btn-primary">Next: Ordering & Number Names →</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    
+    <script>
+        let gameStats = { correct: 0, total: 0 };
+        let currentComparison = { left: 0, right: 0, correctSymbol: '' };
+        
+        // Generate new comparison
+        function generateNewComparison() {
+            const min = 10000;
+            const max = 999999;
+            let left = Math.floor(Math.random() * (max - min + 1)) + min;
+            let right = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // Ensure numbers are different enough to be interesting
+            while (Math.abs(left - right) < 1000) {
+                right = Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            
+            currentComparison.left = left;
+            currentComparison.right = right;
+            
+            if (left > right) {
+                currentComparison.correctSymbol = '>';
+            } else if (left < right) {
+                currentComparison.correctSymbol = '<';
+            } else {
+                currentComparison.correctSymbol = '=';
+            }
+            
+            document.getElementById('leftDisplay').textContent = formatIndianNumber(left);
+            document.getElementById('rightDisplay').textContent = formatIndianNumber(right);
+            document.getElementById('symbolDisplay').textContent = '?';
+            document.getElementById('comparisonResult').textContent = '';
+            
+            // Reset symbol buttons
+            document.querySelectorAll('.symbol-btn').forEach(btn => {
+                btn.classList.remove('correct', 'incorrect');
+                btn.disabled = false;
+            });
+            
+            // Reset number boxes
+            document.querySelectorAll('.number-box').forEach(box => {
+                box.classList.remove('winner');
+            });
+        }
+        
+        // Select comparison symbol
+        function selectSymbol(symbol) {
+            document.getElementById('symbolDisplay').textContent = symbol;
+            
+            const buttons = document.querySelectorAll('.symbol-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === symbol) {
+                    if (symbol === currentComparison.correctSymbol) {
+                        btn.classList.add('correct');
+                        document.getElementById('comparisonResult').innerHTML = 
+                            '<span style="color: #4CAF50;">✅ Correct! Well done!</span>';
+                        
+                        // Highlight winner
+                        if (symbol === '>') {
+                            document.getElementById('leftNumber').classList.add('winner');
+                        } else if (symbol === '<') {
+                            document.getElementById('rightNumber').classList.add('winner');
+                        }
+                        
+                        gameStats.correct++;
+                    } else {
+                        btn.classList.add('incorrect');
+                        document.getElementById('comparisonResult').innerHTML = 
+                            `<span style="color: #F44336;">❌ Incorrect! The correct answer is ${currentComparison.correctSymbol}</span>`;
+                    }
+                }
+            });
+            
+            gameStats.total++;
+            updateGameStats();
+        }
+        
+        // Update game statistics
+        function updateGameStats() {
+            document.getElementById('correctCount').textContent = gameStats.correct;
+            document.getElementById('totalQuestions').textContent = gameStats.total;
+            const percentage = gameStats.total > 0 ? Math.round((gameStats.correct / gameStats.total) * 100) : 0;
+            document.getElementById('scorePercentage').textContent = percentage + '%';
+        }
+        
+        // Start game
+        function startGame() {
+            generateNewComparison();
+        }
+        
+        // Reset game
+        function resetGame() {
+            gameStats = { correct: 0, total: 0 };
+            updateGameStats();
+            generateNewComparison();
+        }
+        
+        // Format number in Indian system
+        function formatIndianNumber(num) {
+            return num.toLocaleString('en-IN');
+        }
+        
+        // Highlight number line point
+        function highlightPoint(point) {
+            document.querySelectorAll('.line-point').forEach(p => p.classList.remove('highlight'));
+            point.classList.add('highlight');
+        }
+        
+        // Generate new number line
+        function generateNumberLine() {
+            const container = document.getElementById('numberLine');
+            const start = Math.floor(Math.random() * 50) * 1000 + 10000;
+            const step = 10000;
+            
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const point = document.createElement('div');
+                point.className = 'line-point';
+                point.textContent = formatIndianNumber(start + (i * step));
+                point.onclick = () => highlightPoint(point);
+                container.appendChild(point);
+            }
+        }
+        
+        // Exercise check functions
+        function checkExercise1() {
+            const selected = document.querySelector('input[name="ex1"]:checked');
+            const result = document.getElementById('ex1Result');
+            
+            if (selected && selected.value === '>') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct! 67,432 > 67,423</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Compare digit by digit: 67,43<strong>2</strong> vs 67,42<strong>3</strong></p>';
+            }
+        }
+        
+        function checkGreatest() {
+            const answer = document.getElementById('greatestAnswer').value.replace(/,/g, '');
+            const result = document.getElementById('greatestResult');
+            
+            if (answer === '56487') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! 56,487 is the greatest number!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Look for the highest digit in the ten thousands place.</p>';
+            }
+        }
+        
+        function checkOrder() {
+            const answer = document.getElementById('orderAnswer').value.toLowerCase().replace(/,/g, '');
+            const result = document.getElementById('orderResult');
+            
+            if (answer.includes('74823') && answer.includes('78432') && answer.includes('84372') && answer.includes('87234') && 
+                answer.indexOf('74823') < answer.indexOf('78432') && 
+                answer.indexOf('78432') < answer.indexOf('84372') && 
+                answer.indexOf('84372') < answer.indexOf('87234')) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Excellent! You got the ascending order correct!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Ascending means smallest to largest: 74,823 < 78,432 < 84,372 < 87,234</p>';
+            }
+        }
+        
+        function checkTrueFalse() {
+            const selected = document.querySelector('input[name="ex4"]:checked');
+            const result = document.getElementById('tfResult');
+            
+            if (selected && selected.value === 'false') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct! 1,25,000 = 125,000 (same number, different notation)</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Both numbers represent the same value: one lakh twenty five thousand.</p>';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateNewComparison();
+            updateGameStats();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Geometry lessons for Standard 5 students - Learn about shapes, angles, and geometric concepts">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Unit 1: Geometry | Standard 5 Math</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+            color: #2C3E50;
+            min-height: 100vh;
+        }
+        
+        /* Custom Header Styles for Unit Page */
+        .custom-header {
+            background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            margin-top: 80px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .unit-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .unit-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .unit-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .progress-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .dev-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+        }
+        
+        .dev-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .dev-toggle.active {
+            background: rgba(255, 193, 7, 0.3);
+            border-color: #FFC107;
+            color: #FFC107;
+        }
+        
+        .delete-btn {
+            display: none;
+            background: rgba(220, 53, 69, 0.1);
+            color: #DC3545;
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(220, 53, 69, 0.2);
+            border-color: #DC3545;
+            transform: translateY(-2px);
+        }
+        
+        .developer-mode .delete-btn {
+            display: inline-block;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+        
+        .unit-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .unit-header {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 4px solid #E1F5FE;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .unit-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #4ECDC4, #45B7D1, #96CEB4);
+        }
+        
+        .unit-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .unit-main-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+        
+        .unit-description {
+            font-size: 1.2rem;
+            color: #6C757D;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .unit-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 3px solid #E1F5FE;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #4ECDC4;
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.2);
+        }
+        
+        .stat-number {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: #4ECDC4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6C757D;
+            font-weight: 600;
+        }
+        
+        /* Lessons Grid */
+        .lessons-section {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 4px solid #E1F5FE;
+        }
+        
+        .section-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: #4ECDC4;
+            margin-bottom: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .lesson-card {
+            background: linear-gradient(135deg, #FFE5E5, #FFF3E0);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #FF6B6B;
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+        }
+        
+        .lesson-card:hover::before {
+            left: 100%;
+        }
+        
+        .lesson-number {
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lesson-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-description {
+            color: #6C757D;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .lesson-topics {
+            margin-bottom: 1.5rem;
+        }
+        
+        .topic-tag {
+            background: rgba(255, 107, 107, 0.1);
+            color: #FF6B6B;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        .lesson-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #E9ECEF;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #FF5252);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: #6C757D;
+            font-weight: 600;
+        }
+        
+        .lesson-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 107, 107, 0.1);
+            color: #FF6B6B;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Add New Lesson Section */
+        .add-lesson-section {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 4px dashed #4ECDC4;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .add-lesson-section:hover {
+            border-color: #FF6B6B;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(78, 205, 196, 0.2);
+        }
+        
+        .add-lesson-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #4ECDC4;
+        }
+        
+        .add-lesson-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+        
+        .add-lesson-description {
+            font-size: 1.1rem;
+            color: #6C757D;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .add-lesson-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 3px solid #E1F5FE;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .add-lesson-btn {
+            background: linear-gradient(135deg, #4ECDC4, #45B7D1);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .add-lesson-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .unit-header, .lessons-section, .add-lesson-section {
+                padding: 2rem;
+                border-radius: 20px;
+            }
+            
+            .unit-main-title {
+                font-size: 2.5rem;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .add-lesson-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .lesson-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="messages.schoolName">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../../index.html" class="nav-link" data-translate="home">Home</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="allStandards">All Standards</span>
+                <ul class="nav-submenu">
+                    <li><a href="../../../std1/std1.html" class="nav-link" data-translate="standards.standard1">1st STD</a></li>
+                    <li><a href="../../../std2/std2.html" class="nav-link" data-translate="standards.standard2">2nd STD</a></li>
+                    <li><a href="../../../std3/std3.html" class="nav-link" data-translate="standards.standard3">3rd STD</a></li>
+                    <li><a href="../../../std4/std4.html" class="nav-link" data-translate="standards.standard4">4th STD</a></li>
+                    <li><a href="../../../std5/std5.html" class="nav-link active" data-translate="standards.standard5">5th STD</a></li>
+                    <li><a href="../../../std6/std6.html" class="nav-link" data-translate="standards.standard6">6th STD</a></li>
+                </ul>
+            </li>
+            <li><a href="../../../settings.html" class="nav-link" data-translate="settings">Settings</a></li>
+            <li><a href="../../../about.html" class="nav-link" data-translate="about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Custom Header for Unit -->
+    <div class="custom-header">
+        <div class="header-left">
+            <button class="back-btn" onclick="goBack()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </button>
+            <div class="unit-info">
+                <div class="unit-title">📐 Unit 1: Geometry</div>
+                <div class="unit-subtitle">Term 1 - Standard 5</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="progress-indicator">🌟 25% Complete</div>
+            <button class="dev-toggle" onclick="toggleDeveloperMode()" title="Developer Mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="unit-container">
+            <!-- Unit Header -->
+            <div class="unit-header">
+                <div class="unit-icon">📐</div>
+                <h1 class="unit-main-title">Geometry</h1>
+                <p class="unit-description">
+                    Welcome to the amazing world of shapes and angles! In this unit, we'll explore 2D and 3D shapes, 
+                    learn about angles, and discover how geometry is everywhere around us. Get ready for fun activities and exciting discoveries!
+                </p>
+                
+                <div class="unit-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">📚 Lessons</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">25%</div>
+                        <div class="stat-label">🌟 Progress</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">🎮 Activities</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lessons Section -->
+            <div class="lessons-section">
+                <h2 class="section-title">
+                    <span>📚</span>
+                    Geometry Lessons
+                </h2>
+                
+                <div class="lessons-grid">
+                    <!-- Lesson 1 -->
+                    <div class="lesson-card" onclick="openLesson('unit1/01.0-Geometry.html')">
+                        <div class="lesson-number">1</div>
+                        <h3 class="lesson-title">2D & 3D Shapes</h3>
+                        <p class="lesson-description">
+                            Learn about flat shapes like circles and squares, and solid shapes like cubes and spheres. 
+                            Discover how shapes are everywhere around us!
+                        </p>
+                        
+                        <div class="lesson-topics">
+                            <span class="topic-tag">2D Shapes</span>
+                            <span class="topic-tag">3D Shapes</span>
+                            <span class="topic-tag">Real Examples</span>
+                        </div>
+                        
+                        <div class="lesson-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%;"></div>
+                            </div>
+                            <span class="progress-text">25%</span>
+                        </div>
+                        
+                        <div class="lesson-actions">
+                            <a href="unit1/01.0-Geometry.html" class="btn btn-primary">🚀 Start Learning</a>
+                            <a href="unit1/01.1-Geometry-quize.html" class="btn btn-secondary">🎯 Quiz</a>
+                        </div>
+                    </div>
+
+                    <!-- Lesson 2 -->
+                    <div class="lesson-card" onclick="openLesson('unit1/02- angles.html')">
+                        <div class="lesson-number">2</div>
+                        <h3 class="lesson-title">Introduction to Angles</h3>
+                        <p class="lesson-description">
+                            Explore different types of angles - acute, right, obtuse, and straight angles. 
+                            Learn how to measure and identify angles in everyday objects.
+                        </p>
+                        
+                        <div class="lesson-topics">
+                            <span class="topic-tag">Types of Angles</span>
+                            <span class="topic-tag">Angle Measurement</span>
+                            <span class="topic-tag">Real Examples</span>
+                        </div>
+                        
+                        <div class="lesson-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                        
+                        <div class="lesson-actions">
+                            <a href="unit1/02- angles.html" class="btn btn-primary">🚀 Start Learning</a>
+                            <a href="unit1/02- angles.html#quiz" class="btn btn-secondary">🎯 Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Lesson Section -->
+            <div class="add-lesson-section">
+                <div class="add-lesson-icon">➕</div>
+                <h3 class="add-lesson-title">Add New Lesson</h3>
+                <p class="add-lesson-description">
+                    Want to add more geometry lessons? Create a new lesson with fun activities and interactive content!
+                </p>
+                
+                <form class="add-lesson-form" id="addLessonForm">
+                    <div class="form-group">
+                        <label class="form-label">📝 Lesson Title</label>
+                        <input type="text" id="lessonTitle" class="form-input" placeholder="e.g., 03-Symmetry" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">📖 Lesson Description</label>
+                        <textarea id="lessonDescription" class="form-input form-textarea" placeholder="Describe what students will learn in this lesson..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">🏷️ Topics (comma separated)</label>
+                        <input type="text" id="lessonTopics" class="form-input" placeholder="e.g., Symmetry, Patterns, Reflection" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">🎮 Activities</label>
+                        <input type="text" id="lessonActivities" class="form-input" placeholder="e.g., Drawing, Games, Quiz" required>
+                    </div>
+                </form>
+                
+                <button class="add-lesson-btn" onclick="addNewLesson()">
+                    ✨ Create New Lesson
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../assets/js/app.js"></script>
+    <script src="../../../assets/js/navigation.js"></script>
+    <script src="../../../assets/js/language.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Language and Navigation Fix -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial language
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            applyBasicTranslations(savedLang);
+            
+            // Set active language button
+            const activeBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Language switcher functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Store language preference
+                    localStorage.setItem('preferredLanguage', lang);
+                    
+                    // Apply translations if LanguageManager is available
+                    if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                        window.LanguageManager.switchLanguage(lang);
+                    } else {
+                        console.log('LanguageManager not available, applying basic translations');
+                        applyBasicTranslations(lang);
+                    }
+                });
+            });
+        });
+
+        function applyBasicTranslations(lang) {
+            const translations = {
+                en: {
+                    'messages.schoolName': 'Primary School Learning App',
+                    'navigation': 'Navigation',
+                    'home': 'Home',
+                    'allStandards': 'All Standards',
+                    'settings': 'Settings',
+                    'about': 'About',
+                    'loading': 'Loading...',
+                    'standards.standard1': '1st STD',
+                    'standards.standard2': '2nd STD',
+                    'standards.standard3': '3rd STD',
+                    'standards.standard4': '4th STD',
+                    'standards.standard5': '5th STD',
+                    'standards.standard6': '6th STD'
+                },
+                ta: {
+                    'messages.schoolName': 'ஆரம்ப பள்ளி கற்றல் பயன்பாடு',
+                    'navigation': 'வழிகாட்டுதல்',
+                    'home': 'முகப்பு',
+                    'allStandards': 'அனைத்து தரங்களும்',
+                    'settings': 'அமைப்புகள்',
+                    'about': 'பற்றி',
+                    'loading': 'ஏற்றுகிறது...',
+                    'standards.standard1': '1 ஆம் வகுப்பு',
+                    'standards.standard2': '2 ஆம் வகுப்பு',
+                    'standards.standard3': '3 ஆம் வகுப்பு',
+                    'standards.standard4': '4 ஆம் வகுப்பு',
+                    'standards.standard5': '5 ஆம் வகுப்பு',
+                    'standards.standard6': '6 ஆம் வகுப்பு'
+                },
+                ur: {
+                    'messages.schoolName': 'پرائمری اسکول لرننگ ایپ',
+                    'navigation': 'نیویگیشن',
+                    'home': 'ہوم',
+                    'allStandards': 'تمام معیارات',
+                    'settings': 'ترتیبات',
+                    'about': 'کے بارے میں',
+                    'loading': 'لوڈ ہو رہا ہے...',
+                    'standards.standard1': 'پہلی',
+                    'standards.standard2': 'دوسری',
+                    'standards.standard3': 'تیسری',
+                    'standards.standard4': 'چوتھی',
+                    'standards.standard5': 'پانچویں',
+                    'standards.standard6': 'چھٹی'
+                }
+            };
+
+            const langData = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (langData[key]) {
+                    element.textContent = langData[key];
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        // Navigation functions
+        function goBack() {
+            window.history.back();
+        }
+        
+        function openLesson(lessonPath) {
+            window.location.href = lessonPath;
+        }
+        
+        // Add new lesson functionality
+        function addNewLesson() {
+            // Get form values using IDs
+            const title = document.getElementById('lessonTitle').value;
+            const description = document.getElementById('lessonDescription').value;
+            const topics = document.getElementById('lessonTopics').value;
+            const activities = document.getElementById('lessonActivities').value;
+            
+            if (!title || !description || !topics || !activities) {
+                alert('Please fill in all fields!');
+                return;
+            }
+            
+            // Create lesson number (auto-increment)
+            const existingLessons = document.querySelectorAll('.lesson-card');
+            const lessonNumber = existingLessons.length + 1;
+            
+            // Create lesson object
+            const newLesson = {
+                id: Date.now(), // Unique ID
+                number: lessonNumber,
+                title: title,
+                description: description,
+                topics: topics.split(',').map(t => t.trim()),
+                activities: activities.split(',').map(a => a.trim()),
+                progress: 0,
+                dateCreated: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            saveLessonToStorage(newLesson);
+            
+            // Create new lesson card
+            const newLessonCard = createLessonCard(newLesson);
+            
+            // Add to lessons grid
+            const lessonsGrid = document.querySelector('.lessons-grid');
+            lessonsGrid.appendChild(newLessonCard);
+            
+            // Reset form
+            document.getElementById('addLessonForm').reset();
+            
+            // Show success message
+            showSuccessMessage('Lesson saved successfully! 🎉');
+            
+            // Update lesson count
+            updateLessonCount();
+        }
+        
+        function createLessonCard(lesson) {
+            const card = document.createElement('div');
+            card.className = 'lesson-card';
+            card.setAttribute('data-lesson-id', lesson.id);
+            card.onclick = () => openLesson(`unit1/${lesson.title}.html`);
+            
+            const topicsHTML = lesson.topics.map(topic => `<span class="topic-tag">${topic}</span>`).join('');
+            
+            card.innerHTML = `
+                <div class="lesson-number">${lesson.number}</div>
+                <h3 class="lesson-title">${lesson.title}</h3>
+                <p class="lesson-description">${lesson.description}</p>
+                
+                <div class="lesson-topics">
+                    ${topicsHTML}
+                </div>
+                
+                <div class="lesson-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${lesson.progress}%;"></div>
+                    </div>
+                    <span class="progress-text">${lesson.progress}%</span>
+                </div>
+                
+                <div class="lesson-actions">
+                    <a href="unit1/${lesson.title}.html" class="btn btn-primary">🚀 Start Learning</a>
+                    <a href="unit1/${lesson.title}.html#quiz" class="btn btn-secondary">🎯 Quiz</a>
+                    <button class="delete-btn" onclick="deleteLesson(${lesson.id}); event.stopPropagation();">🗑️ Delete</button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function showSuccessMessage(message) {
+            // Create success notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, #4ECDC4, #45B7D1);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(78, 205, 196, 0.3);
+                z-index: 1000;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease-in';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        function showErrorMessage(message) {
+            // Create error notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: linear-gradient(135deg, #FF6B6B, #FF5252);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+                z-index: 1000;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease-in';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
+        }
+        
+        function updateLessonCount() {
+            const lessonCount = document.querySelectorAll('.lesson-card').length;
+            const statNumber = document.querySelector('.stat-number');
+            if (statNumber) {
+                statNumber.textContent = lessonCount;
+            }
+        }
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Storage functions
+        function saveLessonToStorage(lesson) {
+            const savedLessons = getSavedLessons();
+            savedLessons.push(lesson);
+            localStorage.setItem('std5_math_unit1_lessons', JSON.stringify(savedLessons));
+        }
+        
+        function getSavedLessons() {
+            const saved = localStorage.getItem('std5_math_unit1_lessons');
+            return saved ? JSON.parse(saved) : [];
+        }
+        
+        function deleteLessonFromStorage(lessonId) {
+            const savedLessons = getSavedLessons();
+            const updatedLessons = savedLessons.filter(lesson => lesson.id !== lessonId);
+            localStorage.setItem('std5_math_unit1_lessons', JSON.stringify(updatedLessons));
+        }
+        
+        function deleteLesson(lessonId) {
+            if (confirm('Are you sure you want to delete this lesson?')) {
+                // Remove from DOM
+                const lessonCard = document.querySelector(`[data-lesson-id="${lessonId}"]`);
+                if (lessonCard) {
+                    lessonCard.remove();
+                }
+                
+                // Remove from storage
+                deleteLessonFromStorage(lessonId);
+                
+                // Update lesson numbers
+                updateLessonNumbers();
+                
+                // Show success message
+                showSuccessMessage('Lesson deleted successfully! 🗑️');
+                
+                // Update lesson count
+                updateLessonCount();
+            }
+        }
+        
+        function updateLessonNumbers() {
+            const lessonCards = document.querySelectorAll('.lesson-card');
+            lessonCards.forEach((card, index) => {
+                const numberElement = card.querySelector('.lesson-number');
+                if (numberElement) {
+                    numberElement.textContent = index + 1;
+                }
+            });
+        }
+        
+        function loadSavedLessons() {
+            const savedLessons = getSavedLessons();
+            const lessonsGrid = document.querySelector('.lessons-grid');
+            
+            // Clear existing dynamic lessons (keep the original 2)
+            const dynamicCards = lessonsGrid.querySelectorAll('.lesson-card[data-lesson-id]');
+            dynamicCards.forEach(card => card.remove());
+            
+            // Add saved lessons
+            savedLessons.forEach(lesson => {
+                const lessonCard = createLessonCard(lesson);
+                lessonsGrid.appendChild(lessonCard);
+            });
+            
+            // Update lesson numbers
+            updateLessonNumbers();
+        }
+        
+        // Developer mode functions
+        function toggleDeveloperMode() {
+            const body = document.body;
+            const devToggle = document.querySelector('.dev-toggle');
+            
+            if (body.classList.contains('developer-mode')) {
+                // Disable developer mode
+                body.classList.remove('developer-mode');
+                devToggle.classList.remove('active');
+                localStorage.setItem('std5_math_developer_mode', 'false');
+                showSuccessMessage('Developer mode disabled 🔒');
+            } else {
+                // Ask for password before enabling developer mode
+                const password = prompt('Enter developer password:');
+                if (password === 'muaz') {
+                    body.classList.add('developer-mode');
+                    devToggle.classList.add('active');
+                    localStorage.setItem('std5_math_developer_mode', 'true');
+                    showSuccessMessage('Developer mode enabled 🔧');
+                } else if (password !== null) {
+                    showErrorMessage('Incorrect password! ❌');
+                }
+            }
+        }
+        
+        function checkDeveloperMode() {
+            const isDeveloperMode = localStorage.getItem('std5_math_developer_mode') === 'true';
+            const body = document.body;
+            const devToggle = document.querySelector('.dev-toggle');
+            
+            if (isDeveloperMode) {
+                body.classList.add('developer-mode');
+                devToggle.classList.add('active');
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check developer mode
+            checkDeveloperMode();
+            
+            // Load saved lessons
+            loadSavedLessons();
+            
+            // Add hover effects for lesson cards
+            const lessonCards = document.querySelectorAll('.lesson-card');
+            lessonCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Update progress based on localStorage
+            updateProgress();
+        });
+        
+        function updateProgress() {
+            // Calculate overall progress
+            const lessons = document.querySelectorAll('.lesson-card');
+            let totalProgress = 0;
+            let completedLessons = 0;
+            
+            lessons.forEach(lesson => {
+                const progressText = lesson.querySelector('.progress-text');
+                const progress = parseInt(progressText.textContent) || 0;
+                totalProgress += progress;
+                if (progress > 0) completedLessons++;
+            });
+            
+            const overallProgress = lessons.length > 0 ? Math.round(totalProgress / lessons.length) : 0;
+            
+            // Update progress indicator
+            const progressIndicator = document.querySelector('.progress-indicator');
+            if (progressIndicator) {
+                progressIndicator.textContent = `🌟 ${overallProgress}% Complete`;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('std5_math_unit1_progress', overallProgress.toString());
+        }
+    </script>
+</body>
+</html> 

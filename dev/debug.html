@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Translation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #4ECDC4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Translation Debug Tool</h1>
+        
+        <div class="test-section">
+            <h2>Translation Test</h2>
+            <p>Test element: <span id="testElement" data-translate="messages.welcomeTitle">Welcome Text</span></p>
+            <button class="btn" onclick="testTranslations()">Test Translations</button>
+            <button class="btn" onclick="switchLanguage('ta')">Switch to Tamil</button>
+            <button class="btn" onclick="switchLanguage('ur')">Switch to Urdu</button>
+            <button class="btn" onclick="switchLanguage('en')">Switch to English</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Available Translations</h2>
+            <div id="translationDisplay"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Quick Links</h2>
+            <a href="index.html" class="btn">Go to Main App</a>
+            <a href="setup.html" class="btn">Setup Page</a>
+        </div>
+
+        <div id="statusArea"></div>
+    </div>
+
+    <!-- Load the language manager -->
+    <script>
+        // Simplified translations for testing
+        const translations = {
+            en: {
+                ui: {
+                    home: "Home",
+                    subjects: "Subjects",
+                    lessons: "Lessons",
+                    enterClass: "Enter Class"
+                },
+                standards: {
+                    standard1: "Standard 1",
+                    standard2: "Standard 2",
+                    standard3: "Standard 3",
+                    standard4: "Standard 4",
+                    standard5: "Standard 5",
+                    standard6: "Standard 6",
+                    standard1Subtitle: "Beginner Level",
+                    standard2Subtitle: "Elementary Level",
+                    standard3Subtitle: "Intermediate Level",
+                    standard4Subtitle: "Advanced Level",
+                    standard5Subtitle: "Higher Level",
+                    standard6Subtitle: "Final Level"
+                },
+                messages: {
+                    welcomeTitle: "Welcome to Your Learning Journey!",
+                    welcomeText: "Choose your standard to start learning with fun and interactive lessons.",
+                    schoolName: "Primary School Learning App"
+                }
+            },
+            ta: {
+                ui: {
+                    home: "முகப்பு",
+                    subjects: "பாடங்கள்",
+                    lessons: "பாடங்கள்",
+                    enterClass: "வகுப்பில் நுழைக"
+                },
+                standards: {
+                    standard1: "தரம் 1",
+                    standard2: "தரம் 2",
+                    standard3: "தரம் 3",
+                    standard4: "தரம் 4",
+                    standard5: "தரம் 5",
+                    standard6: "தரம் 6",
+                    standard1Subtitle: "ஆரம்ப நிலை",
+                    standard2Subtitle: "அடிப்படை நிலை",
+                    standard3Subtitle: "நடுத்தர நிலை",
+                    standard4Subtitle: "மேம்பட்ட நிலை",
+                    standard5Subtitle: "உயர் நிலை",
+                    standard6Subtitle: "இறுதி நிலை"
+                },
+                messages: {
+                    welcomeTitle: "உங்கள் கற்றல் பயணத்திற்கு வரவேற்கிறோம்!",
+                    welcomeText: "வேடிக்கையான மற்றும் ஊடாடும் பாடங்களுடன் கற்றலைத் தொடங்க உங்கள் தரத்தைத் தேர்ந்தெடுக்கவும்.",
+                    schoolName: "தொடக்கப்பள்ளி கற்றல் பயன்பாடு"
+                }
+            },
+            ur: {
+                ui: {
+                    home: "گھر",
+                    subjects: "مضامین",
+                    lessons: "سبق",
+                    enterClass: "کلاس میں داخل ہوں"
+                },
+                standards: {
+                    standard1: "معیار 1",
+                    standard2: "معیار 2",
+                    standard3: "معیار 3",
+                    standard4: "معیار 4",
+                    standard5: "معیار 5",
+                    standard6: "معیار 6",
+                    standard1Subtitle: "ابتدائی سطح",
+                    standard2Subtitle: "بنیادی سطح",
+                    standard3Subtitle: "درمیانی سطح",
+                    standard4Subtitle: "اعلی سطح",
+                    standard5Subtitle: "اعلی سطح",
+                    standard6Subtitle: "حتمی سطح"
+                },
+                messages: {
+                    welcomeTitle: "آپ کی تعلیمی سفر میں خوش آمدید!",
+                    welcomeText: "مزیدار اور انٹرایکٹو سبق کے ساتھ سیکھنا شروع کرنے کے لیے اپنا معیار منتخب کریں۔",
+                    schoolName: "پرائمری اسکول لرننگ ایپ"
+                }
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function getTranslation(key) {
+            const keys = key.split('.');
+            let translation = translations[currentLanguage];
+            
+            for (const k of keys) {
+                if (translation && translation[k]) {
+                    translation = translation[k];
+                } else {
+                    return key; // Return original key if translation not found
+                }
+            }
+            
+            return translation || key;
+        }
+
+        function applyTranslations() {
+            const elements = document.querySelectorAll('[data-translate]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                const translation = getTranslation(key);
+                element.textContent = translation;
+            });
+        }
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
+            applyTranslations();
+            showStatus(`Language switched to: ${lang}`, 'success');
+            displayTranslations();
+        }
+
+        function testTranslations() {
+            applyTranslations();
+            showStatus('Translations applied successfully!', 'success');
+        }
+
+        function displayTranslations() {
+            const display = document.getElementById('translationDisplay');
+            const currentLangData = translations[currentLanguage];
+            
+            let html = `<h3>Current Language: ${currentLanguage.toUpperCase()}</h3>`;
+            html += '<pre>' + JSON.stringify(currentLangData, null, 2) + '</pre>';
+            
+            display.innerHTML = html;
+        }
+
+        function showStatus(message, type) {
+            const statusArea = document.getElementById('statusArea');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            statusArea.appendChild(statusDiv);
+            
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTranslations();
+            displayTranslations();
+        });
+
+        // Copy translations to main app localStorage
+        function fixMainApp() {
+            try {
+                // Store the translations for the main app
+                localStorage.setItem('app_translations', JSON.stringify(translations));
+                
+                // Force update language manager in main app
+                const script = document.createElement('script');
+                script.textContent = `
+                    if (window.opener && window.opener.LanguageManager) {
+                        window.opener.LanguageManager.translationData = ${JSON.stringify(translations)};
+                        window.opener.LanguageManager.applyTranslations();
+                    }
+                `;
+                document.head.appendChild(script);
+                
+                showStatus('Main app translations updated!', 'success');
+            } catch (error) {
+                showStatus('Error updating main app: ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html> 

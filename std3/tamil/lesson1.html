@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Standard 3 Tamil - Lesson 1: அகராதி (Tamil Alphabet)">
+    <meta name="theme-color" content="#FF6B6B">
+    <title>Lesson 1: அகராதி - Tamil Alphabet | Standard 3 Tamil</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/responsive.css">
+    <link rel="stylesheet" href="../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="schoolName">Primary School Learning App</h1>
+        
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../index.html" class="nav-link" data-translate="home">Home</a></li>
+                            <li><a href="../std3.html" class="nav-link" data-translate="backToStandard">Back to Standard 3</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="lessons">Lessons</span>
+                <ul class="nav-submenu">
+                    <li><a href="lesson1.html" class="nav-link active">Lesson 1: அகராதி</a></li>
+                    <li><a href="lesson2.html" class="nav-link">Lesson 2: எண்கள்</a></li>
+                    <li><a href="lesson3.html" class="nav-link">Lesson 3: வண்ணங்கள்</a></li>
+                    <li><a href="lesson4.html" class="nav-link">Lesson 4: உடல் பாகங்கள்</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="../../index.html" data-translate="home">Home</a></li>
+                    <li><a href="../std3.html" data-translate="standard3">Standard 3</a></li>
+                    <li><a href="../tamil/lessons.html" data-translate="tamil">Tamil</a></li>
+                    <li aria-current="page">Lesson 1: அகராதி</li>
+                </ol>
+            </nav>
+
+            <!-- Lesson Header -->
+            <section class="lesson-header" style="background: linear-gradient(135deg, var(--tamil-color), color-mix(in srgb, var(--tamil-color) 80%, white));">
+                <div class="lesson-info">
+                    <h1 class="lesson-title">அகராதி - Tamil Alphabet</h1>
+                    <p class="lesson-subtitle">Learn the Tamil alphabet and basic sounds</p>
+                    <div class="lesson-meta">
+                        <span class="duration">⏱️ 15 minutes</span>
+                        <span class="difficulty">📚 Beginner</span>
+                        <span class="progress">Progress: <span id="lessonProgress">0%</span></span>
+                    </div>
+                </div>
+                <div class="lesson-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Lesson Content -->
+            <section class="lesson-content">
+                <div class="content-tabs">
+                    <button class="tab-btn active" data-tab="content">📖 Content</button>
+                    <button class="tab-btn" data-tab="quiz">❓ Quiz</button>
+                    <button class="tab-btn" data-tab="drawing">🎨 Drawing</button>
+                </div>
+
+                <!-- Content Tab -->
+                <div class="tab-content active" id="contentTab">
+                    <div class="lesson-section">
+                        <h2>அகராதி - Tamil Alphabet</h2>
+                        <p>Welcome to your first Tamil lesson! Today we will learn the Tamil alphabet.</p>
+                        
+                        <div class="alphabet-grid">
+                            <div class="letter-card" data-letter="அ">
+                                <div class="letter">அ</div>
+                                <div class="pronunciation">a</div>
+                                <div class="example">அம்மா (amma) - Mother</div>
+                            </div>
+                            <div class="letter-card" data-letter="ஆ">
+                                <div class="letter">ஆ</div>
+                                <div class="pronunciation">ā</div>
+                                <div class="example">ஆடு (ādu) - Goat</div>
+                            </div>
+                            <div class="letter-card" data-letter="இ">
+                                <div class="letter">இ</div>
+                                <div class="pronunciation">i</div>
+                                <div class="example">இலை (ilai) - Leaf</div>
+                            </div>
+                            <div class="letter-card" data-letter="ஈ">
+                                <div class="letter">ஈ</div>
+                                <div class="pronunciation">ī</div>
+                                <div class="example">ஈரம் (īram) - Wet</div>
+                            </div>
+                            <div class="letter-card" data-letter="உ">
+                                <div class="letter">உ</div>
+                                <div class="pronunciation">u</div>
+                                <div class="example">உப்பு (uppu) - Salt</div>
+                            </div>
+                            <div class="letter-card" data-letter="ஊ">
+                                <div class="letter">ஊ</div>
+                                <div class="pronunciation">ū</div>
+                                <div class="example">ஊர்வலம் (ūrvalam) - Procession</div>
+                            </div>
+                        </div>
+
+                        <div class="interactive-section">
+                            <h3>Practice Writing</h3>
+                            <p>Click on a letter to hear its pronunciation and practice writing it.</p>
+                            
+                            <div class="writing-practice">
+                                <div class="letter-display" id="currentLetter">அ</div>
+                                <button class="play-sound-btn" id="playSound">🔊 Play Sound</button>
+                                <button class="next-letter-btn" id="nextLetter">Next Letter</button>
+                            </div>
+                        </div>
+
+                        <div class="lesson-summary">
+                            <h3>What You Learned</h3>
+                            <ul>
+                                <li>✅ Tamil vowels: அ, ஆ, இ, ஈ, உ, ஊ</li>
+                                <li>✅ Basic pronunciation rules</li>
+                                <li>✅ Simple word examples</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Tab -->
+                <div class="tab-content" id="quizTab">
+                    <div class="quiz-container" id="quizContainer">
+                        <h2>Tamil Alphabet Quiz</h2>
+                        <p>Test your knowledge of the Tamil alphabet!</p>
+                        
+                        <div class="quiz-content" id="quizContent">
+                            <!-- Quiz will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drawing Tab -->
+                <div class="tab-content" id="drawingTab">
+                    <div class="drawing-container">
+                        <h2>Practice Writing Tamil Letters</h2>
+                        <p>Use the drawing canvas below to practice writing Tamil letters.</p>
+                        
+                        <div class="drawing-tools">
+                            <button class="tool-btn active" data-tool="pen">✏️ Pen</button>
+                            <button class="tool-btn" data-tool="eraser">🧽 Eraser</button>
+                            <button class="tool-btn" data-tool="clear">🗑️ Clear</button>
+                        </div>
+                        
+                        <div class="color-palette">
+                            <button class="color-btn active" data-color="#000000" style="background-color: #000000;"></button>
+                            <button class="color-btn" data-color="#FF0000" style="background-color: #FF0000;"></button>
+                            <button class="color-btn" data-color="#0000FF" style="background-color: #0000FF;"></button>
+                            <button class="color-btn" data-color="#00FF00" style="background-color: #00FF00;"></button>
+                        </div>
+                        
+                        <canvas id="drawingCanvas" width="600" height="400" style="border: 2px solid #ccc; border-radius: 8px; cursor: crosshair;"></canvas>
+                        
+                        <div class="drawing-controls">
+                            <button class="btn btn-primary" id="saveDrawing">💾 Save Drawing</button>
+                            <button class="btn btn-secondary" id="loadDrawing">📁 Load Drawing</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lesson Navigation -->
+            <section class="lesson-navigation">
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" id="prevLesson" disabled>← Previous Lesson</button>
+                    <button class="btn btn-primary" id="nextLesson">Next Lesson →</button>
+                </div>
+                
+                <div class="lesson-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="lessonProgressBar" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text">0% Complete</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/navigation.js"></script>
+    <script src="../../assets/js/language.js"></script>
+    <script src="../../assets/js/drawing.js"></script>
+    <script src="../../assets/js/quiz.js"></script>
+    
+    <!-- Lesson-specific script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize drawing canvas
+            const drawingCanvas = new DrawingCanvas('drawingCanvas');
+            
+            // Initialize quiz
+            const quizManager = new QuizManager('quizContent', {
+                showFeedback: true,
+                randomizeQuestions: true,
+                allowRetry: true,
+                passingScore: 70
+            });
+            
+            // Load quiz questions
+            loadQuizQuestions();
+            
+            // Setup tab navigation
+            setupTabs();
+            
+            // Setup lesson interactions
+            setupLessonInteractions();
+            
+            // Load lesson progress
+            loadLessonProgress();
+        });
+
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabName = btn.dataset.tab;
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update active tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabName + 'Tab') {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        function setupLessonInteractions() {
+            // Letter cards interaction
+            document.querySelectorAll('.letter-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const letter = card.dataset.letter;
+                    document.getElementById('currentLetter').textContent = letter;
+                    playLetterSound(letter);
+                });
+            });
+            
+            // Play sound button
+            document.getElementById('playSound').addEventListener('click', () => {
+                const currentLetter = document.getElementById('currentLetter').textContent;
+                playLetterSound(currentLetter);
+            });
+            
+            // Next letter button
+            document.getElementById('nextLetter').addEventListener('click', () => {
+                const letters = ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ'];
+                const currentLetter = document.getElementById('currentLetter').textContent;
+                const currentIndex = letters.indexOf(currentLetter);
+                const nextIndex = (currentIndex + 1) % letters.length;
+                document.getElementById('currentLetter').textContent = letters[nextIndex];
+            });
+        }
+
+        function playLetterSound(letter) {
+            // This would typically play an audio file
+            // For now, just show a message
+            console.log(`Playing sound for letter: ${letter}`);
+            
+            // Add visual feedback
+            const currentLetter = document.getElementById('currentLetter');
+            currentLetter.classList.add('playing');
+            setTimeout(() => {
+                currentLetter.classList.remove('playing');
+            }, 500);
+        }
+
+        function loadQuizQuestions() {
+            const questions = [
+                {
+                    text: "Which letter makes the sound 'a'?",
+                    options: ["அ", "ஆ", "இ", "ஈ"],
+                    correctAnswer: 0,
+                    explanation: "அ (a) is the first letter of the Tamil alphabet and makes the short 'a' sound."
+                },
+                {
+                    text: "What is the pronunciation of ஆ?",
+                    options: ["a", "ā", "i", "ī"],
+                    correctAnswer: 1,
+                    explanation: "ஆ (ā) makes the long 'a' sound, similar to 'father'."
+                },
+                {
+                    text: "Which word means 'mother' in Tamil?",
+                    options: ["அப்பா", "அம்மா", "அண்ணா", "அக்கா"],
+                    correctAnswer: 1,
+                    explanation: "அம்மா (amma) means 'mother' in Tamil."
+                },
+                {
+                    text: "How many vowels did we learn in this lesson?",
+                    options: ["4", "5", "6", "7"],
+                    correctAnswer: 2,
+                    explanation: "We learned 6 vowels: அ, ஆ, இ, ஈ, உ, ஊ."
+                }
+            ];
+            
+            // Load questions into quiz manager
+            if (window.QuizManager) {
+                window.QuizManager.loadQuestions(questions);
+            }
+        }
+
+        function loadLessonProgress() {
+            // Load progress from localStorage
+            const progress = localStorage.getItem('lesson1_progress') || 0;
+            document.getElementById('lessonProgress').textContent = `${progress}%`;
+            document.getElementById('lessonProgressBar').style.width = `${progress}%`;
+            
+            // Update progress text
+            document.querySelector('.progress-text').textContent = `${progress}% Complete`;
+        }
+
+        function saveLessonProgress(progress) {
+            localStorage.setItem('lesson1_progress', progress);
+            loadLessonProgress();
+        }
+
+        // Update progress when quiz is completed
+        document.addEventListener('quizCompleted', (e) => {
+            const percentage = e.detail.percentage;
+            if (percentage >= 70) {
+                saveLessonProgress(100);
+            } else {
+                saveLessonProgress(50);
+            }
+        });
+    </script>
+
+    <style>
+        /* Lesson-specific styles */
+        .lesson-header {
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .letter-card {
+            background: white;
+            border: 2px solid var(--tamil-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.2);
+        }
+
+        .letter {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--tamil-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .pronunciation {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .example {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+
+        .content-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: var(--tamil-color);
+            color: var(--tamil-color);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .writing-practice {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .letter-display {
+            font-size: 8rem;
+            font-weight: bold;
+            color: var(--tamil-color);
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .letter-display.playing {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .drawing-tools, .color-palette {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .tool-btn, .color-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tool-btn.active, .color-btn.active {
+            border-color: var(--tamil-color);
+            background: var(--tamil-color);
+            color: white;
+        }
+
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
+        }
+
+        .lesson-navigation {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-progress {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tamil-color), var(--primary-color));
+            transition: width 0.3s ease;
+        }
+    </style>
+</body>
+</html> 

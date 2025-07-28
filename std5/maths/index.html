@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mathematics lessons for Standard 5 students - Choose your term">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Mathematics - Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+        .math-header {
+            background: linear-gradient(135deg, #45B7D1 0%, #3AA3C1 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .math-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="8" fill="rgba(255,255,255,0.1)">+ − × ÷ =</text></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .math-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .math-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #E9ECEF;
+        }
+        
+        .back-link {
+            color: #45B7D1;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-link:hover {
+            color: #3AA3C1;
+        }
+        
+        .terms-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .terms-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .terms-intro h2 {
+            color: #2C3E50;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .terms-intro p {
+            color: #6C757D;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .term-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+        
+        .term-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #45B7D1, #3AA3C1);
+        }
+        
+        .term-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(69, 183, 209, 0.2);
+        }
+        
+        .term-card.active {
+            border-color: #45B7D1;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        .term-card.coming-soon {
+            opacity: 0.7;
+            background: #f8f9fa;
+        }
+        
+        .term-number {
+            background: linear-gradient(135deg, #45B7D1, #3AA3C1);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .term-card.coming-soon .term-number {
+            background: linear-gradient(135deg, #6C757D, #495057);
+        }
+        
+        .term-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+        }
+        
+        .term-subtitle {
+            color: #45B7D1;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .term-description {
+            color: #6C757D;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .term-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .term-stat {
+            text-align: center;
+            padding: 1rem;
+            background: #F8F9FA;
+            border-radius: 10px;
+        }
+        
+        .term-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #45B7D1;
+            margin-bottom: 0.3rem;
+        }
+        
+        .term-stat-label {
+            font-size: 0.9rem;
+            color: #6C757D;
+        }
+        
+        .term-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #45B7D1, #3AA3C1);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(69, 183, 209, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-secondary:hover {
+            background: #E9ECEF;
+            color: #495057;
+        }
+        
+        .btn-disabled {
+            background: #E9ECEF;
+            color: #ADB5BD;
+            cursor: not-allowed;
+        }
+        
+        .btn-disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .coming-soon-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #FFC107;
+            color: #856404;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .term-topics {
+            margin-bottom: 1.5rem;
+        }
+        
+        .topic-tag {
+            background: #E3F2FD;
+            color: #1976D2;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+            display: inline-block;
+        }
+        
+        .term-card.coming-soon .topic-tag {
+            background: #F8F9FA;
+            color: #6C757D;
+        }
+        
+        @media (max-width: 768px) {
+            .math-title {
+                font-size: 2rem;
+            }
+            
+            .terms-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .term-card {
+                padding: 2rem;
+            }
+            
+            .term-actions {
+                flex-direction: column;
+            }
+            
+            .term-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="messages.schoolName">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../index.html" class="nav-link" data-translate="home">Home</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="allStandards">All Standards</span>
+                <ul class="nav-submenu">
+                    <li><a href="../../std1/std1.html" class="nav-link" data-translate="standards.standard1">1st STD</a></li>
+                    <li><a href="../../std2/std2.html" class="nav-link" data-translate="standards.standard2">2nd STD</a></li>
+                    <li><a href="../../std3/std3.html" class="nav-link" data-translate="standards.standard3">3rd STD</a></li>
+                    <li><a href="../../std4/std4.html" class="nav-link" data-translate="standards.standard4">4th STD</a></li>
+                    <li><a href="../../std5/std5.html" class="nav-link active" data-translate="standards.standard5">5th STD</a></li>
+                    <li><a href="../../std6/std6.html" class="nav-link" data-translate="standards.standard6">6th STD</a></li>
+                </ul>
+            </li>
+            <li><a href="../../settings.html" class="nav-link" data-translate="settings">Settings</a></li>
+            <li><a href="../../about.html" class="nav-link" data-translate="about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="../std5.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Standard 5
+        </a>
+    </nav>
+
+    <!-- Header -->
+    <header class="math-header">
+        <h1 class="math-title">Mathematics</h1>
+        <p class="math-subtitle">Standard 5</p>
+    </header>
+
+    <!-- Terms Container -->
+    <section class="terms-container">
+        <div class="terms-intro">
+            <h2>Choose Your Term</h2>
+            <p>Select a term to access mathematics lessons and practice exercises. Each term covers different topics and builds upon previous knowledge.</p>
+        </div>
+        
+        <div class="terms-grid">
+            <!-- Term 1 -->
+            <div class="term-card active">
+                <div class="term-number">1</div>
+                <h3 class="term-title">Term 1</h3>
+                <p class="term-subtitle">Foundation & Basic Operations</p>
+                <p class="term-description">Master fundamental mathematical concepts including number systems, basic operations, and introductory geometry.</p>
+                
+                <div class="term-topics">
+                    <span class="topic-tag">Number System</span>
+                    <span class="topic-tag">Addition</span>
+                    <span class="topic-tag">Subtraction</span>
+                    <span class="topic-tag">Multiplication</span>
+                    <span class="topic-tag">Division</span>
+                    <span class="topic-tag">Fractions</span>
+                    <span class="topic-tag">Money & Time</span>
+                    <span class="topic-tag">Geometry</span>
+                    <span class="topic-tag">Measurement</span>
+                    <span class="topic-tag">Data Handling</span>
+                </div>
+                
+                <div class="term-stats">
+                    <div class="term-stat">
+                        <div class="term-stat-number">8</div>
+                        <div class="term-stat-label">Lessons</div>
+                    </div>
+                    <div class="term-stat">
+                        <div class="term-stat-number">37%</div>
+                        <div class="term-stat-label">Progress</div>
+                    </div>
+                </div>
+                
+                <div class="term-actions">
+                    <a href="term1.html" class="btn btn-primary">Enter Term 1</a>
+                    <a href="term1.html#overview" class="btn btn-secondary">Overview</a>
+                </div>
+            </div>
+
+            <!-- Term 2 -->
+            <div class="term-card coming-soon">
+                <div class="coming-soon-badge">Coming Soon</div>
+                <div class="term-number">2</div>
+                <h3 class="term-title">Term 2</h3>
+                <p class="term-subtitle">Advanced Operations & Problem Solving</p>
+                <p class="term-description">Build on Term 1 foundations with advanced mathematical concepts, problem-solving strategies, and real-world applications.</p>
+                
+                <div class="term-topics">
+                    <span class="topic-tag">Advanced Fractions</span>
+                    <span class="topic-tag">Decimals</span>
+                    <span class="topic-tag">Percentages</span>
+                    <span class="topic-tag">Ratio & Proportion</span>
+                    <span class="topic-tag">Algebra Basics</span>
+                    <span class="topic-tag">Advanced Geometry</span>
+                    <span class="topic-tag">Problem Solving</span>
+                    <span class="topic-tag">Mental Math</span>
+                </div>
+                
+                <div class="term-stats">
+                    <div class="term-stat">
+                        <div class="term-stat-number">10</div>
+                        <div class="term-stat-label">Lessons</div>
+                    </div>
+                    <div class="term-stat">
+                        <div class="term-stat-number">0%</div>
+                        <div class="term-stat-label">Progress</div>
+                    </div>
+                </div>
+                
+                <div class="term-actions">
+                    <button class="btn btn-disabled">Coming Soon</button>
+                    <button class="btn btn-disabled">Preview</button>
+                </div>
+            </div>
+
+            <!-- Term 3 -->
+            <div class="term-card coming-soon">
+                <div class="coming-soon-badge">Coming Soon</div>
+                <div class="term-number">3</div>
+                <h3 class="term-title">Term 3</h3>
+                <p class="term-subtitle">Comprehensive Review & Applications</p>
+                <p class="term-description">Comprehensive review of all concepts with focus on practical applications, advanced problem-solving, and exam preparation.</p>
+                
+                <div class="term-topics">
+                    <span class="topic-tag">Mixed Operations</span>
+                    <span class="topic-tag">Word Problems</span>
+                    <span class="topic-tag">Patterns</span>
+                    <span class="topic-tag">Symmetry</span>
+                    <span class="topic-tag">Area & Perimeter</span>
+                    <span class="topic-tag">Volume</span>
+                    <span class="topic-tag">Statistics</span>
+                    <span class="topic-tag">Revision</span>
+                </div>
+                
+                <div class="term-stats">
+                    <div class="term-stat">
+                        <div class="term-stat-number">12</div>
+                        <div class="term-stat-label">Lessons</div>
+                    </div>
+                    <div class="term-stat">
+                        <div class="term-stat-number">0%</div>
+                        <div class="term-stat-label">Progress</div>
+                    </div>
+                </div>
+                
+                <div class="term-actions">
+                    <button class="btn btn-disabled">Coming Soon</button>
+                    <button class="btn btn-disabled">Preview</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/navigation.js"></script>
+    <script src="../../assets/js/language.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Language and Navigation Fix -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial language
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            applyBasicTranslations(savedLang);
+            
+            // Set active language button
+            const activeBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Language switcher functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Store language preference
+                    localStorage.setItem('preferredLanguage', lang);
+                    
+                    // Apply translations if LanguageManager is available
+                    if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                        window.LanguageManager.switchLanguage(lang);
+                    } else {
+                        console.log('LanguageManager not available, applying basic translations');
+                        applyBasicTranslations(lang);
+                    }
+                });
+            });
+        });
+
+        function applyBasicTranslations(lang) {
+            const translations = {
+                en: {
+                    'messages.schoolName': 'Primary School Learning App',
+                    'navigation': 'Navigation',
+                    'home': 'Home',
+                    'allStandards': 'All Standards',
+                    'settings': 'Settings',
+                    'about': 'About',
+                    'loading': 'Loading...',
+                    'standards.standard1': '1st STD',
+                    'standards.standard2': '2nd STD',
+                    'standards.standard3': '3rd STD',
+                    'standards.standard4': '4th STD',
+                    'standards.standard5': '5th STD',
+                    'standards.standard6': '6th STD'
+                },
+                ta: {
+                    'messages.schoolName': 'ஆரம்ப பள்ளி கற்றல் பயன்பாடு',
+                    'navigation': 'வழிகாட்டுதல்',
+                    'home': 'முகப்பு',
+                    'allStandards': 'அனைத்து தரங்களும்',
+                    'settings': 'அமைப்புகள்',
+                    'about': 'பற்றி',
+                    'loading': 'ஏற்றுகிறது...',
+                    'standards.standard1': '1 ஆம் வகுப்பு',
+                    'standards.standard2': '2 ஆம் வகுப்பு',
+                    'standards.standard3': '3 ஆம் வகுப்பு',
+                    'standards.standard4': '4 ஆம் வகுப்பு',
+                    'standards.standard5': '5 ஆம் வகுப்பு',
+                    'standards.standard6': '6 ஆம் வகுப்பு'
+                },
+                ur: {
+                    'messages.schoolName': 'پرائمری اسکول لرننگ ایپ',
+                    'navigation': 'نیویگیشن',
+                    'home': 'ہوم',
+                    'allStandards': 'تمام معیارات',
+                    'settings': 'ترتیبات',
+                    'about': 'کے بارے میں',
+                    'loading': 'لوڈ ہو رہا ہے...',
+                    'standards.standard1': 'پہلی',
+                    'standards.standard2': 'دوسری',
+                    'standards.standard3': 'تیسری',
+                    'standards.standard4': 'چوتھی',
+                    'standards.standard5': 'پانچویں',
+                    'standards.standard6': 'چھٹی'
+                }
+            };
+
+            const langData = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (langData[key]) {
+                    element.textContent = langData[key];
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for term cards
+            const termCards = document.querySelectorAll('.term-card');
+            
+            termCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on buttons or if card is coming soon
+                    if (e.target.classList.contains('btn') || this.classList.contains('coming-soon')) {
+                        return;
+                    }
+                    
+                    // Navigate to the term
+                    const primaryBtn = this.querySelector('.btn-primary');
+                    if (primaryBtn && !primaryBtn.classList.contains('btn-disabled')) {
+                        window.location.href = primaryBtn.href;
+                    }
+                });
+            });
+            
+            // Add hover effects for coming soon cards
+            const comingSoonCards = document.querySelectorAll('.term-card.coming-soon');
+            comingSoonCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                    this.style.opacity = '0.8';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.opacity = '0.7';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

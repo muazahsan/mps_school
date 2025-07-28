@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English - Coming Soon | Standard 4</title>
+    <meta name="description" content="English lessons for Standard 4 students - Coming Soon">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../manifest.json">
+    <meta name="theme-color" content="#96CEB4">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .coming-soon-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #96CEB4 0%, #FFEAA7 100%);
+            padding: 2rem;
+        }
+        
+        .coming-soon-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coming-soon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #96CEB4, #FFEAA7);
+        }
+        
+        .subject-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #96CEB4, #88D4A8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+        }
+        
+        .subject-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .coming-soon-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #96CEB4, #2C3E50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subject-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #96CEB4;
+            margin-bottom: 1rem;
+        }
+        
+        .coming-soon-description {
+            font-size: 1.1rem;
+            color: #6C757D;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E9ECEF;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #96CEB4, #88D4A8);
+            width: 25%;
+            border-radius: 4px;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #96CEB4, #88D4A8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(150, 206, 180, 0.3);
+        }
+        
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background: #F8F9FA;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #96CEB4;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #6C757D;
+        }
+        
+        @media (max-width: 768px) {
+            .coming-soon-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .coming-soon-title {
+                font-size: 2rem;
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="coming-soon-container">
+        <div class="coming-soon-card">
+            <div class="subject-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.01-4.65.83-6.99l2.53 2.52c.39.39.39 1.02 0 1.41zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4.5 20.5l2.04-2.04C7.31 19.39 9.61 20 12 20c4.41 0 8-3.59 8-8 0-2.39-.61-4.69-1.54-6.46L20.5 4.5C21.88 6.84 22.5 9.37 22.5 12c0 5.79-4.71 10.5-10.5 10.5-2.63 0-5.16-.62-7.5-2z"/>
+                </svg>
+            </div>
+            
+            <h1 class="coming-soon-title">Coming Soon</h1>
+            <h2 class="subject-name">English</h2>
+            
+            <p class="coming-soon-description">
+                We're working hard to bring you amazing English lessons! 
+                Get ready to explore the world of English language and communication.
+            </p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">📚 Interactive Lessons</div>
+                    <div class="feature-desc">Learn through fun and engaging activities</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🎯 Vocabulary Building</div>
+                    <div class="feature-desc">Expand your English word bank</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🗣️ Speaking Practice</div>
+                    <div class="feature-desc">Improve your pronunciation and fluency</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">✍️ Writing Skills</div>
+                    <div class="feature-desc">Learn to express yourself in writing</div>
+                </div>
+            </div>
+            
+            <a href="../std1.html" class="back-btn">← Back to Subjects</a>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Fun - Term 1 | Standard 5</title>
+    <meta name="description" content="Fun mathematics learning for Standard 5 students - Let's explore numbers and shapes together!">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../manifest.json">
+    <meta name="theme-color" content="#FF6B6B">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFE5E5 0%, #E3F2FD 100%);
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #2C3E50;
+            min-height: 100vh;
+        }
+        
+        .back-nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 3px solid #FF6B6B;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+        }
+        
+        .back-link {
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .back-link:hover {
+            color: #FF5252;
+        }
+        
+        .syllabus-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .syllabus-card {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.15);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #FFE5E5;
+        }
+        
+        .syllabus-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
+        }
+        
+        .syllabus-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .syllabus-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #FF6B6B;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(255, 107, 107, 0.2);
+        }
+        
+        .syllabus-subtitle {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .syllabus-description {
+            font-size: 1.2rem;
+            color: #6C757D;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .topics-section {
+            margin-bottom: 3rem;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        
+        .topic-tag {
+            background: linear-gradient(135deg, #FFE5E5, #FFF3E0);
+            color: #FF6B6B;
+            padding: 1rem 1.2rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.1);
+        }
+        
+        .topic-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .topic-tag:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            border-color: #FF6B6B;
+        }
+        
+        .topic-tag:hover::before {
+            left: 100%;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 4px solid #E1F5FE;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: #4ECDC4;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(78, 205, 196, 0.3);
+        }
+        
+        .stat-card:hover::before {
+            transform: rotate(45deg) scale(1.2);
+        }
+        
+        .stat-number {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #4ECDC4;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-number.progress {
+            color: #FF6B6B;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #6C757D;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .actions-section {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1.2rem 3rem;
+            border-radius: 30px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            min-width: 180px;
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #4ECDC4, #45B7D1);
+            color: white;
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(78, 205, 196, 0.6);
+        }
+        
+        .term-badge {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #FF6B6B, #FF5252);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Fredoka One', cursive;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #E9ECEF;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 1rem;
+            border: 2px solid #E1F5FE;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #FF5252);
+            border-radius: 4px;
+            width: 37%;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .fun-emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .topic-icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .syllabus-container {
+                padding: 1rem;
+            }
+            
+            .syllabus-card {
+                padding: 2rem;
+                border-radius: 20px;
+            }
+            
+            .syllabus-title {
+                font-size: 2.5rem;
+            }
+            
+            .syllabus-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .actions-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .term-badge {
+                position: static;
+                display: inline-block;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Math Fun
+        </a>
+    </nav>
+
+    <!-- Syllabus Container -->
+    <div class="syllabus-container">
+        <div class="syllabus-card">
+            <div class="term-badge">🎯 Term 1</div>
+            
+            <!-- Header Section -->
+            <div class="syllabus-header">
+                <h1 class="syllabus-title">🎉 Term 1</h1>
+                <h2 class="syllabus-subtitle">Let's Learn Math Together!</h2>
+                <p class="syllabus-description">
+                    Get ready for an exciting adventure with numbers, shapes, and fun math games! We'll learn about counting, adding, shapes, and much more!
+                </p>
+            </div>
+            
+            <!-- Topics Section -->
+            <div class="topics-section">
+                <div class="topics-grid">
+                    <div class="topic-tag">🔢 Number System</div>
+                    <div class="topic-tag">➕ Addition</div>
+                    <div class="topic-tag">➖ Subtraction</div>
+                    <div class="topic-tag">✖️ Multiplication</div>
+                    <div class="topic-tag">➗ Division</div>
+                    <div class="topic-tag">🍕 Fractions</div>
+                    <div class="topic-tag">💰 Money & Time</div>
+                    <div class="topic-tag">📐 Geometry</div>
+                    <div class="topic-tag">📏 Measurement</div>
+                    <div class="topic-tag">📊 Data Fun</div>
+                </div>
+            </div>
+            
+            <!-- Progress and Statistics Section -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">🎮 Fun Lessons</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number progress">37%</div>
+                    <div class="stat-label">🌟 Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons Section -->
+            <div class="actions-section">
+                <a href="term1.html" class="btn btn-primary">🚀 Start Learning!</a>
+                <a href="term1.html#overview" class="btn btn-secondary">👀 Take a Look</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/navigation.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fun hover effects for topic tags
+            const topicTags = document.querySelectorAll('.topic-tag');
+            topicTags.forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.08)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+                
+                // Add click sound effect (optional)
+                tag.addEventListener('click', function() {
+                    // You can add a fun sound effect here
+                    console.log('Clicked:', this.textContent);
+                });
+            });
+            
+            // Update progress with fun animation
+            function updateProgress() {
+                const progressFill = document.querySelector('.progress-fill');
+                const progressNumber = document.querySelector('.stat-number.progress');
+                
+                // Get overall progress from localStorage
+                const overallProgress = localStorage.getItem('std5_math_term1_overall_progress') || 37;
+                
+                // Animate the progress bar
+                progressFill.style.width = '0%';
+                setTimeout(() => {
+                    progressFill.style.width = `${overallProgress}%`;
+                }, 500);
+                
+                progressNumber.textContent = `${overallProgress}%`;
+            }
+            
+            updateProgress();
+            
+            // Add click handlers for topic tags
+            topicTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // Navigate to the specific topic in term1.html
+                    const topic = this.textContent.replace(/[🔢➕➖✖️➗🍕💰📐📏📊]/g, '').trim().toLowerCase().replace(/\s+/g, '-');
+                    window.location.href = `term1.html#${topic}`;
+                });
+            });
+            
+            // Add some fun animations
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+                card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+            });
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 

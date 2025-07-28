@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Studies - Coming Soon | Standard 3</title>
+    <meta name="description" content="Social Studies lessons for Standard 3 students - Coming Soon">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../manifest.json">
+    <meta name="theme-color" content="#A78BFA">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .coming-soon-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #A78BFA 0%, #FECA57 100%);
+            padding: 2rem;
+        }
+        
+        .coming-soon-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coming-soon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #A78BFA, #FECA57);
+        }
+        
+        .subject-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #A78BFA, #8B5CF6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+        }
+        
+        .subject-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .coming-soon-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #A78BFA, #2C3E50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subject-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #A78BFA;
+            margin-bottom: 1rem;
+        }
+        
+        .coming-soon-description {
+            font-size: 1.1rem;
+            color: #6C757D;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E9ECEF;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #A78BFA, #8B5CF6);
+            width: 20%;
+            border-radius: 4px;
+            animation: progressPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #A78BFA, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(167, 139, 250, 0.3);
+        }
+        
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            background: #F8F9FA;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #A78BFA;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #6C757D;
+        }
+        
+        @media (max-width: 768px) {
+            .coming-soon-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .coming-soon-title {
+                font-size: 2rem;
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="coming-soon-container">
+        <div class="coming-soon-card">
+            <div class="subject-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </div>
+            
+            <h1 class="coming-soon-title">Coming Soon</h1>
+            <h2 class="subject-name">Social Studies</h2>
+            
+            <p class="coming-soon-description">
+                Discover the world around you through social studies! 
+                We're preparing exciting lessons about communities, cultures, and our society.
+            </p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">🏘️ Our Community</div>
+                    <div class="feature-desc">Learn about people and places</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🌍 Different Cultures</div>
+                    <div class="feature-desc">Explore traditions and customs</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">📅 Important Days</div>
+                    <div class="feature-desc">Celebrate festivals and events</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🗺️ Maps & Places</div>
+                    <div class="feature-desc">Discover our world and country</div>
+                </div>
+            </div>
+            
+            <a href="../std1.html" class="back-btn">← Back to Subjects</a>
+        </div>
+    </div>
+</body>
+</html> 

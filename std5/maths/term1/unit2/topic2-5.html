@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Topic 2.5: Numbers and Operations - Interactive Learning for Standard 5">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Numbers and Operations | Unit 2 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <style>
+        .topic-header {
+            background: linear-gradient(135deg, #673AB7 0%, #512DA8 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .calculator-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .operation-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #673AB7;
+        }
+        
+        .operation-panel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            display: none;
+        }
+        
+        .operation-panel.active {
+            display: block;
+        }
+        
+        .calc-input {
+            background: white;
+            color: #2C3E50;
+            border: none;
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            margin: 0.5rem;
+            width: 150px;
+        }
+        
+        .calc-symbol {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 1rem;
+        }
+        
+        .calc-result {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        .real-world-problems {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #673AB7;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .problem-card {
+            background: #F8F9FA;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #673AB7;
+        }
+        
+        .problem-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-text {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+        
+        .problem-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .problem-input:focus {
+            border-color: #673AB7;
+            outline: none;
+        }
+        
+        .step-by-step {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .step-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+        
+        .step-number {
+            background: white;
+            color: #FF9800;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .practice-section {
+            background: #F8F9FA;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .practice-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #673AB7;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #673AB7, #512DA8);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .calc-input {
+                width: 120px;
+                font-size: 1.2rem;
+            }
+            
+            .operation-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+    </header>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav" style="background: white; padding: 1rem 2rem; border-bottom: 1px solid #E9ECEF;">
+        <a href="../unit2.html" style="color: #673AB7; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Unit 2
+        </a>
+    </nav>
+
+    <!-- Topic Header -->
+    <header class="topic-header">
+        <h1 class="topic-title">2.5 Numbers and Operations</h1>
+        <p>Master addition, subtraction, multiplication, and division with large numbers!</p>
+    </header>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Interactive Calculator -->
+        <div class="calculator-section">
+            <h2>🧮 Interactive Calculator</h2>
+            <p>Practice operations with large numbers!</p>
+            
+            <div class="operation-tabs">
+                <button class="tab-btn active" onclick="showOperation('addition')">Addition</button>
+                <button class="tab-btn" onclick="showOperation('subtraction')">Subtraction</button>
+                <button class="tab-btn" onclick="showOperation('multiplication')">Multiplication</button>
+                <button class="tab-btn" onclick="showOperation('division')">Division</button>
+            </div>
+            
+            <!-- Addition Panel -->
+            <div class="operation-panel active" id="addition">
+                <h3>Addition</h3>
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <input type="text" class="calc-input" id="add1" placeholder="First number">
+                    <span class="calc-symbol">+</span>
+                    <input type="text" class="calc-input" id="add2" placeholder="Second number">
+                    <span class="calc-symbol">=</span>
+                    <div class="calc-result" id="addResult">?</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-warning" onclick="calculateAddition()">Calculate</button>
+                    <button class="btn btn-secondary" onclick="generateAdditionProblem()">New Problem</button>
+                </div>
+            </div>
+            
+            <!-- Subtraction Panel -->
+            <div class="operation-panel" id="subtraction">
+                <h3>Subtraction</h3>
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <input type="text" class="calc-input" id="sub1" placeholder="First number">
+                    <span class="calc-symbol">-</span>
+                    <input type="text" class="calc-input" id="sub2" placeholder="Second number">
+                    <span class="calc-symbol">=</span>
+                    <div class="calc-result" id="subResult">?</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-warning" onclick="calculateSubtraction()">Calculate</button>
+                    <button class="btn btn-secondary" onclick="generateSubtractionProblem()">New Problem</button>
+                </div>
+            </div>
+            
+            <!-- Multiplication Panel -->
+            <div class="operation-panel" id="multiplication">
+                <h3>Multiplication</h3>
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <input type="text" class="calc-input" id="mul1" placeholder="First number">
+                    <span class="calc-symbol">×</span>
+                    <input type="text" class="calc-input" id="mul2" placeholder="Second number">
+                    <span class="calc-symbol">=</span>
+                    <div class="calc-result" id="mulResult">?</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-warning" onclick="calculateMultiplication()">Calculate</button>
+                    <button class="btn btn-secondary" onclick="generateMultiplicationProblem()">New Problem</button>
+                </div>
+            </div>
+            
+            <!-- Division Panel -->
+            <div class="operation-panel" id="division">
+                <h3>Division</h3>
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <input type="text" class="calc-input" id="div1" placeholder="Dividend">
+                    <span class="calc-symbol">÷</span>
+                    <input type="text" class="calc-input" id="div2" placeholder="Divisor">
+                    <span class="calc-symbol">=</span>
+                    <div class="calc-result" id="divResult">?</div>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-warning" onclick="calculateDivision()">Calculate</button>
+                    <button class="btn btn-secondary" onclick="generateDivisionProblem()">New Problem</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real World Problems -->
+        <div class="real-world-problems">
+            <h2>🌍 Real World Math Problems</h2>
+            <p>Apply your math skills to solve real-life situations!</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">🏫</div>
+                    <div class="problem-title">School Uniforms</div>
+                    <div class="problem-text">
+                        A school wants to buy 35 uniforms. Each uniform costs ₹350. 
+                        What is the total cost?
+                    </div>
+                    <input type="text" class="problem-input" id="uniform-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkUniformProblem()">Check Answer</button>
+                    <div id="uniform-result"></div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">🪑</div>
+                    <div class="problem-title">Classroom Benches</div>
+                    <div class="problem-text">
+                        The school bought 23 benches at ₹725 each. 
+                        How much did they spend in total?
+                    </div>
+                    <input type="text" class="problem-input" id="bench-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkBenchProblem()">Check Answer</button>
+                    <div id="bench-result"></div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">🥛</div>
+                    <div class="problem-title">Milk Distribution</div>
+                    <div class="problem-text">
+                        A dairy has 53,675 liters of milk to be packed in 8-liter containers. 
+                        How many containers will be filled? How much milk will be left?
+                    </div>
+                    <input type="text" class="problem-input" id="milk-containers" placeholder="Number of containers">
+                    <input type="text" class="problem-input" id="milk-remaining" placeholder="Remaining milk">
+                    <button class="btn btn-success" onclick="checkMilkProblem()">Check Answer</button>
+                    <div id="milk-result"></div>
+                </div>
+                
+                <div class="problem-card">
+                    <div class="problem-icon">🍎</div>
+                    <div class="problem-title">Apple Distribution</div>
+                    <div class="problem-text">
+                        A farmer has 1,37,462 apples. He packs them in boxes of 25 apples each. 
+                        How many full boxes can he make?
+                    </div>
+                    <input type="text" class="problem-input" id="apple-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkAppleProblem()">Check Answer</button>
+                    <div id="apple-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step by Step Learning -->
+        <div class="step-by-step">
+            <h2>📚 Step-by-Step Learning</h2>
+            <p>Learn how to solve problems step by step!</p>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Addition Steps</h3>
+                    <ul>
+                        <li>Write numbers in columns</li>
+                        <li>Start from ones place</li>
+                        <li>Add digit by digit</li>
+                        <li>Carry over if sum > 9</li>
+                    </ul>
+                    <p><strong>Example:</strong> 1,37,462 + 4,005 + 38 + 56,734</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Subtraction Steps</h3>
+                    <ul>
+                        <li>Write larger number on top</li>
+                        <li>Start from ones place</li>
+                        <li>Borrow if needed</li>
+                        <li>Subtract digit by digit</li>
+                    </ul>
+                    <p><strong>Example:</strong> 85,000 - 67,432</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Multiplication Steps</h3>
+                    <ul>
+                        <li>Multiply by ones digit</li>
+                        <li>Multiply by tens digit</li>
+                        <li>Add the partial products</li>
+                        <li>Place values correctly</li>
+                    </ul>
+                    <p><strong>Example:</strong> 35 × 350</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Division Steps</h3>
+                    <ul>
+                        <li>Divide from left to right</li>
+                        <li>Find how many times divisor fits</li>
+                        <li>Multiply and subtract</li>
+                        <li>Bring down next digit</li>
+                    </ul>
+                    <p><strong>Example:</strong> 53,675 ÷ 8</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="practice-section">
+            <h2>✏️ Practice Exercises</h2>
+            
+            <div class="practice-grid">
+                <div class="practice-card">
+                    <h3>Exercise 1: Large Addition</h3>
+                    <p>Calculate: <strong>1,37,462 + 4,005 + 38 + 56,734</strong></p>
+                    <input type="text" class="problem-input" id="ex1-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkExercise1()">Check Answer</button>
+                    <div id="ex1-result"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 2: Subtraction with Borrowing</h3>
+                    <p>Calculate: <strong>1,00,000 - 67,432</strong></p>
+                    <input type="text" class="problem-input" id="ex2-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkExercise2()">Check Answer</button>
+                    <div id="ex2-result"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 3: Multiplication</h3>
+                    <p>Calculate: <strong>456 × 78</strong></p>
+                    <input type="text" class="problem-input" id="ex3-answer" placeholder="Enter your answer">
+                    <button class="btn btn-success" onclick="checkExercise3()">Check Answer</button>
+                    <div id="ex3-result"></div>
+                </div>
+                
+                <div class="practice-card">
+                    <h3>Exercise 4: Division with Remainder</h3>
+                    <p>Calculate: <strong>3,750 ÷ 30</strong></p>
+                    <input type="text" class="problem-input" id="ex4-quotient" placeholder="Quotient">
+                    <input type="text" class="problem-input" id="ex4-remainder" placeholder="Remainder">
+                    <button class="btn btn-success" onclick="checkExercise4()">Check Answer</button>
+                    <div id="ex4-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="topic2-4.html" class="btn btn-secondary">← Previous: Ordering & Number Names</a>
+            <a href="../unit2.html" class="btn btn-primary">Complete Unit 2 →</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    
+    <script>
+        // Show operation panel
+        function showOperation(operation) {
+            // Hide all panels
+            document.querySelectorAll('.operation-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(operation).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Calculator functions
+        function calculateAddition() {
+            const num1 = parseInt(document.getElementById('add1').value.replace(/,/g, '')) || 0;
+            const num2 = parseInt(document.getElementById('add2').value.replace(/,/g, '')) || 0;
+            const result = num1 + num2;
+            document.getElementById('addResult').textContent = formatNumber(result);
+        }
+        
+        function calculateSubtraction() {
+            const num1 = parseInt(document.getElementById('sub1').value.replace(/,/g, '')) || 0;
+            const num2 = parseInt(document.getElementById('sub2').value.replace(/,/g, '')) || 0;
+            const result = Math.max(0, num1 - num2);
+            document.getElementById('subResult').textContent = formatNumber(result);
+        }
+        
+        function calculateMultiplication() {
+            const num1 = parseInt(document.getElementById('mul1').value.replace(/,/g, '')) || 0;
+            const num2 = parseInt(document.getElementById('mul2').value.replace(/,/g, '')) || 0;
+            const result = num1 * num2;
+            document.getElementById('mulResult').textContent = formatNumber(result);
+        }
+        
+        function calculateDivision() {
+            const dividend = parseInt(document.getElementById('div1').value.replace(/,/g, '')) || 0;
+            const divisor = parseInt(document.getElementById('div2').value.replace(/,/g, '')) || 1;
+            
+            if (divisor === 0) {
+                document.getElementById('divResult').textContent = 'Cannot divide by 0';
+                return;
+            }
+            
+            const quotient = Math.floor(dividend / divisor);
+            const remainder = dividend % divisor;
+            
+            if (remainder === 0) {
+                document.getElementById('divResult').textContent = formatNumber(quotient);
+            } else {
+                document.getElementById('divResult').textContent = `${formatNumber(quotient)} R ${remainder}`;
+            }
+        }
+        
+        // Generate random problems
+        function generateAdditionProblem() {
+            const num1 = Math.floor(Math.random() * 900000) + 100000;
+            const num2 = Math.floor(Math.random() * 90000) + 10000;
+            document.getElementById('add1').value = formatNumber(num1);
+            document.getElementById('add2').value = formatNumber(num2);
+            document.getElementById('addResult').textContent = '?';
+        }
+        
+        function generateSubtractionProblem() {
+            const num1 = Math.floor(Math.random() * 900000) + 100000;
+            const num2 = Math.floor(Math.random() * num1);
+            document.getElementById('sub1').value = formatNumber(num1);
+            document.getElementById('sub2').value = formatNumber(num2);
+            document.getElementById('subResult').textContent = '?';
+        }
+        
+        function generateMultiplicationProblem() {
+            const num1 = Math.floor(Math.random() * 900) + 100;
+            const num2 = Math.floor(Math.random() * 90) + 10;
+            document.getElementById('mul1').value = formatNumber(num1);
+            document.getElementById('mul2').value = formatNumber(num2);
+            document.getElementById('mulResult').textContent = '?';
+        }
+        
+        function generateDivisionProblem() {
+            const divisor = Math.floor(Math.random() * 90) + 10;
+            const quotient = Math.floor(Math.random() * 900) + 100;
+            const remainder = Math.floor(Math.random() * divisor);
+            const dividend = quotient * divisor + remainder;
+            
+            document.getElementById('div1').value = formatNumber(dividend);
+            document.getElementById('div2').value = formatNumber(divisor);
+            document.getElementById('divResult').textContent = '?';
+        }
+        
+        // Format number
+        function formatNumber(num) {
+            return num.toLocaleString('en-IN');
+        }
+        
+        // Problem check functions
+        function checkUniformProblem() {
+            const answer = parseInt(document.getElementById('uniform-answer').value.replace(/[₹,]/g, ''));
+            const result = document.getElementById('uniform-result');
+            const correct = 35 * 350; // 12,250
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct! 35 × ₹350 = ₹12,250</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Multiply 35 × 350</p>';
+            }
+        }
+        
+        function checkBenchProblem() {
+            const answer = parseInt(document.getElementById('bench-answer').value.replace(/[₹,]/g, ''));
+            const result = document.getElementById('bench-result');
+            const correct = 23 * 725; // 16,675
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! 23 × ₹725 = ₹16,675</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Multiply 23 × 725</p>';
+            }
+        }
+        
+        function checkMilkProblem() {
+            const containers = parseInt(document.getElementById('milk-containers').value);
+            const remaining = parseInt(document.getElementById('milk-remaining').value);
+            const result = document.getElementById('milk-result');
+            
+            const totalMilk = 53675;
+            const containerSize = 8;
+            const correctContainers = Math.floor(totalMilk / containerSize); // 6709
+            const correctRemaining = totalMilk % containerSize; // 3
+            
+            if (containers === correctContainers && remaining === correctRemaining) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Excellent! 6,709 containers and 3 liters remaining</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Divide 53,675 ÷ 8</p>';
+            }
+        }
+        
+        function checkAppleProblem() {
+            const answer = parseInt(document.getElementById('apple-answer').value.replace(/,/g, ''));
+            const result = document.getElementById('apple-result');
+            const correct = Math.floor(137462 / 25); // 5498
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct! 5,498 full boxes can be made</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Divide 1,37,462 ÷ 25</p>';
+            }
+        }
+        
+        // Exercise check functions
+        function checkExercise1() {
+            const answer = parseInt(document.getElementById('ex1-answer').value.replace(/,/g, ''));
+            const result = document.getElementById('ex1-result');
+            const correct = 137462 + 4005 + 38 + 56734; // 198,239
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! The answer is 1,98,239</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Add carefully column by column</p>';
+            }
+        }
+        
+        function checkExercise2() {
+            const answer = parseInt(document.getElementById('ex2-answer').value.replace(/,/g, ''));
+            const result = document.getElementById('ex2-result');
+            const correct = 100000 - 67432; // 32,568
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Excellent! 1,00,000 - 67,432 = 32,568</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Remember to borrow when needed</p>';
+            }
+        }
+        
+        function checkExercise3() {
+            const answer = parseInt(document.getElementById('ex3-answer').value.replace(/,/g, ''));
+            const result = document.getElementById('ex3-result');
+            const correct = 456 * 78; // 35,568
+            
+            if (answer === correct) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Great! 456 × 78 = 35,568</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Use column multiplication method</p>';
+            }
+        }
+        
+        function checkExercise4() {
+            const quotient = parseInt(document.getElementById('ex4-quotient').value);
+            const remainder = parseInt(document.getElementById('ex4-remainder').value);
+            const result = document.getElementById('ex4-result');
+            
+            const correctQuotient = Math.floor(3750 / 30); // 125
+            const correctRemainder = 3750 % 30; // 0
+            
+            if (quotient === correctQuotient && remainder === correctRemainder) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! 3,750 ÷ 30 = 125 with no remainder</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! 3,750 ÷ 30 = 125 R 0</p>';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateAdditionProblem();
+        });
+    </script>
+</body>
+</html> 

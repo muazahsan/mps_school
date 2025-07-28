@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive geometry lesson with 3D shapes and engaging activities">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Geometry Adventure ✨</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- three.js for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+
+    <style>
+        /* Custom styles for the application */
+        body {
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
+        }
+        
+        /* Each page is a section that we will show/hide */
+        .page {
+            display: none;
+            min-height: calc(100vh - 96px); /* Adjust for footer height on larger screens */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            .page {
+                min-height: calc(100vh - 80px); /* Footer height on smaller screens */
+            }
+        }
+        
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Styles for the 3D canvas */
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none; /* Allows for smooth touch interaction */
+        }
+        
+        /* Custom button styling */
+        .nav-btn {
+            @apply px-4 py-2 md:px-6 md:py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed text-base md:text-lg;
+        }
+        
+        /* Kid-friendly navigation buttons */
+        .kid-nav-btn {
+            @apply px-6 py-4 md:px-8 md:py-5 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-opacity-50 transition-all duration-300 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-lg md:text-xl;
+        }
+        
+        /* Top navigation buttons (smaller) */
+        .top-nav .kid-nav-btn {
+            @apply px-4 py-2 md:px-6 md:py-3 text-base md:text-lg;
+        }
+        
+        .kid-nav-btn.prev {
+            @apply bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 focus:ring-red-300;
+        }
+        
+        .kid-nav-btn.next {
+            @apply bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 focus:ring-green-300;
+        }
+        
+        .kid-nav-btn.quiz {
+            @apply bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 focus:ring-purple-300;
+        }
+        
+        .kid-nav-btn.lesson {
+            @apply bg-gradient-to-r from-indigo-400 to-indigo-600 hover:from-indigo-500 hover:to-indigo-700 focus:ring-indigo-300;
+        }
+        
+        /* Progress indicator styling */
+        .progress-indicator {
+            @apply bg-white rounded-full p-2 shadow-lg;
+        }
+        
+        .progress-text {
+            @apply text-lg md:text-xl font-bold text-gray-700;
+        }
+        
+        /* Bottom navigation container */
+        .bottom-nav {
+            @apply fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-50 to-purple-50 border-t-4 border-blue-200 p-4 md:p-6 z-50;
+        }
+        
+        /* Navigation animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .bounce-animation {
+            animation: bounce 0.6s ease-in-out;
+        }
+        
+        /* Fun hover effects for kids */
+        .kid-nav-btn:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .kid-nav-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Progress indicator pulse effect */
+        .progress-indicator {
+            position: relative;
+        }
+        
+        .progress-indicator::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .progress-indicator:hover::before {
+            opacity: 0.3;
+        }
+        
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                padding: 1rem;
+            }
+            
+            .kid-nav-btn {
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+            }
+            
+            .progress-text {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Rotation animation for the chart */
+        @keyframes rotate-chart {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .rotating-chart { animation: rotate-chart 10s linear infinite; }
+
+        /* Styles for the animated square on Page 10 */
+        #animated-square-container {
+            perspective: 800px;
+        }
+        #animated-square {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+        }
+        @media (min-width: 768px) {
+            #animated-square {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        .square-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fbbf24;
+            border: 4px solid #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .square-corner {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        .corner-a { top: -10px; left: -10px; }
+        .corner-b { top: -10px; right: -10px; }
+        .corner-c { bottom: -10px; right: -10px; }
+        .corner-d { bottom: -10px; left: -10px; }
+
+        .real-time-example {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .real-time-example.fade-out {
+            opacity: 0;
+        }
+        
+        .vehicle-btn {
+            @apply px-5 py-2 text-lg font-semibold rounded-lg shadow-md transition-all duration-300;
+        }
+        
+        .vehicle-btn.active {
+            @apply bg-blue-500 text-white scale-110;
+        }
+
+        .vehicle-btn:not(.active) {
+            @apply bg-white text-gray-700 hover:bg-gray-200;
+        }
+
+        /* Quiz animation styles */
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes popIn {
+          0% { transform: scale(0.95); }
+          80% { transform: scale(1.05); }
+          100% { transform: scale(1.02); }
+        }
+
+        #quiz-feedback.animate-correct { animation: bounceIn 0.5s ease-out forwards; }
+        #quiz-feedback.animate-incorrect { animation: shake 0.5s ease-in-out forwards; }
+
+        .quiz-option {
+             @apply text-base md:text-lg font-bold text-gray-700 bg-white border-2 border-gray-300 rounded-xl transition-all duration-200 transform hover:scale-105 hover:border-blue-400 disabled:opacity-70;
+        }
+        .quiz-option.correct {
+             @apply bg-green-500 text-white border-green-700 scale-105;
+             animation: popIn 0.4s ease-out forwards;
+        }
+        .quiz-option.incorrect {
+             @apply bg-red-500 text-white border-red-700;
+             animation: shake 0.5s ease-in-out forwards;
+        }
+        
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* New background for quiz container */
+        #quiz-container {
+            position: relative;
+            overflow: hidden; /* To keep the pattern contained */
+        }
+
+        #quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e5e7eb' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+
+        #quiz-container > * {
+            position: relative; /* Make sure content is above the pseudo-element */
+            z-index: 1;
+        }
+
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="messages.schoolName">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../../../index.html" class="nav-link" data-translate="home">Home</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="allStandards">All Standards</span>
+                <ul class="nav-submenu">
+                    <li><a href="../../../../std1/std1.html" class="nav-link" data-translate="standards.standard1">1st STD</a></li>
+                    <li><a href="../../../../std2/std2.html" class="nav-link" data-translate="standards.standard2">2nd STD</a></li>
+                    <li><a href="../../../../std3/std3.html" class="nav-link" data-translate="standards.standard3">3rd STD</a></li>
+                    <li><a href="../../../../std4/std4.html" class="nav-link" data-translate="standards.standard4">4th STD</a></li>
+                    <li><a href="../../../../std5/std5.html" class="nav-link active" data-translate="standards.standard5">5th STD</a></li>
+                    <li><a href="../../../../std6/std6.html" class="nav-link" data-translate="standards.standard6">6th STD</a></li>
+                </ul>
+            </li>
+            <li><a href="../../../../settings.html" class="nav-link" data-translate="settings">Settings</a></li>
+            <li><a href="../../../../about.html" class="nav-link" data-translate="about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Top Navigation - Forward/Backward Controls -->
+    <div class="fixed top-20 left-0 right-0 bg-gradient-to-r from-purple-50 to-indigo-50 border-b-4 border-purple-200 p-4 z-40 top-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex gap-3">
+                <button id="quiz-btn" class="kid-nav-btn quiz">
+                    <div class="flex items-center gap-2">
+                        <span>🧠 Quiz</span>
+                        <span class="text-xl">🎯</span>
+                    </div>
+                </button>
+                <button id="next-lesson-btn" class="kid-nav-btn lesson">
+                    <div class="flex items-center gap-2">
+                        <span>Next Lesson</span>
+                        <span class="text-xl">🚀</span>
+                    </div>
+                </button>
+            </div>
+            <span id="page-indicator" class="progress-text bg-white px-4 py-2 rounded-full shadow-lg">1 / 12</span>
+        </div>
+    </div>
+
+    <main id="app-container" class="max-w-7xl mx-auto p-4 md:p-8 pt-24 md:pt-28 pb-32 md:pb-40">
+
+        <!-- Page 1: 2D Shapes -->
+        <section id="page-1" class="page active">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 mb-4">Unit 1: Geometry Adventure!</h1>
+                <h2 class="text-2xl md:text-3xl font-semibold mb-8">2D Shapes: The Building Blocks</h2>
+                <p class="mb-10 text-base md:text-lg">2D shapes are flat and have only two dimensions: length and width. Let's look at some examples!</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                <!-- 2D Shape examples -->
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                    <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                    <h3 class="text-lg md:text-xl font-bold mt-4">Star</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A bright star in the night sky.</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                    <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                    <h3 class="text-lg md:text-xl font-bold mt-4">Circle</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A pizza or a wheel.</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                    <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM5 5h10v10H5V5z" /></svg>
+                     <h3 class="text-lg md:text-xl font-bold mt-4">Square</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A slice of cheese or a game board.</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                     <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-purple-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 01.755.343l7.5 10a1 1 0 01-.755 1.657H2.5a1 1 0 01-.755-1.657l7.5-10A1 1 0 0110 2z" /></svg>
+                    <h3 class="text-lg md:text-xl font-bold mt-4">Triangle</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A slice of a sandwich or a traffic sign.</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                     <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><rect width="16" height="12" x="2" y="4" rx="2"></rect></svg>
+                    <h3 class="text-lg md:text-xl font-bold mt-4">Rectangle</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A door or a smartphone.</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg text-center">
+                     <svg class="w-16 h-16 md:w-24 md:h-24 mx-auto text-pink-500" fill="currentColor" viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="8" ry="5"></ellipse></svg>
+                    <h3 class="text-lg md:text-xl font-bold mt-4">Oval</h3>
+                    <p class="mt-2 text-sm md:text-base">Example: A running track or a mirror.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 2: 3D Shape - Cube -->
+        <section id="page-2" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Cube 🧊</h2>
+            <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div id="canvas-container-cube" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>It is a 3D shape.</li>
+                            <li>It has <b>6</b> square faces.</li>
+                            <li>All its sides are equal.</li>
+                            <li>It has <b>8</b> vertices (corners).</li>
+                            <li>It has <b>12</b> edges.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-cube" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page 3: Cuboid -->
+        <section id="page-3" class="page">
+             <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Cuboid 🧱</h2>
+             <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div id="canvas-container-cuboid" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>It is a 3D shape, like a stretched cube.</li>
+                            <li>It has <b>6</b> rectangular faces.</li>
+                            <li>Its opposite faces are equal.</li>
+                            <li>It has <b>8</b> vertices (corners).</li>
+                            <li>It has <b>12</b> edges.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-cuboid" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page 4: Cylinder -->
+        <section id="page-4" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Cylinder 🥫</h2>
+            <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                     <div id="canvas-container-cylinder" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                         <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>It is a 3D shape.</li>
+                            <li>It has <b>2</b> flat surfaces (circles).</li>
+                            <li>It has <b>1</b> curved surface.</li>
+                            <li>It has no vertices.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-cylinder" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 5: Sphere -->
+        <section id="page-5" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Sphere ⚽</h2>
+            <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div id="canvas-container-sphere" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>It is a perfectly round 3D shape.</li>
+                            <li>It has only <b>1</b> curved surface.</li>
+                            <li>Every point on the surface is the same distance from the center.</li>
+                            <li>It has no faces, edges, or vertices.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-sphere" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 6: Cone -->
+        <section id="page-6" class="page">
+             <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Cone 🍦</h2>
+            <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                     <div id="canvas-container-cone" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>It is a 3D shape.</li>
+                            <li>It has <b>1</b> flat surface (a circle).</li>
+                            <li>It has <b>1</b> curved surface.</li>
+                            <li>It has <b>1</b> vertex (the pointy top).</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-cone" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 7: Pyramid -->
+        <section id="page-7" class="page">
+             <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">3D Shape: Pyramid 🔺</h2>
+            <div class="grid grid-cols-1 gap-8">
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                     <div id="canvas-container-pyramid" class="w-full h-64 md:h-96 bg-white rounded-lg shadow-inner"></div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl md:text-2xl font-bold mb-4">Properties</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>A 3D shape with a flat base and triangular faces that meet at a point (apex).</li>
+                            <li>This one has a square base, so it has <b>5</b> faces.</li>
+                            <li>It has <b>5</b> vertices.</li>
+                            <li>It has <b>8</b> edges.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mt-8">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 text-center">Real-World Examples</h3>
+                    <div id="example-pyramid" class="real-time-example flex flex-col items-center justify-center text-center h-32 md:h-48"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 8: Different Views -->
+        <section id="page-8" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">Different Views of a 3D Object</h2>
+            <p class="text-center mb-8 text-base md:text-lg">A 3D object looks different depending on where you view it from. Let's look at some examples!</p>
+            
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="car-btn" class="vehicle-btn active">Car 🚗</button>
+                <button id="bus-btn" class="vehicle-btn">Bus 🚌</button>
+            </div>
+
+            <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                <div id="animated-view-container" class="w-full h-64 md:h-80 bg-gray-200 rounded-lg mb-6"></div>
+                <div class="flex justify-center flex-wrap gap-2 md:gap-4">
+                    <button data-view="front" class="view-btn nav-btn bg-green-500 hover:bg-green-600">Front View</button>
+                    <button data-view="top" class="view-btn nav-btn bg-yellow-500 hover:bg-yellow-600">Top View</button>
+                    <button data-view="side" class="view-btn nav-btn bg-red-500 hover:bg-red-600">Side View</button>
+                     <button data-view="3d" class="view-btn nav-btn bg-indigo-500 hover:bg-indigo-600">3D View</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 9: Intro to Rotation -->
+        <section id="page-9" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">Introduction to Rotation</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                <p class="text-base md:text-lg mb-4">Imagine you have a paper circle with pictures. If you stick a pin in the center and turn it, the pictures move in a circle. This movement around a fixed point is called **rotation**.</p>
+                <div class="flex justify-center items-center my-6 md:my-8">
+                    <div class="relative w-48 h-48 md:w-64 md:h-64">
+                         <div class="absolute inset-0 border-2 border-dashed border-gray-400 rounded-full"></div>
+                         <div class="absolute inset-0 rotating-chart">
+                            <span class="absolute top-0 left-1/2 -ml-4 md:-ml-6 text-4xl md:text-5xl">🥕</span>
+                            <span class="absolute right-0 top-1/2 -mt-5 md:-mt-6 text-4xl md:text-5xl">🍎</span>
+                            <span class="absolute bottom-0 left-1/2 -ml-4 md:-ml-6 text-4xl md:text-5xl">🍇</span>
+                            <span class="absolute left-0 top-1/2 -mt-5 md:-mt-6 text-4xl md:text-5xl">🍌</span>
+                        </div>
+                         <div class="absolute inset-0 flex justify-center items-center">
+                             <div class="w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full border-2 border-white shadow"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-base md:text-lg">The pin marks the **center of rotation**. As the chart rotates, everything on it rotates too. After one full turn, it comes back to where it started!</p>
+            </div>
+        </section>
+
+        <!-- Page 10: Observe Rotation of a Square -->
+        <section id="page-10" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">Observe the Rotation of a Square</h2>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <p class="text-base md:text-lg mb-8 text-center">Let's see what happens when we rotate a square around its center. Watch how the corners move!</p>
+                
+                <div id="animated-square-container" class="flex justify-center items-center h-56 md:h-64">
+                    <div id="animated-square">
+                        <div class="square-face"></div>
+                        <div class="square-corner corner-a">A</div>
+                        <div class="square-corner corner-b">B</div>
+                        <div class="square-corner corner-c">C</div>
+                        <div class="square-corner corner-d">D</div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center flex-wrap gap-2 md:gap-4 mt-8">
+                    <button id="rotate-1-4-btn" class="nav-btn bg-yellow-500 hover:bg-yellow-600">Rotate 1/4 Turn</button>
+                    <button id="rotate-1-2-btn" class="nav-btn bg-orange-500 hover:bg-orange-600">Rotate 1/2 Turn</button>
+                    <button id="reset-rotation-btn" class="nav-btn bg-gray-500 hover:bg-gray-600">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 11: Exploring Turns -->
+        <section id="page-11" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">Exploring Different Turns 🔄</h2>
+            <p class="text-center mb-8 text-base md:text-lg">Let's see how shapes look after we rotate them by different amounts!</p>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 1/4 Turn Example -->
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="font-bold text-xl mb-4">Quarter Turn (1/4)</h3>
+                    <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 flex items-center justify-center">
+                        <div id="shape-1-4-turn" class="w-full h-full transition-transform duration-500 ease-in-out">
+                             <svg viewBox="0 0 100 100" class="fill-current text-green-500"><path d="M50 0 L100 50 L50 100 L0 50 Z"></path></svg>
+                        </div>
+                    </div>
+                    <button id="btn-1-4-turn" class="nav-btn bg-green-500 hover:bg-green-600">Rotate 1/4 Turn</button>
+                </div>
+    
+                <!-- 1/2 Turn Example -->
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <h3 class="font-bold text-xl mb-4">Half Turn (1/2)</h3>
+                    <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 flex items-center justify-center">
+                        <div id="shape-1-2-turn" class="w-full h-full transition-transform duration-500 ease-in-out text-6xl md:text-7xl font-bold flex items-center justify-center text-red-500">S</div>
+                    </div>
+                     <button id="btn-1-2-turn" class="nav-btn bg-red-500 hover:bg-red-600">Rotate 1/2 Turn</button>
+                </div>
+            </div>
+    
+            <div class="mt-8 bg-white p-6 rounded-xl shadow-lg text-center">
+                <h3 class="font-bold text-xl mb-4">Letters with Rotational Symmetry</h3>
+                <div id="symmetric-letters-container" class="text-3xl md:text-4xl font-mono tracking-widest mb-4 flex justify-center gap-3 md:gap-4 flex-wrap">
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">H</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">I</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">N</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">O</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">S</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">X</span>
+                    <span class="symmetric-letter inline-block transition-transform duration-700 ease-in-out">Z</span>
+                </div>
+                <button id="rotate-letters-btn" class="nav-btn bg-purple-500 hover:bg-purple-600">Rotate All Letters (1/2 Turn)</button>
+                <p class="p-4 mt-4 text-base md:text-lg">These letters look the same after a half turn! This special property is called **rotational symmetry**.</p>
+            </div>
+        </section>
+
+        <!-- Page 12: Quiz Time! -->
+        <section id="page-12" class="page">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-2">Quiz Time! 🧠</h2>
+            <p id="quiz-progress" class="text-center font-semibold mb-6"></p>
+            <div id="quiz-container" class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                <!-- Quiz questions will be injected here -->
+            </div>
+            <div id="quiz-feedback" class="mt-4 text-center font-bold text-xl h-8"></div>
+             <div id="quiz-results" class="hidden text-center mt-8 relative">
+                <canvas id="confetti-canvas"></canvas>
+                <h3 class="text-3xl md:text-4xl font-bold text-blue-600">Quiz Complete!</h3>
+                <div class="text-6xl md:text-7xl my-4">🏆</div>
+                <p class="text-xl md:text-2xl mt-4">Your score: <span id="quiz-score" class="font-bold"></span></p>
+                <button id="restart-quiz-btn" class="nav-btn mt-6">Try Again</button>
+            </div>
+        </section>
+
+
+
+
+    </main>
+    
+    <!-- Bottom Navigation - Current Page Controls -->
+    <div class="bottom-nav">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-center gap-6 md:gap-8">
+                <!-- Previous button -->
+                <button id="prev-btn" class="kid-nav-btn prev" disabled>
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl md:text-4xl">⬅️</span>
+                        <div class="text-left">
+                            <div class="text-lg md:text-xl font-bold">Previous</div>
+                            <div class="text-sm md:text-base opacity-80">Go Back</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <!-- Next button -->
+                <button id="next-btn" class="kid-nav-btn next">
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <div class="text-lg md:text-xl font-bold">Next</div>
+                            <div class="text-sm md:text-base opacity-80">Continue</div>
+                        </div>
+                        <span class="text-3xl md:text-4xl">➡️</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- PWA Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const manifestBlob = new Blob([JSON.stringify({
+                    "name": "Geometry Adventure", "short_name": "GeoAdventure", "start_url": ".", "display": "standalone",
+                    "background_color": "#f3f4f6", "theme_color": "#4A90E2", "description": "An interactive PWA to learn about geometry offline.",
+                    "icons": [
+                        { "src": "https://placehold.co/192x192/4A90E2/FFFFFF?text=Geo", "type": "image/png", "sizes": "192x192" },
+                        { "src": "https://placehold.co/512x512/4A90E2/FFFFFF?text=Geo", "type": "image/png", "sizes": "512x512" }
+                    ]
+                })], {type: 'application/json'});
+                const manifestLink = document.querySelector('link[rel="manifest"]');
+                if (manifestLink) manifestLink.href = URL.createObjectURL(manifestBlob);
+
+                const swBlob = new Blob([`
+                    const CACHE_NAME = 'geometry-adventure-offline-v10';
+                    const urlsToCache = ['.', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'];
+                    self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+                    self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                `], {type: 'application/javascript'});
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob))
+                    .then(reg => console.log('ServiceWorker registration successful'))
+                    .catch(err => console.log('ServiceWorker registration failed: ', err));
+            });
+        }
+        
+        // --- Page Navigation Logic ---
+        const pages = document.querySelectorAll('.page');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageIndicator = document.getElementById('page-indicator');
+        let currentPageIndex = 0;
+        const totalPages = pages.length;
+
+        function updatePage() {
+            pages.forEach((page, index) => {
+                if(page) page.classList.toggle('active', index === currentPageIndex);
+            });
+            if(pageIndicator) pageIndicator.textContent = `${currentPageIndex + 1} / ${totalPages}`;
+            if(prevBtn) prevBtn.disabled = currentPageIndex === 0;
+            if(nextBtn) nextBtn.disabled = currentPageIndex === totalPages - 1;
+            
+            // Add bounce animation to the progress indicator
+            if(pageIndicator) {
+                pageIndicator.classList.add('bounce-animation');
+                setTimeout(() => pageIndicator.classList.remove('bounce-animation'), 600);
+            }
+            
+            const activePageId = pages[currentPageIndex] ? pages[currentPageIndex].id : null;
+            if (activePageId && scenes[activePageId] && !scenes[activePageId].initialized) {
+                 scenes[activePageId].init();
+            }
+        }
+        
+        if (prevBtn) prevBtn.addEventListener('click', () => { 
+            if (currentPageIndex > 0) { 
+                prevBtn.classList.add('bounce-animation');
+                setTimeout(() => prevBtn.classList.remove('bounce-animation'), 600);
+                currentPageIndex--; 
+                updatePage(); 
+            } 
+        });
+        if (nextBtn) nextBtn.addEventListener('click', () => { 
+            if (currentPageIndex < totalPages - 1) { 
+                nextBtn.classList.add('bounce-animation');
+                setTimeout(() => nextBtn.classList.remove('bounce-animation'), 600);
+                currentPageIndex++; 
+                updatePage(); 
+            } 
+        });
+        
+        // Quiz button functionality
+        const quizBtn = document.getElementById('quiz-btn');
+        if (quizBtn) quizBtn.addEventListener('click', () => {
+            quizBtn.classList.add('bounce-animation');
+            setTimeout(() => {
+                window.location.href = '01.1-Geometry-quize.html';
+            }, 300);
+        });
+        
+        // Next lesson button functionality
+        const nextLessonBtn = document.getElementById('next-lesson-btn');
+        if (nextLessonBtn) nextLessonBtn.addEventListener('click', () => {
+            nextLessonBtn.classList.add('bounce-animation');
+            setTimeout(() => {
+                window.location.href = '02- angles.html';
+            }, 300);
+        });
+
+        // --- Interactive elements for page 10 ---
+        const animatedSquare = document.getElementById('animated-square');
+        const rotate14Btn = document.getElementById('rotate-1-4-btn');
+        const rotate12Btn = document.getElementById('rotate-1-2-btn');
+        const resetRotationBtn = document.getElementById('reset-rotation-btn');
+        let currentAngle = 0;
+
+        if(rotate14Btn) rotate14Btn.addEventListener('click', () => { currentAngle += 90; if(animatedSquare) animatedSquare.style.transform = `rotate(${currentAngle}deg)`; });
+        if(rotate12Btn) rotate12Btn.addEventListener('click', () => { currentAngle += 180; if(animatedSquare) animatedSquare.style.transform = `rotate(${currentAngle}deg)`; });
+        if(resetRotationBtn) resetRotationBtn.addEventListener('click', () => { currentAngle = 0; if(animatedSquare) animatedSquare.style.transform = `rotate(0deg)`; });
+
+        // --- Interactive elements for page 11 ---
+        let rotation1_4 = 0;
+        const btn1_4 = document.getElementById('btn-1-4-turn');
+        if(btn1_4) {
+            btn1_4.addEventListener('click', () => {
+                rotation1_4 += 90;
+                const shape = document.getElementById('shape-1-4-turn');
+                if (shape) shape.style.transform = `rotate(${rotation1_4}deg)`;
+            });
+        }
+
+        let rotation1_2 = 0;
+        const btn1_2 = document.getElementById('btn-1-2-turn');
+        if(btn1_2) {
+            btn1_2.addEventListener('click', () => {
+                rotation1_2 += 180;
+                const shape = document.getElementById('shape-1-2-turn');
+                if (shape) shape.style.transform = `rotate(${rotation1_2}deg)`;
+            });
+        }
+        
+        // --- Page 11 Logic for Symmetric Letters ---
+        const rotateLettersBtn = document.getElementById('rotate-letters-btn');
+        const symmetricLetters = document.querySelectorAll('.symmetric-letter');
+        let lettersRotated = false;
+
+        if (rotateLettersBtn && symmetricLetters.length > 0) {
+            rotateLettersBtn.addEventListener('click', () => {
+                lettersRotated = !lettersRotated;
+                const angle = lettersRotated ? 180 : 0;
+                symmetricLetters.forEach(letter => {
+                    letter.style.transform = `rotate(${angle}deg)`;
+                });
+                rotateLettersBtn.textContent = lettersRotated ? 'Reset Letters' : 'Rotate All Letters (1/2 Turn)';
+            });
+        }
+        
+        // --- 3D Scene Management ---
+        const scenes = {};
+        function create3DScene(containerId, shapeType, isAnimatedView = false) {
+            const container = document.getElementById(containerId);
+            if (!container) return null;
+            
+            let scene, camera, renderer, group;
+            let animationFrameId;
+
+            // Cleanup function
+            function cleanup() {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                if (renderer) {
+                    renderer.dispose();
+                    if(renderer.domElement.parentElement) {
+                        renderer.domElement.parentElement.removeChild(renderer.domElement);
+                    }
+                }
+                 scene = undefined;
+                 camera = undefined;
+                 renderer = undefined;
+                 group = undefined;
+            }
+
+            function init() {
+                cleanup();
+
+                if(!container) return;
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(isAnimatedView ? 0xd1d5db : 0xf1f5f9);
+                group = new THREE.Group();
+                scene.add(group);
+                camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+                camera.position.set(5, 3, 5);
+                camera.lookAt(scene.position);
+
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+                scene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 10, 7.5);
+                scene.add(directionalLight);
+
+                const model = createModel(shapeType);
+                group.add(model);
+
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                container.innerHTML = '';
+                container.appendChild(renderer.domElement);
+                
+                if (!isAnimatedView) {
+                    let mouseX = 0, mouseY = 0, targetRotationX = 0, targetRotationY = 0;
+                    const windowHalfX = () => container.clientWidth / 2;
+                    const windowHalfY = () => container.clientHeight / 2;
+                    
+                    container.addEventListener('pointerdown', e => {
+                        e.preventDefault();
+                        container.addEventListener('pointermove', onPointerMove);
+                        container.addEventListener('pointerup', onPointerUp);
+                    });
+                     function onPointerMove(e) { mouseX = (e.clientX - container.getBoundingClientRect().left) - windowHalfX(); mouseY = (e.clientY - container.getBoundingClientRect().top) - windowHalfY(); }
+                    function onPointerUp() { container.removeEventListener('pointermove', onPointerMove); container.removeEventListener('pointerup', onPointerUp); }
+                    
+                    function interactiveAnimate() {
+                        animationFrameId = requestAnimationFrame(interactiveAnimate);
+                        targetRotationY = mouseX * 0.005; 
+                        targetRotationX = mouseY * 0.005; 
+                        if (group) { 
+                            group.rotation.y += (targetRotationY - group.rotation.y) * 0.05; 
+                            group.rotation.x += (targetRotationX - group.rotation.x) * 0.05; 
+                        } 
+                        if(renderer && scene && camera) renderer.render(scene, camera); 
+                    }
+                    interactiveAnimate();
+                } else {
+                    function staticAnimate() {
+                        animationFrameId = requestAnimationFrame(staticAnimate);
+                        if(group) group.rotation.y += 0.005;
+                        if(renderer && scene && camera) renderer.render(scene, camera);
+                    }
+                    staticAnimate();
+                }
+
+                window.addEventListener('resize', onWindowResize);
+                const page = container.closest('.page');
+                if (page && scenes[page.id]) { scenes[page.id].initialized = true; }
+            }
+            
+            function createModel(type) {
+                const modelGroup = new THREE.Group();
+                const materials = {
+                    car_body: new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.5 }),
+                    car_windows: new THREE.MeshStandardMaterial({ color: 0x60a5fa, roughness: 0.2 }),
+                    car_wheels: new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.8 }),
+                    bus_body: new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.5 }),
+                    bus_windows: new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.2 }),
+                };
+
+                if (type === 'car') {
+                    const body = new THREE.Mesh(new THREE.BoxGeometry(4, 1.2, 2), materials.car_body);
+                    modelGroup.add(body);
+                    const cabin = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1, 1.8), materials.car_windows);
+                    cabin.position.set(-0.4, 1.1, 0);
+                    modelGroup.add(cabin);
+                    const wheels = [-1.2, 1.2].flatMap(x => [-1, 1].map(z => ({x, z})));
+                    wheels.forEach(pos => {
+                        const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.3, 32), materials.car_wheels);
+                        wheel.rotation.x = Math.PI / 2;
+                        wheel.position.set(pos.x, -0.6, pos.z);
+                        modelGroup.add(wheel);
+                    });
+                } else if (type === 'bus') {
+                    const body = new THREE.Mesh(new THREE.BoxGeometry(6, 2, 2.2), materials.bus_body);
+                    body.position.y = 0.5;
+                    modelGroup.add(body);
+                    for (let i = 0; i < 3; i++) {
+                         const window = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.8, 0.1), materials.bus_windows);
+                         window.position.set(-2.1 + i * 2.1, 1, 1.1);
+                         modelGroup.add(window.clone().position.set(-2.1 + i * 2.1, 1, -1.1));
+                    }
+                    const wheels = [-2.2, 2.2].flatMap(x => [-1.15, 1.15].map(z => ({x, z})));
+                     wheels.forEach(pos => {
+                        const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 32), materials.car_wheels);
+                        wheel.rotation.x = Math.PI / 2;
+                        wheel.position.set(pos.x, -0.5, pos.z);
+                        modelGroup.add(wheel);
+                    });
+                }
+                 else {
+                    const material = new THREE.MeshNormalMaterial({ wireframe: false });
+                    const geometry = createGeometry(type);
+                    const mesh = new THREE.Mesh(geometry, material);
+                    modelGroup.add(mesh);
+                    if (type === 'cube' || type === 'cuboid') {
+                        modelGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })));
+                    }
+                }
+                return modelGroup;
+            }
+
+            function createGeometry(type) {
+                 switch (type) {
+                    case 'cube': return new THREE.BoxGeometry(2, 2, 2);
+                    case 'cuboid': return new THREE.BoxGeometry(2.5, 1.5, 1);
+                    case 'cylinder': return new THREE.CylinderGeometry(1, 1, 2.5, 32);
+                    case 'sphere': return new THREE.SphereGeometry(1.5, 32, 32);
+                    case 'cone': return new THREE.ConeGeometry(1.2, 2.5, 32);
+                    case 'pyramid': return new THREE.CylinderGeometry(0, 1.5, 2.5, 4, 1);
+                    default: return new THREE.BoxGeometry(2, 2, 2);
+                }
+            }
+            function onWindowResize() { 
+                if (!container || !renderer || !camera) return;
+                camera.aspect = container.clientWidth / container.clientHeight; 
+                camera.updateProjectionMatrix(); 
+                renderer.setSize(container.clientWidth, container.clientHeight); 
+            }
+            
+            function setView(view) {
+                if (!camera) return;
+                const targetPos = new THREE.Vector3();
+                const targetLookAt = new THREE.Vector3(0,0.5,0); // Look at center of model
+                const duration = 1.2;
+
+                switch(view) {
+                    case 'front':
+                        targetPos.set(0, 0.5, 10);
+                        break;
+                    case 'top':
+                        targetPos.set(0, 10, 0.01); // 0.01 to ensure lookAt works correctly
+                        break;
+                    case 'side':
+                        targetPos.set(10, 0.5, 0);
+                        break;
+                    case '3d':
+                    default:
+                         targetPos.set(6, 4, 6);
+                         break;
+                }
+                
+                gsap.to(camera.position, {
+                    x: targetPos.x,
+                    y: targetPos.y,
+                    z: targetPos.z,
+                    duration: duration,
+                    ease: "power3.inOut",
+                    onUpdate: () => camera.lookAt(targetLookAt)
+                });
+            }
+            
+            return { init, setView, cleanup, initialized: false };
+        }
+        
+        // --- Page 8 Logic ---
+        let animatedViewScene = null;
+        const carBtn = document.getElementById('car-btn');
+        const busBtn = document.getElementById('bus-btn');
+        const viewBtns = document.querySelectorAll('.view-btn');
+
+        function setupPage8(vehicleType) {
+            if (animatedViewScene) animatedViewScene.cleanup();
+            animatedViewScene = create3DScene('animated-view-container', vehicleType, true);
+            animatedViewScene.init();
+            
+            if(carBtn) carBtn.classList.toggle('active', vehicleType === 'car');
+            if(busBtn) busBtn.classList.toggle('active', vehicleType === 'bus');
+        }
+
+        if (carBtn) carBtn.addEventListener('click', () => setupPage8('car'));
+        if (busBtn) busBtn.addEventListener('click', () => setupPage8('bus'));
+        
+        if (viewBtns) {
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (animatedViewScene) {
+                        animatedViewScene.setView(btn.dataset.view);
+                    }
+                });
+            });
+        }
+        scenes['page-8'] = { init: () => setupPage8('car'), initialized: false };
+        
+        
+        scenes['page-2'] = create3DScene('canvas-container-cube', 'cube');
+        scenes['page-3'] = create3DScene('canvas-container-cuboid', 'cuboid');
+        scenes['page-4'] = create3DScene('canvas-container-cylinder', 'cylinder');
+        scenes['page-5'] = create3DScene('canvas-container-sphere', 'sphere');
+        scenes['page-6'] = create3DScene('canvas-container-cone', 'cone');
+        scenes['page-7'] = create3DScene('canvas-container-pyramid', 'pyramid');
+
+        // --- Real-Time Example Logic ---
+        const examples = {
+            cube: [
+                { text: 'A playful dice', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><rect width="90" height="90" x="5" y="5" rx="10" fill="#FFF" stroke="#000" stroke-width="2"/><circle cx="30" cy="30" r="8" fill="#000"/><circle cx="70" cy="70" r="8" fill="#000"/><circle cx="70" cy="30" r="8" fill="#000"/><circle cx="30" cy="70" r="8" fill="#000"/></svg>` },
+                { text: "A Rubik's Cube", icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><g stroke="#000" stroke-width="2"><rect width="30" height="30" x="5" y="5" fill="#FF5733"/><rect width="30" height="30" x="35" y="5" fill="#33C4FF"/><rect width="30" height="30" x="65" y="5" fill="#FFC300"/><rect width="30" height="30" x="5" y="35" fill="#33FF57"/><rect width="30" height="30" x="35" y="35" fill="#FFF"/><rect width="30" height="30" x="65" y="35" fill="#FF5733"/><rect width="30" height="30" x="5" y="65" fill="#FFC300"/><rect width="30" height="30" x="35" y="65" fill="#33FF57"/><rect width="30" height="30" x="65" y="65" fill="#33C4FF"/></g></svg>` },
+                { text: 'A surprise gift box', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><rect width="80" height="60" x="10" y="35" fill="#ef4444" rx="5"/><rect width="20" height="65" x="40" y="30" fill="#fca5a5" rx="3"/><rect width="80" height="20" x="10" y="50" fill="#fca5a5" rx="3"/><circle cx="50" cy="25" r="15" fill="#fca5a5"/><path d="M50 10 C 65 10, 65 40, 50 40" fill="none" stroke="#fca5a5" stroke-width="6"/><path d="M50 10 C 35 10, 35 40, 50 40" fill="none" stroke="#fca5a5" stroke-width="6"/></svg>` }
+            ],
+            cuboid: [
+                { text: 'A story book', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><rect x="15" y="10" width="70" height="80" fill="#a52a2a" rx="5" /><rect x="20" y="10" width="60" height="80" fill="#fdfbd3" /><path d="M 25 25 h 40 M 25 40 h 35 M 25 55 h 40 M 25 70 h 30" stroke="#a5a5a5" stroke-width="2" /></svg>` },
+                { text: 'A box of cereal', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><rect x="20" y="5" width="60" height="90" fill="#facc15" rx="5" /><circle cx="50" cy="40" r="20" fill="#fff" /><text x="50" y="85" font-family="Arial" font-size="18" fill="#000" text-anchor="middle" font-weight="bold">CEREAL</text></svg>` },
+                { text: 'A comfy mattress', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><rect x="5" y="20" width="90" height="60" fill="#6366f1" rx="8" /><path d="M 20 35 L 35 50 L 20 65 M 50 35 L 65 50 L 50 65 M 80 35 L 95 50 L 80 65" stroke="#a5b4fc" stroke-width="4" fill="none" /></svg>` }
+            ],
+            cylinder: [
+                { text: 'A can of soup', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><ellipse cx="50" cy="20" rx="30" ry="10" fill="#d1d5db" /><rect x="20" y="20" width="60" height="60" fill="#ef4444" /><ellipse cx="50" cy="80" rx="30" ry="10" fill="#ef4444" stroke="#d1d5db" stroke-width="1"/><text x="50" y="55" font-family="Arial" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">SOUP</text></svg>` },
+                { text: 'A glass of water', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 25 10 L 25 85 C 25 95, 75 95, 75 85 L 75 10" fill="#60a5fa" opacity="0.8" /><path d="M 25 10 L 25 85 C 25 95, 75 95, 75 85 L 75 10" fill="none" stroke="#93c5fd" stroke-width="4" /></svg>` },
+                { text: 'A log of wood', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="48" ry="25" fill="#854d0e" /><ellipse cx="50" cy="50" rx="40" ry="20" fill="#a16207" /><circle cx="50" cy="50" r="10" fill="#543200"/></svg>` }
+            ],
+            sphere: [
+                 { text: 'A bouncy ball', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="url(#ballGradient)" /><defs><radialGradient id="ballGradient"><stop offset="0%" stop-color="#f472b6" /><stop offset="100%" stop-color="#ec4899" /></radialGradient></defs><path d="M 15 25 C 50 -10, 50 110, 85 75" stroke="#fff" stroke-width="5" fill="none" opacity="0.7" /></svg>` },
+                 { text: 'A shiny marble', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="url(#marbleGradient)" /><defs><radialGradient id="marbleGradient"><stop offset="0%" stop-color="#a78bfa" /><stop offset="100%" stop-color="#8b5cf6" /></radialGradient></defs><path d="M 30 20 C 40 50, 60 30, 70 80 S 40 90, 30 50" fill="#c4b5fd" opacity="0.6" /></svg>` },
+                 { text: 'Our planet Earth', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#3b82f6" /><path d="M 60 20 C 40 30, 30 50, 45 65 S 80 80, 70 50 S 80 10, 60 20" fill="#22c55e" /></svg>` }
+            ],
+            cone: [
+                { text: 'An ice cream cone', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 20 40 L 50 100 L 80 40 Z" fill="#fcd34d" /><circle cx="50" cy="30" r="35" fill="#f9a8d4" /></svg>` },
+                { text: 'A silly party hat', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 20 90 L 50 10 L 80 90 Z" fill="#ef4444" /><circle cx="35" cy="70" r="7" fill="#fff" /><circle cx="65" cy="70" r="7" fill="#fff" /><circle cx="50" cy="45" r="7" fill="#fff" /><circle cx="50" cy="10" r="10" fill="#facc15" /></svg>` },
+                { text: 'An orange traffic cone', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 5 95 L 95 95 L 65 10 L 35 10 Z" fill="#f97316" /><rect x="20" y="30" width="60" height="12" fill="#fff" /><rect x="12" y="60" width="76" height="12" fill="#fff" /></svg>` }
+            ],
+             pyramid: [
+                { text: 'The Great Pyramids', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 50 10 L 5 90 L 95 90 Z" fill="#facc15"/><path d="M 50 10 L 95 90 L 65 90" fill="#f59e0b"/></svg>` },
+                { text: 'A camping tent', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 50 15 L 5 85 L 95 85 Z" fill="#166534" /><rect x="45" y="55" width="10" height="30" fill="#0d9488" /></svg>` },
+                { text: 'The roof of a house', icon: `<svg class="w-16 h-16 md:w-24 md:h-24" viewBox="0 0 100 100"><path d="M 50 10 L 5 40 L 95 40 Z" fill="#b91c1c" /><rect x="10" y="40" width="80" height="50" fill="#fef2f2" stroke="#dc2626" stroke-width="3" /></svg>` }
+            ],
+        };
+
+        function startExampleRotator(shape) {
+            const container = document.getElementById(`example-${shape}`);
+            if (!container) return;
+
+            let currentIndex = 0;
+            const exampleSet = examples[shape];
+            let intervalId = null;
+
+            function showNextExample() {
+                if (!exampleSet || exampleSet.length === 0 || !container) return;
+                
+                container.classList.add('fade-out'); // Start fade out
+
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % exampleSet.length;
+                    const example = exampleSet[currentIndex];
+                    container.innerHTML = `${example.icon}<p class="text-lg md:text-xl font-bold mt-4">${example.text}</p>`;
+                    container.classList.remove('fade-out'); // Fade in
+                }, 300); // Match this duration with the CSS transition
+            }
+            
+            // Function to reset and start the interval
+            function resetInterval() {
+                clearInterval(intervalId); // Clear any existing interval
+                currentIndex = 0; // Reset index
+                const initialExample = exampleSet[0];
+                if (container && initialExample) {
+                     container.innerHTML = `${initialExample.icon}<p class="text-lg md:text-xl font-bold mt-4">${initialExample.text}</p>`;
+                     container.classList.remove('fade-out');
+                }
+                intervalId = setInterval(showNextExample, 3000); // Start new interval
+            }
+
+            // Observe when the page becomes active
+             const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        const pageElement = mutation.target;
+                        if (pageElement.classList.contains('active')) {
+                            resetInterval();
+                        } else {
+                            clearInterval(intervalId);
+                        }
+                    }
+                });
+            });
+
+            const pageNode = container.closest('.page');
+            if (pageNode) {
+                observer.observe(pageNode, { attributes: true });
+                // Initial check in case the page is already active
+                if (pageNode.classList.contains('active')) {
+                     resetInterval();
+                }
+            }
+        }
+
+        // Initialize the example rotators
+        Object.keys(examples).forEach(shape => startExampleRotator(shape));
+
+        // --- Quiz Logic ---
+        const quizContainer = document.getElementById('quiz-container');
+        const quizFeedback = document.getElementById('quiz-feedback');
+        const quizResults = document.getElementById('quiz-results');
+        const quizScoreEl = document.getElementById('quiz-score');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+        const quizProgress = document.getElementById('quiz-progress');
+        
+        const staticQuizQuestions = [
+             { 
+                question: "How many faces does a cube have?", 
+                options: ["4", "6", "8"], 
+                answer: "6",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-blue-400" viewBox="0 0 100 100"><path d="M10 30 L50 10 L90 30 L90 70 L50 90 L10 70 Z" fill="currentColor" opacity="0.7"/><path d="M50 10 L50 90 M10 30 L50 50 L90 30" fill="none" stroke="white" stroke-width="3"/></svg>`,
+                visualOptions: [`<div class="text-4xl font-bold">4</div>`, `<div class="text-4xl font-bold">6</div>`, `<div class="text-4xl font-bold">8</div>`]
+            },
+            { 
+                question: "Which of these is a 2D shape?", 
+                options: ["Sphere", "Circle", "Cylinder"], 
+                answer: "Circle",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-red-400" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="currentColor" /></svg>`,
+                visualOptions: [
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="url(#g-sphere)"/><defs><radialGradient id="g-sphere"><stop offset="10%" stop-color="currentColor" stop-opacity="0.3"/><stop offset="95%" stop-color="currentColor" stop-opacity="0.8"/></radialGradient></defs></svg><div>Sphere</div>`, 
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor" /></svg><div>Circle</div>`, 
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><ellipse cx="50" cy="20" rx="25" ry="8" fill="currentColor" opacity="0.7"/><rect x="25" y="20" width="50" height="60" fill="currentColor" /><ellipse cx="50"cy="80" rx="25" ry="8" fill="currentColor" opacity="0.7"/></svg><div>Cylinder</div>`
+                ]
+            },
+            { 
+                question: "A party hat is shaped like a...", 
+                options: ["Pyramid", "Sphere", "Cone"], 
+                answer: "Cone",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-pink-400" viewBox="0 0 100 100"><path d="M 20 90 L 50 10 L 80 90 Z" fill="currentColor" /><circle cx="50" cy="10" r="8" fill="yellow" /></svg>`,
+                 visualOptions: [
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><path d="M 50 10 L 5 90 L 95 90 Z" fill="currentColor"/><path d="M 50 10 L 95 90 L 65 90" opacity="0.5" fill="currentColor"/></svg><div>Pyramid</div>`, 
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor" /></svg><div>Sphere</div>`, 
+                    `<svg class="w-12 h-12 md:w-16 md:h-16 text-gray-700" viewBox="0 0 100 100"><path d="M 20 90 L 50 10 L 80 90 Z" fill="currentColor" /></svg><div>Cone</div>`
+                ]
+            },
+            { 
+                question: "How many vertices (corners) does a cuboid have?", 
+                options: ["6", "8", "12"], 
+                answer: "8",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-indigo-400" viewBox="0 0 100 100"><path d="M10 35 L60 10 L90 35 L40 60 Z" fill="currentColor" opacity="0.7"/><path d="M10 35 L10 65 L40 90 L40 60" fill="currentColor" opacity="0.9"/><path d="M40 90 L90 65 L90 35" fill="currentColor" opacity="0.5"/></svg>`,
+                visualOptions: [`<div class="text-4xl font-bold">6</div>`, `<div class="text-4xl font-bold">8</div>`, `<div class="text-4xl font-bold">12</div>`]
+            },
+            { 
+                question: "Which shape has no flat faces and no vertices?", 
+                options: ["Cylinder", "Cone", "Sphere"], 
+                answer: "Sphere",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-green-400" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="url(#g)"/><defs><radialGradient id="g"><stop offset="10%" stop-color="currentColor"/><stop offset="95%" stop-color="white"/></radialGradient></defs></svg>`,
+                visualOptions: ["Cylinder", "Cone", "Sphere"]
+            },
+            { 
+                question: "A dice is a good example of a...", 
+                options: ["Cuboid", "Cube", "Pyramid"], 
+                answer: "Cube",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32" viewBox="0 0 100 100"><rect width="80" height="80" x="10" y="10" rx="10" fill="#fff" stroke="#333" stroke-width="2"/><circle cx="30" cy="30" r="8" fill="#333"/><circle cx="70" cy="70" r="8" fill="#333"/></svg>`,
+                visualOptions: ["Cuboid", "Cube", "Pyramid"]
+            },
+            { 
+                question: "If you rotate the letter 'F' by a half turn, will it look the same?", 
+                options: ["Yes", "No"], 
+                answer: "No",
+                visual: `<div class="text-6xl md:text-8xl font-bold text-gray-700">F</div>`,
+                visualOptions: ["Yes 👍", "No 👎"]
+            },
+            { 
+                question: "How many flat, circular faces does a cylinder have?", 
+                options: ["0", "1", "2"], 
+                answer: "2",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-purple-400" viewBox="0 0 100 100"><ellipse cx="50" cy="20" rx="30" ry="10" fill="currentColor" opacity="0.7"/><rect x="20" y="20" width="60" height="60" fill="currentColor" /><ellipse cx="50" cy="80" rx="30" ry="10" fill="currentColor" opacity="0.7"/></svg>`,
+                visualOptions: [`<div class="text-4xl font-bold">0</div>`, `<div class="text-4xl font-bold">1</div>`, `<div class="text-4xl font-bold">2</div>`]
+            },
+            { 
+                question: "The pointy top of a cone is called a...", 
+                options: ["Edge", "Face", "Vertex"], 
+                answer: "Vertex",
+                visual: `<svg class="w-24 h-24 md:w-32 md:h-32 text-orange-400" viewBox="0 0 100 100"><path d="M 20 90 L 50 10 L 80 90 Z" fill="currentColor" /><circle cx="50" cy="10" r="8" fill="red" /></svg>`,
+                visualOptions: ["Edge", "Face", "Vertex"]
+            },
+            { 
+                question: "Which letter has rotational symmetry?", 
+                options: ["P", "X", "L"], 
+                answer: "X",
+                visual: `<div class="text-6xl md:text-8xl font-bold text-gray-700">?</div>`,
+                visualOptions: [`<div class="text-4xl font-bold">P</div>`, `<div class="text-4xl font-bold">X</div>`, `<div class="text-4xl font-bold">L</div>`]
+            },
+        ];
+        
+        let quizQuestions = staticQuizQuestions;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let confettiAnimationId;
+
+        function loadQuiz() {
+            currentQuestionIndex = 0; 
+            score = 0;
+            if (quizResults) quizResults.classList.add('hidden');
+            if (quizContainer) quizContainer.classList.remove('hidden');
+            if (quizFeedback) quizFeedback.textContent = '';
+            stopConfetti();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if(quizProgress) quizProgress.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+            const q = quizQuestions[currentQuestionIndex];
+            if(quizContainer && q) {
+                quizContainer.innerHTML = `
+                    <div class="w-full h-32 md:h-40 mb-6 flex items-center justify-center">${q.visual}</div>
+                    <p class="text-lg md:text-xl font-semibold mb-4 text-center">${q.question}</p>
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mt-4">
+                         ${q.options.map((opt, index) => {
+                            const visualContent = (q.visualOptions && q.visualOptions[index]) ? q.visualOptions[index] : opt;
+                            return `<button class="quiz-option p-4 flex flex-col items-center justify-center text-center h-24 md:h-28" data-answer="${opt}">${visualContent}</button>`
+                         }).join('')}
+                    </div>
+                `;
+                const optionButtons = quizContainer.querySelectorAll('.quiz-option');
+                optionButtons.forEach(btn => {
+                    btn.onclick = () => selectAnswer(btn);
+                });
+            }
+        }
+
+        function selectAnswer(button) {
+            const selectedOption = button.dataset.answer;
+            const q = quizQuestions[currentQuestionIndex];
+            if(!q || !quizContainer) return;
+
+            const buttons = quizContainer.querySelectorAll('.quiz-option');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (selectedOption === q.answer) {
+                score++;
+                button.classList.add('correct');
+                if(quizFeedback) {
+                    quizFeedback.textContent = 'Correct! 🎉';
+                    quizFeedback.className = 'mt-4 text-center font-bold text-xl text-green-600 animate-correct';
+                }
+            } else {
+                button.classList.add('incorrect');
+                if(quizFeedback) {
+                    quizFeedback.textContent = `Not quite!`;
+                    quizFeedback.className = 'mt-4 text-center font-bold text-xl text-red-600 animate-incorrect';
+                }
+                buttons.forEach(btn => { if (btn.dataset.answer === q.answer) btn.classList.add('correct'); });
+            }
+
+            quizFeedback.addEventListener('animationend', () => {
+                quizFeedback.className = 'mt-4 text-center font-bold text-xl h-8'; 
+            }, { once: true });
+            
+            setTimeout(() => { 
+                currentQuestionIndex++; 
+                if(quizFeedback) quizFeedback.textContent = '';
+                if (currentQuestionIndex < quizQuestions.length) { 
+                    loadQuestion(); 
+                } else { 
+                    showResults(); 
+                } 
+            }, 1500);
+        }
+
+        function showResults() {
+            if(quizContainer) quizContainer.innerHTML = '';
+            if(quizProgress) quizProgress.textContent = "Quiz Finished!";
+            if(quizFeedback) quizFeedback.textContent = '';
+            if(quizResults) quizResults.classList.remove('hidden');
+            if(quizScoreEl) quizScoreEl.textContent = `${score} / ${quizQuestions.length}`;
+            startConfetti();
+        }
+        
+        // --- Confetti Logic ---
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+            
+            const confettiPieces = [];
+            const numberOfPieces = 150;
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800'];
+
+            for (let i = 0; i < numberOfPieces; i++) {
+                confettiPieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 4, // radius
+                    d: Math.random() * numberOfPieces, // density
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.floor(Math.random() * 10) - 10,
+                    tiltAngle: 0
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiPieces.forEach((p, i) => {
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r / 2;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+                    ctx.stroke();
+
+                    p.tiltAngle += 0.1;
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.tilt = Math.sin(p.tiltAngle) * 15;
+                    
+                    if (p.y > canvas.height) {
+                         confettiPieces[i] = { ...p, x: Math.random() * canvas.width, y: -20 };
+                    }
+                });
+                confettiAnimationId = requestAnimationFrame(drawConfetti);
+            }
+            drawConfetti();
+        }
+        
+        function stopConfetti() {
+             if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                const canvas = document.getElementById('confetti-canvas');
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+             }
+        }
+        
+        if (restartQuizBtn) restartQuizBtn.addEventListener('click', loadQuiz);
+        
+        updatePage();
+        loadQuiz();
+    });
+    </script>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Template Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    <script src="../../../../assets/js/language.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Language and Navigation Fix -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial language
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            applyBasicTranslations(savedLang);
+            
+            // Set active language button
+            const activeBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Language switcher functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Store language preference
+                    localStorage.setItem('preferredLanguage', lang);
+                    
+                    // Apply translations if LanguageManager is available
+                    if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                        window.LanguageManager.switchLanguage(lang);
+                    } else {
+                        console.log('LanguageManager not available, applying basic translations');
+                        applyBasicTranslations(lang);
+                    }
+                });
+            });
+        });
+
+        function applyBasicTranslations(lang) {
+            const translations = {
+                en: {
+                    'messages.schoolName': 'Primary School Learning App',
+                    'navigation': 'Navigation',
+                    'home': 'Home',
+                    'allStandards': 'All Standards',
+                    'settings': 'Settings',
+                    'about': 'About',
+                    'loading': 'Loading...',
+                    'standards.standard1': '1st STD',
+                    'standards.standard2': '2nd STD',
+                    'standards.standard3': '3rd STD',
+                    'standards.standard4': '4th STD',
+                    'standards.standard5': '5th STD',
+                    'standards.standard6': '6th STD'
+                },
+                ta: {
+                    'messages.schoolName': 'ஆரம்ப பள்ளி கற்றல் பயன்பாடு',
+                    'navigation': 'வழிகாட்டுதல்',
+                    'home': 'முகப்பு',
+                    'allStandards': 'அனைத்து தரங்களும்',
+                    'settings': 'அமைப்புகள்',
+                    'about': 'பற்றி',
+                    'loading': 'ஏற்றுகிறது...',
+                    'standards.standard1': '1 ஆம் வகுப்பு',
+                    'standards.standard2': '2 ஆம் வகுப்பு',
+                    'standards.standard3': '3 ஆம் வகுப்பு',
+                    'standards.standard4': '4 ஆம் வகுப்பு',
+                    'standards.standard5': '5 ஆம் வகுப்பு',
+                    'standards.standard6': '6 ஆம் வகுப்பு'
+                },
+                ur: {
+                    'messages.schoolName': 'پرائمری اسکول لرننگ ایپ',
+                    'navigation': 'نیویگیشن',
+                    'home': 'ہوم',
+                    'allStandards': 'تمام معیارات',
+                    'settings': 'ترتیبات',
+                    'about': 'کے بارے میں',
+                    'loading': 'لوڈ ہو رہا ہے...',
+                    'standards.standard1': 'پہلی',
+                    'standards.standard2': 'دوسری',
+                    'standards.standard3': 'تیسری',
+                    'standards.standard4': 'چوتھی',
+                    'standards.standard5': 'پانچویں',
+                    'standards.standard6': 'چھٹی'
+                }
+            };
+
+            const langData = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (langData[key]) {
+                    element.textContent = langData[key];
+                }
+            });
+        }
+    </script>
+</body>
+</html>

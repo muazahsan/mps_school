@@ -1,0 +1,88 @@
+{
+  "subject": "tamil",
+  "standard": 1,
+  "title": "Tamil",
+  "description": "Learn Tamil language and literature",
+  "lessons": [
+    {
+      "id": "lesson1",
+      "title": "அகராதி - Tamil Alphabet",
+      "description": "Learn the Tamil alphabet and basic sounds",
+      "duration": "15 minutes",
+      "difficulty": "beginner",
+      "type": "lesson",
+      "content": "lesson1.html",
+      "quiz": "quiz1.json",
+      "drawing": "drawing1.html",
+      "order": 1,
+      "prerequisites": [],
+      "objectives": [
+        "Recognize Tamil letters",
+        "Learn basic pronunciation",
+        "Practice writing letters"
+      ]
+    },
+    {
+      "id": "lesson2",
+      "title": "எண்கள் - Numbers",
+      "description": "Learn Tamil numbers from 1 to 10",
+      "duration": "20 minutes",
+      "difficulty": "beginner",
+      "type": "lesson",
+      "content": "lesson2.html",
+      "quiz": "quiz2.json",
+      "drawing": "drawing2.html",
+      "order": 2,
+      "prerequisites": ["lesson1"],
+      "objectives": [
+        "Count from 1 to 10 in Tamil",
+        "Write Tamil numbers",
+        "Use numbers in simple sentences"
+      ]
+    },
+    {
+      "id": "lesson3",
+      "title": "வண்ணங்கள் - Colors",
+      "description": "Learn Tamil color names and their usage",
+      "duration": "18 minutes",
+      "difficulty": "beginner",
+      "type": "lesson",
+      "content": "lesson3.html",
+      "quiz": "quiz3.json",
+      "drawing": "drawing3.html",
+      "order": 3,
+      "prerequisites": ["lesson1"],
+      "objectives": [
+        "Name colors in Tamil",
+        "Identify colors in objects",
+        "Describe objects by color"
+      ]
+    },
+    {
+      "id": "lesson4",
+      "title": "உடல் பாகங்கள் - Body Parts",
+      "description": "Learn Tamil names for body parts",
+      "duration": "25 minutes",
+      "difficulty": "beginner",
+      "type": "lesson",
+      "content": "lesson4.html",
+      "quiz": "quiz4.json",
+      "drawing": "drawing4.html",
+      "order": 4,
+      "prerequisites": ["lesson1"],
+      "objectives": [
+        "Name body parts in Tamil",
+        "Point to body parts when asked",
+        "Use body part names in sentences"
+      ]
+    }
+  ],
+  "metadata": {
+    "totalLessons": 4,
+    "totalDuration": "78 minutes",
+    "lastUpdated": "2024-01-15",
+    "version": "1.0.0",
+    "author": "Primary School Learning Team",
+    "tags": ["tamil", "language", "alphabet", "numbers", "colors", "body-parts"]
+  }
+} 

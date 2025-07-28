@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard IV - Primary School Learning App</title>
+    <meta name="description" content="Standard IV subjects - Tamil, English, Mathematics, Science, and Social Studies for primary school students">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#4ECDC4">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+        </button>
+        
+        <h1 class="school-name">
+            <span class="school-name-full" data-translate="messages.schoolName">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid View" id="gridViewBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List View" id="listViewBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <script>
+                // Immediate view toggle setup
+                document.addEventListener('DOMContentLoaded', function() {
+                    const gridBtn = document.getElementById('gridViewBtn');
+                    const listBtn = document.getElementById('listViewBtn');
+                    
+                    if (gridBtn && listBtn) {
+                        gridBtn.addEventListener('click', function() {
+                            gridBtn.classList.add('active');
+                            listBtn.classList.remove('active');
+                            
+                            // Update all grid sections
+                            const gridSections = document.querySelectorAll('.language-subjects, .english-medium, .tamil-medium, .urdu-medium');
+                            gridSections.forEach(section => {
+                                section.className = section.className.replace('list-view', 'grid-view');
+                            });
+                            
+                            localStorage.setItem('viewMode', 'grid');
+                            console.log('Switched to grid view');
+                        });
+                        
+                        listBtn.addEventListener('click', function() {
+                            listBtn.classList.add('active');
+                            gridBtn.classList.remove('active');
+                            
+                            // Update all grid sections
+                            const gridSections = document.querySelectorAll('.language-subjects, .english-medium, .tamil-medium, .urdu-medium');
+                            gridSections.forEach(section => {
+                                section.className = section.className.replace('grid-view', 'list-view');
+                            });
+                            
+                            localStorage.setItem('viewMode', 'list');
+                            console.log('Switched to list view');
+                        });
+                        
+                        console.log('View toggle setup complete');
+                    }
+                });
+            </script>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="ui.navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../index.html" class="nav-link" data-translate="ui.home">Home</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="ui.allStandards">All Standards</span>
+                <ul class="nav-submenu">
+                    <li><a href="std1.html" class="nav-link" data-translate="standards.standard1">Standard I</a></li>
+                    <li><a href="../std2/std2.html" class="nav-link" data-translate="standards.standard2">Standard II</a></li>
+                    <li><a href="../std3/std3.html" class="nav-link" data-translate="standards.standard3">Standard III</a></li>
+                    <li><a href="../std4/std4.html" class="nav-link active" data-translate="standards.standard4">Standard IV</a></li>
+                    <li><a href="../std5/std5.html" class="nav-link" data-translate="standards.standard5">5th STD</a></li>
+                    <li><a href="../std6/std6.html" class="nav-link" data-translate="standards.standard6">6th STD</a></li>
+                </ul>
+            </li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="ui.subjects">Subjects</span>
+                <ul class="nav-submenu">
+                    <li><a href="#language-subjects" class="nav-link" data-translate="subjects.english">English</a></li>
+                    <li><a href="#language-subjects" class="nav-link" data-translate="subjects.tamil">Tamil</a></li>
+                    <li><a href="#language-subjects" class="nav-link" data-translate="subjects.urdu">Urdu</a></li>
+                    <li><a href="#english-medium" class="nav-link" data-translate="subjects.maths">Mathematics</a></li>
+                    <li><a href="#english-medium" class="nav-link" data-translate="subjects.science">Science</a></li>
+                    <li><a href="#english-medium" class="nav-link" data-translate="subjects.social">Social Studies</a></li>
+                </ul>
+            </li>
+            <li><a href="../settings.html" class="nav-link" data-translate="ui.settings">Settings</a></li>
+            <li><a href="../about.html" class="nav-link" data-translate="ui.about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="../index.html" data-translate="ui.home">Home</a></li>
+                    <li aria-current="page" data-translate="standards.standard4">Standard IV</li>
+                </ol>
+            </nav>
+
+            <!-- Standard Header -->
+            <section class="standard-header">
+                <div class="standard-info">
+                    <h1 class="standard-title" data-translate="standards.standard4">Standard IV</h1>
+                    <p class="standard-subtitle" data-translate="standards.standard4Subtitle">Class</p>
+                    <div class="standard-stats">
+                        <span class="stat">12 <span data-translate="ui.subjects">Subjects</span></span>
+                        <span class="stat">48 <span data-translate="ui.lessons">Lessons</span></span>
+                        <span class="stat" data-translate="ui.progress">Progress: <span id="overallProgress">0%</span></span>
+                    </div>
+                </div>
+                <div class="standard-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09v6h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Subjects Section -->
+            <section class="welcome-section">
+                <!-- Language Subjects Row -->
+                <div class="subjects-row" id="language-subjects">
+                    <h3 class="row-title" data-translate="ui.languageSubjects">Language Subjects</h3>
+                    <div class="classes-grid grid-view language-subjects">
+                    
+                        <!-- Urdu -->
+                        <a href="urdu/index.html" class="class-card" data-subject="urdu" style="--card-color: #4ECDC4;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.urdu">Urdu</h3>
+                                <p class="card-subtitle" data-translate="subjects.urduDescription">Learn Urdu language and script</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">1% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Tamil -->
+                        <a href="tamil/lessons.html" class="class-card" data-subject="tamil" style="--card-color: #FF6B6B;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.tamil">Tamil</h3>
+                                <p class="card-subtitle" data-translate="subjects.tamilDescription">Learn Tamil language and literature</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">82% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- English -->
+                        <a href="english/index.html" class="class-card" data-subject="english" style="--card-color: #96CEB4;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.01-4.65.83-6.99l2.53 2.52c.39.39.39 1.02 0 1.41zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4.5 20.5l2.04-2.04C7.31 19.39 9.61 20 12 20c4.41 0 8-3.59 8-8 0-2.39-.61-4.69-1.54-6.46L20.5 4.5C21.88 6.84 22.5 9.37 22.5 12c0 5.79-4.71 10.5-10.5 10.5-2.63 0-5.16-.62-7.5-2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.english">English</h3>
+                                <p class="card-subtitle" data-translate="subjects.englishDescription">Learn English language and communication</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- English Medium Subjects -->
+                <div class="subjects-row" id="english-medium">
+                    <h3 class="row-title">
+                        <span class="medium-flag">🇬🇧</span>
+                        <span data-translate="ui.englishMedium">English Medium</span>
+                    </h3>
+                    <div class="classes-grid grid-view english-medium">
+
+                        <!-- Mathematics (English) -->
+                        <a href="maths/index.html" class="class-card" data-subject="maths_en" style="--card-color: #45B7D1;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2v-4H8v-2h4V7h2v4h4v2h-4v4z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.maths">Mathematics</h3>
+                                <p class="card-subtitle" data-translate="subjects.mathsDescription">Learn numbers, counting, and basic math</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🇬🇧</span>
+                                    <span class="medium-text" data-translate="ui.englishMedium">English Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Science (English) -->
+                        <a href="science/index.html" class="class-card" data-subject="science_en" style="--card-color: #FECA57;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M13 11.33L18 18H6l5-6.67V6h2v5.33m2-8.33H9V1h6v2M7.5 13L5 16v1c0 1.11.89 2 2 2h10c1.11 0 2-.89 2-2v-1l-2.5-3H7.5Z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.science">Science</h3>
+                                <p class="card-subtitle" data-translate="subjects.scienceDescription">Learn about nature and experiments</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🇬🇧</span>
+                                    <span class="medium-text" data-translate="ui.englishMedium">English Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Social Studies (English) -->
+                        <a href="social/index.html" class="class-card" data-subject="social_en" style="--card-color: #A78BFA;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.social">Social Studies</h3>
+                                <p class="card-subtitle" data-translate="subjects.socialDescription">Learn about society and culture</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🇬🇧</span>
+                                    <span class="medium-text" data-translate="ui.englishMedium">English Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Urdu Medium Subjects -->
+                <div class="subjects-row" id="urdu-medium">
+                    <h3 class="row-title">
+                        <span class="medium-flag">🕌</span>
+                        <span data-translate="ui.urduMedium">Urdu Medium</span>
+                    </h3>
+                    <div class="classes-grid grid-view urdu-medium">
+
+                        <!-- Mathematics (Urdu) -->
+                        <a href="maths/index.html" class="class-card" data-subject="maths_ur" style="--card-color: #45B7D1;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2v-4H8v-2h4V7h2v4h4v2h-4v4z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.maths">Mathematics</h3>
+                                <p class="card-subtitle" data-translate="subjects.mathsDescription">Learn numbers, counting, and basic math</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🕌</span>
+                                    <span class="medium-text" data-translate="ui.urduMedium">Urdu Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Science (Urdu) -->
+                        <a href="science/index.html" class="class-card" data-subject="science_ur" style="--card-color: #FECA57;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M13 11.33L18 18H6l5-6.67V6h2v5.33m2-8.33H9V1h6v2M7.5 13L5 16v1c0 1.11.89 2 2 2h10c1.11 0 2-.89 2-2v-1l-2.5-3H7.5Z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.science">Science</h3>
+                                <p class="card-subtitle" data-translate="subjects.scienceDescription">Learn about nature and experiments</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🕌</span>
+                                    <span class="medium-text" data-translate="ui.urduMedium">Urdu Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Social Studies (Urdu) -->
+                        <a href="social/index.html" class="class-card" data-subject="social_ur" style="--card-color: #A78BFA;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.social">Social Studies</h3>
+                                <p class="card-subtitle" data-translate="subjects.socialDescription">Learn about society and culture</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">🕌</span>
+                                    <span class="medium-text" data-translate="ui.urduMedium">Urdu Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tamil Medium Subjects -->
+                <div class="subjects-row" id="tamil-medium">
+                    <h3 class="row-title">
+                        <span class="medium-flag">📚</span>
+                        <span data-translate="ui.tamilMedium">Tamil Medium</span>
+                    </h3>
+                    <div class="classes-grid grid-view tamil-medium">
+
+                        <!-- Mathematics (Tamil) -->
+                        <a href="maths/index.html" class="class-card" data-subject="maths_ta" style="--card-color: #45B7D1;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2v-4H8v-2h4V7h2v4h4v2h-4v4z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.maths">Mathematics</h3>
+                                <p class="card-subtitle" data-translate="subjects.mathsDescription">Learn numbers, counting, and basic math</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">📚</span>
+                                    <span class="medium-text" data-translate="ui.tamilMedium">Tamil Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Science (Tamil) -->
+                        <a href="science/index.html" class="class-card" data-subject="science_ta" style="--card-color: #FECA57;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M13 11.33L18 18H6l5-6.67V6h2v5.33m2-8.33H9V1h6v2M7.5 13L5 16v1c0 1.11.89 2 2 2h10c1.11 0 2-.89 2-2v-1l-2.5-3H7.5Z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.science">Science</h3>
+                                <p class="card-subtitle" data-translate="subjects.scienceDescription">Learn about nature and experiments</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">📚</span>
+                                    <span class="medium-text" data-translate="ui.tamilMedium">Tamil Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+
+                        <!-- Social Studies (Tamil) -->
+                        <a href="social/index.html" class="class-card" data-subject="social_ta" style="--card-color: #A78BFA;">
+                            <div class="card-content">
+                                <div class="card-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="card-title" data-translate="subjects.social">Social Studies</h3>
+                                <p class="card-subtitle" data-translate="subjects.socialDescription">Learn about society and culture</p>
+                                <div class="card-stats">
+                                    <span class="stat">4 <span data-translate="ui.lessons">Lessons</span></span>
+                                    <span class="stat">0% <span data-translate="ui.progress">Progress</span></span>
+                                </div>
+                                <div class="medium-badge">
+                                    <span class="medium-flag">📚</span>
+                                    <span class="medium-text" data-translate="ui.tamilMedium">Tamil Medium</span>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="enter-btn" data-translate="ui.enterSubject">Enter Subject</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="ui.loading">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/language.js"></script>
+    
+    <script>
+        // Initialize language switching
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language switcher functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Store language preference
+                    localStorage.setItem('preferredLanguage', lang);
+                    
+                    // Apply translations if LanguageManager is available
+                    if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                        window.LanguageManager.switchLanguage(lang);
+                    } else {
+                        console.log('LanguageManager not available, applying basic translations');
+                        applyBasicTranslations(lang);
+                    }
+                });
+            });
+
+                    // Wait for Language Manager to be initialized
+        function waitForLanguageManager() {
+            if (window.LanguageManager && window.LanguageManager.applyTranslations) {
+                window.LanguageManager.applyTranslations();
+                console.log('Translations applied successfully');
+            } else {
+                console.log('Waiting for Language Manager...');
+                setTimeout(waitForLanguageManager, 50);
+            }
+        }
+        
+        // Start waiting after a short delay to allow scripts to load
+        setTimeout(waitForLanguageManager, 100);
+
+        // Set active navigation item
+        setActiveNavigationItem();
+        
+        function setActiveNavigationItem() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href && currentPath.includes(href)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Set Standard IV as active if we're on std4 page
+            if (currentPath.includes('std1.html')) {
+                const std1Link = document.querySelector('a[href="std1.html"]');
+                if (std1Link) {
+                    std1Link.classList.add('active');
+                }
+            }
+        }
+
+            // Subject card navigation is now handled by HTML anchor tags
+            // This makes it easier to add new subjects and syllabi
+
+            // Load and display progress
+            loadStandardProgress();
+        });
+
+        function applyBasicTranslations(lang) {
+            const translations = {
+                en: {
+                    'ui.home': 'Home',
+                    'ui.subjects': 'Subjects',
+                    'ui.lessons': 'Lessons',
+                    'ui.progress': 'Progress',
+                    'ui.enterSubject': 'Go to Lesson',
+                    'ui.enterClass': 'Enter Class',
+                    'ui.navigation': 'Navigation',
+                    'ui.allStandards': 'All Standards',
+                    'ui.subjects': 'Subjects',
+                    'ui.settings': 'Settings',
+                    'ui.about': 'About',
+                    'standards.standard1': 'Standard I',
+                    'standards.standard1Subtitle': 'Class',
+                    'standards.standard2': 'Standard II',
+                    'standards.standard2Subtitle': 'Class',
+                    'standards.standard3': 'Standard III',
+                    'standards.standard3Subtitle': 'Class',
+                    'standards.standard4': 'Standard IV',
+                    'standards.standard4Subtitle': 'Class',
+                    'subjects.urdu': 'Urdu',
+                    'subjects.urduDescription': 'Learn Urdu language and script',
+                    'subjects.mathsDescription': 'Learn numbers, counting, and basic math',
+                    'subjects.scienceDescription': 'Learn about nature and experiments',
+                    'subjects.socialDescription': 'Learn about society and culture',
+                    'subjects.tamil': 'Tamil',
+                    'subjects.tamilDescription': 'Learn Tamil language and literature',
+                    'subjects.english': 'English',
+                    'subjects.englishDescription': 'Learn English language and communication',
+                    'subjects.maths': 'Mathematics',
+                    'subjects.mathsDescription': 'Learn numbers, counting, and basic math',
+                    'subjects.science': 'Science',
+                    'subjects.scienceDescription': 'Learn about nature and experiments',
+                    'subjects.social': 'Social Studies',
+                    'subjects.socialDescription': 'Learn about society and culture',
+                    'ui.englishMedium': 'English Medium',
+                    'ui.urduMedium': 'Urdu Medium',
+                    'ui.tamilMedium': 'Tamil Medium',
+                    'ui.languageSubjects': 'Language Subjects'
+                },
+                ta: {
+                    'ui.home': 'முகப்பு',
+                    'ui.subjects': 'பாடங்கள்',
+                    'ui.lessons': 'பாடங்கள்',
+                    'ui.progress': 'முன்னேற்றம்',
+                    'ui.enterSubject': 'பாடத்திற்குச் செல்',
+                    'ui.enterClass': 'வகுப்பிற்குச் செல்',
+                    'ui.navigation': 'வழிசெலுத்தல்',
+                    'ui.allStandards': 'அனைத்து தரங்களும்',
+                    'ui.subjects': 'பாடங்கள்',
+                    'ui.settings': 'அமைப்புகள்',
+                    'ui.about': 'பற்றி',
+                    'standards.standard1': 'Standard I',
+                    'standards.standard1Subtitle': 'வகுப்பு',
+                    'standards.standard2': 'Standard II',
+                    'standards.standard2Subtitle': 'வகுப்பு',
+                    'standards.standard3': 'Standard III',
+                    'standards.standard3Subtitle': 'வகுப்பு',
+                    'standards.standard4': 'Standard IV',
+                    'standards.standard4Subtitle': 'வகுப்பு',
+                    'subjects.urdu': 'உருது',
+                    'subjects.urduDescription': 'உருது மொழி மற்றும் எழுத்துக்களைக் கற்கவும்',
+                    'subjects.mathsDescription': 'எண்கள், எண்ணுதல் மற்றும் அடிப்படை கணிதத்தைக் கற்கவும்',
+                    'subjects.scienceDescription': 'இயற்கை மற்றும் சோதனைகளைப் பற்றி அறியவும்',
+                    'subjects.socialDescription': 'சமூகம் மற்றும் கலாச்சாரத்தைப் பற்றி அறியவும்',
+                    'subjects.tamil': 'தமிழ்',
+                    'subjects.tamilDescription': 'தமிழ் மொழி மற்றும் இலக்கியத்தைக் கற்கவும்',
+                    'subjects.english': 'ஆங்கிலம்',
+                    'subjects.englishDescription': 'ஆங்கில மொழி மற்றும் தொடர்பைக் கற்கவும்',
+                    'subjects.maths': 'கணிதம்',
+                    'subjects.mathsDescription': 'எண்கள், எண்ணுதல் மற்றும் அடிப்படை கணிதத்தைக் கற்கவும்',
+                    'subjects.science': 'அறிவியல்',
+                    'subjects.scienceDescription': 'இயற்கை மற்றும் சோதனைகளைப் பற்றி அறியவும்',
+                    'subjects.social': 'சமூக அறிவியல்',
+                    'subjects.socialDescription': 'சமூகம் மற்றும் கலாச்சாரத்தைப் பற்றி அறியவும்',
+                    'ui.englishMedium': 'ஆங்கில மொழி',
+                    'ui.urduMedium': 'உருது மொழி',
+                    'ui.tamilMedium': 'தமிழ் மொழி',
+                    'ui.languageSubjects': 'மொழிப் பாடங்கள்'
+                },
+                ur: {
+                    'ui.home': 'ہوم',
+                    'ui.subjects': 'مضامین',
+                    'ui.lessons': 'سبق',
+                    'ui.progress': 'ترقی',
+                    'ui.enterSubject': 'سبق میں جائیں',
+                    'ui.enterClass': 'کلاس میں جائیں',
+                    'ui.navigation': 'نیویگیشن',
+                    'ui.allStandards': 'تمام معیارات',
+                    'ui.subjects': 'مضامین',
+                    'ui.settings': 'ترتیبات',
+                    'ui.about': 'کے بارے میں',
+                    'standards.standard1': 'Standard I',
+                    'standards.standard1Subtitle': 'کلاس',
+                    'standards.standard2': 'Standard II',
+                    'standards.standard2Subtitle': 'کلاس',
+                    'standards.standard3': 'Standard III',
+                    'standards.standard3Subtitle': 'کلاس',
+                    'standards.standard4': 'Standard IV',
+                    'standards.standard4Subtitle': 'کلاس',
+                    'subjects.urdu': 'اردو',
+                    'subjects.urduDescription': 'اردو زبان اور رسم الخط سیکھیں',
+                    'subjects.mathsDescription': 'نمبر، گنتی اور بنیادی ریاضی سیکھیں',
+                    'subjects.scienceDescription': 'فطرت اور تجربات کے بارے میں سیکھیں',
+                    'subjects.socialDescription': 'معاشرے اور ثقافت کے بارے میں سیکھیں',
+                    'subjects.tamil': 'تامل',
+                    'subjects.tamilDescription': 'تامل زبان اور ادب سیکھیں',
+                    'subjects.english': 'انگریزی',
+                    'subjects.englishDescription': 'انگریزی زبان اور مواصلات سیکھیں',
+                    'subjects.maths': 'ریاضی',
+                    'subjects.mathsDescription': 'اعداد، گنتی اور بنیادی ریاضی سیکھیں',
+                    'subjects.science': 'سائنس',
+                    'subjects.scienceDescription': 'فطرت اور تجربات کے بارے میں سیکھیں',
+                    'subjects.social': 'سماجی علوم',
+                    'subjects.socialDescription': 'معاشرے اور ثقافت کے بارے میں سیکھیں',
+                    'ui.englishMedium': 'انگریزی ذریعہ',
+                    'ui.urduMedium': 'اردو ذریعہ',
+                    'ui.tamilMedium': 'تامل ذریعہ',
+                    'ui.languageSubjects': 'زبان کے مضامین'
+                }
+            };
+
+            const langData = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (langData[key]) {
+                    element.textContent = langData[key];
+                }
+            });
+
+            // Update progress text for all cards
+            updateProgressText(lang);
+        }
+
+        function updateProgressText(lang) {
+            const progressText = getProgressText(lang);
+            document.querySelectorAll('.card-stats .stat:last-child').forEach(stat => {
+                const currentText = stat.textContent;
+                const progressMatch = currentText.match(/(\d+)%/);
+                if (progressMatch) {
+                    const progressValue = progressMatch[1];
+                    stat.textContent = `${progressValue}% ${progressText}`;
+                }
+            });
+        }
+
+        function loadStandardProgress() {
+            // This would load from localStorage or server
+            // For now, show sample progress
+            const subjects = ['tamil', 'urdu', 'maths_en', 'english', 'science_en', 'social_en', 'maths_ur', 'science_ur', 'social_ur'];
+            let totalProgress = 0;
+            let subjectCount = 0;
+
+            subjects.forEach(subject => {
+                const progress = Math.floor(Math.random() * 100);
+                totalProgress += progress;
+                subjectCount++;
+                
+                const card = document.querySelector(`[data-subject="${subject}"]`);
+                if (card) {
+                    // Update the progress stat text
+                    const progressStat = card.querySelector('.card-stats .stat:last-child');
+                    if (progressStat) {
+                        // Get current language
+                        const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+                        const progressText = getProgressText(currentLang);
+                        progressStat.innerHTML = `${progress}% ${progressText}`;
+                    }
+                }
+            });
+
+            // Update overall progress
+            const overallProgress = Math.round(totalProgress / subjectCount);
+            const progressElement = document.getElementById('overallProgress');
+            if (progressElement) {
+                progressElement.textContent = `${overallProgress}%`;
+            }
+        }
+
+        function getProgressText(lang) {
+            const progressTexts = {
+                en: 'Progress',
+                ta: 'முன்னேற்றம்',
+                ur: 'ترقی'
+            };
+            return progressTexts[lang] || progressTexts.en;
+        }
+    </script>
+
+</body>
+</html> 

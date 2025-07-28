@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive geometry quiz for Standard 5 students">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Geometry Adventure! - 2D & 3D Shapes</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        :root {
+            --primary-color: #4ECDC4;
+            --secondary-color: #FF6B6B;
+            --dark-blue: #3d3d5a;
+            --light-bg: #f7f9fc;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--light-bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23eef2f7' fill-opacity='0.4' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.99 7.5V30L0 22.5zM15 15l12.99 7.5V30L15 22.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: #333;
+            margin: 0;
+        }
+
+        .lesson-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .lesson-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 30px; border-radius: 25px; text-align: center;
+            margin-bottom: 30px; box-shadow: 0 10px 40px rgba(118, 75, 162, 0.3);
+        }
+        .lesson-header h1 { font-size: 3rem; margin: 0 0 10px; text-shadow: 2px 2px 5px rgba(0,0,0,0.2); font-weight: 700; }
+
+        .lesson-section {
+            background: white; margin: 25px 0; border-radius: 20px; padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 2px solid transparent; transition: all 0.3s ease;
+        }
+        .lesson-section.hidden { display: none; }
+        .lesson-section:hover { border-color: var(--primary-color); }
+
+        .section-title {
+            color: var(--dark-blue); font-size: 2rem; margin-bottom: 20px;
+            border-left: 6px solid var(--primary-color); padding-left: 15px; font-weight: 600;
+        }
+        
+        /* Section 1: 2D/3D Intro Content */
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .intro-column h3 { font-size: 1.5rem; color: var(--dark-blue); }
+        .shape-card-2d-container { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .shape-card-2d {
+            background: #fff; border: 2px solid #eee; border-radius: 15px; padding: 15px; text-align: center;
+            width: 100px; transition: all 0.3s ease;
+        }
+        .shape-card-2d:hover { transform: translateY(-5px) scale(1.05); border-color: var(--primary-color); box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+        .shape-card-2d .icon { font-size: 3rem; }
+        .shape-card-2d .name { font-weight: 600; margin-top: 10px; }
+
+        /* Section 2: 3D Shape Explorer */
+        .shape-viewer { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 20px; }
+        .shape-card {
+            border-radius: 20px; padding: 20px; text-align: center; color: white; cursor: pointer;
+            transition: all 0.3s ease; position: relative; overflow: hidden; min-height: 250px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .shape-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .shape-card h3 { font-size: 1.5rem; margin-bottom: 15px; z-index: 2; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .shape-card.cube { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .shape-card.cuboid { background: linear-gradient(135deg, #4ECDC4, #7ED8D2); }
+        .shape-card.cylinder { background: linear-gradient(135deg, #45B7D1, #6CC5DC); }
+        .shape-card.sphere { background: linear-gradient(135deg, #96CEB4, #AED5C0); }
+        .shape-card.cone { background: linear-gradient(135deg, #FECA57, #FED876); }
+        
+        /* --- REBUILT & WORKING 3D SHAPES --- */
+        .scene { width: 150px; height: 150px; margin: 0 auto; perspective: 1200px; }
+        .shape { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: rotate-anim 15s linear infinite; }
+        @keyframes rotate-anim {
+            from { transform: rotateX(15deg) rotateY(0deg); }
+            to { transform: rotateX(15deg) rotateY(360deg); }
+        }
+
+        .face { position: absolute; border: 1px solid rgba(255, 255, 255, 0.8); }
+        /* Cube */
+        .cube { width: 100px; height: 100px; transform: translateZ(-50px); }
+        .cube .face { width: 100px; height: 100px; background: hsla(0, 85%, 70%, 0.7); }
+        .cube .front  { transform: rotateY(0deg) translateZ(50px); }
+        .cube .back   { transform: rotateY(180deg) translateZ(50px); }
+        .cube .right  { transform: rotateY(90deg) translateZ(50px); }
+        .cube .left   { transform: rotateY(-90deg) translateZ(50px); }
+        .cube .top    { transform: rotateX(90deg) translateZ(50px); }
+        .cube .bottom { transform: rotateX(-90deg) translateZ(50px); }
+        /* Cuboid */
+        .cuboid { width: 120px; height: 80px; transform: translateZ(-30px); }
+        .cuboid .face { background: hsla(176, 56%, 63%, 0.7); }
+        .cuboid .front, .cuboid .back   { width: 120px; height: 80px; }
+        .cuboid .top, .cuboid .bottom   { width: 120px; height: 60px; top: 10px; }
+        .cuboid .left, .cuboid .right  { width: 60px; height: 80px; left: 30px; }
+        .cuboid .front  { transform: rotateY(0deg) translateZ(30px); }
+        .cuboid .back   { transform: rotateY(180deg) translateZ(30px); }
+        .cuboid .right  { transform: rotateY(90deg) translateZ(90px); }
+        .cuboid .left   { transform: rotateY(-90deg) translateZ(30px); }
+        .cuboid .top    { transform: rotateX(90deg) translateZ(40px); }
+        .cuboid .bottom { transform: rotateX(-90deg) translateZ(40px); }
+        /* Cylinder */
+        .cylinder { width: 80px; height: 120px; }
+        .cylinder-face { position: absolute; width: 80px; transform-style: preserve-3d; }
+        .cylinder .top, .cylinder .bottom {
+            width: 80px; height: 80px; border-radius: 50%; background: hsla(192, 60%, 57%, 0.7);
+            position: absolute; border: 1px solid white;
+        }
+        .cylinder .top { transform: rotateX(90deg) translateZ(60px); }
+        .cylinder .bottom { transform: rotateX(90deg) translateZ(-60px); }
+        .cylinder-segment {
+            position: absolute; left: 39px; top: 0;
+            width: 3px; height: 120px; background: hsla(192, 60%, 57%, 0.7);
+            transform-origin: center;
+        }
+        /* Sphere */
+        .sphere { width: 100px; height: 100px; }
+        .sphere .ball {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, hsla(148, 44%, 81%, 1), hsla(148, 28%, 62%, 1));
+            transform-style: preserve-3d;
+        }
+        /* Cone */
+        .cone { width: 90px; height: 120px; }
+        .cone-segment {
+            position: absolute; width: 0; height: 0;
+            border-left: 46px solid transparent; border-right: 46px solid transparent; border-bottom: 120px solid;
+            transform-origin: 50% 0; left: 0; top: 0;
+        }
+        .cone .base {
+            width: 90px; height: 90px; background: hsla(44, 98%, 70%, 0.7);
+            border-radius: 50%; position: absolute; top: 0; left: 0;
+            transform: rotateX(90deg) translateY(-45px) translateZ(-120px);
+        }
+
+        /* Modal for Shape Details */
+        #shapeModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000;
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        #shapeModal.visible { opacity: 1; pointer-events: all; }
+        .modal-content {
+            background: white; border-radius: 20px; padding: 30px 30px 40px 30px;
+            max-width: 600px; width: 90%; text-align: center; transform: scale(0.9);
+            transition: transform 0.3s ease; position: relative;
+        }
+        #shapeModal.visible .modal-content { transform: scale(1); }
+        #modalTitle { color: var(--dark-blue); font-size: 2.5rem; margin-top: 0; }
+        #closeModalBtn {
+            position: absolute; top: 15px; right: 15px; background: var(--secondary-color); color: white;
+            border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 24px; line-height: 40px;
+        }
+        #modal-shape-container { perspective: 1200px; margin-bottom: 20px; height: 150px; display: flex; justify-content: center; align-items: center;}
+        #viewButtons { margin: 20px 0; display: flex; gap: 10px; justify-content: center; }
+        .view-btn {
+            background: var(--primary-color); color: white; border: none; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .view-btn:hover { background: #2caba2; transform: translateY(-2px); }
+
+        /* Quiz Section & Completion Screen */
+        .quiz-container { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 20px; padding: 30px; }
+        .quiz-option {
+            background: rgba(255,255,255,0.2); border: 2px solid transparent; border-radius: 15px;
+            padding: 15px; cursor: pointer; transition: all 0.3s ease; text-align: center;
+        }
+        .quiz-option:hover { background: rgba(255,255,255,0.3); border-color: white; transform: translateY(-3px); }
+        .quiz-option.correct { background: #4CAF50 !important; border-color: #45A049 !important; transform: scale(1.05); }
+        .quiz-option.incorrect { background: #f44336 !important; border-color: #d32f2f !important; animation: incorrectAnswer 0.5s ease; }
+        @keyframes incorrectAnswer { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        #completion-icon { font-size: 5rem; }
+        #final-score { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); }
+        
+        /* Navigation & Progress */
+        .lesson-nav { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; }
+        .nav-btn {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); color: white; border: none;
+            padding: 15px 30px; border-radius: 25px; font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .progress-bar { background: #e0e0e0; border-radius: 25px; padding: 3px; margin: 20px 0; }
+        .progress-fill {
+            background: linear-gradient(90deg, #4ECDC4, #44A08D); height: 20px; border-radius: 25px;
+            transition: width 0.5s ease; text-align: center; color: white; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="messages.schoolName">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" aria-label="List view">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../../../index.html" class="nav-link" data-translate="home">Home</a></li>
+            <li class="nav-section">
+                <span class="nav-section-title" data-translate="allStandards">All Standards</span>
+                <ul class="nav-submenu">
+                    <li><a href="../../../../std1/std1.html" class="nav-link" data-translate="standards.standard1">1st STD</a></li>
+                    <li><a href="../../../../std2/std2.html" class="nav-link" data-translate="standards.standard2">2nd STD</a></li>
+                    <li><a href="../../../../std3/std3.html" class="nav-link" data-translate="standards.standard3">3rd STD</a></li>
+                    <li><a href="../../../../std4/std4.html" class="nav-link" data-translate="standards.standard4">4th STD</a></li>
+                    <li><a href="../../../../std5/std5.html" class="nav-link active" data-translate="standards.standard5">5th STD</a></li>
+                    <li><a href="../../../../std6/std6.html" class="nav-link" data-translate="standards.standard6">6th STD</a></li>
+                </ul>
+            </li>
+            <li><a href="../../../../settings.html" class="nav-link" data-translate="settings">Settings</a></li>
+            <li><a href="../../../../about.html" class="nav-link" data-translate="about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="lesson-container" style="margin-top: 80px;">
+        <header class="lesson-header">
+            <h1>Geometry Adventure!</h1>
+            <p>Exploring 2D and 3D Shapes</p>
+            <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width: 0%">0%</div></div>
+        </header>
+
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="goToLesson()">← Back to Lesson</button>
+            <button class="nav-btn" onclick="goBack()">← Previous Section</button>
+            <button class="nav-btn" onclick="nextSection()">Next Section →</button>
+            <button class="nav-btn" onclick="goToNextLesson()" style="background: linear-gradient(45deg, #8B5CF6, #A78BFA);">Next Lesson →</button>
+        </nav>
+
+        <main>
+            <section class="lesson-section" id="section1">
+                <h2 class="section-title">2D vs 3D Shapes</h2>
+                <div class="intro-grid">
+                    <div class="intro-column">
+                        <h3>🎨 2D Shapes (Flat Shapes)</h3>
+                        <p>These shapes are flat and can be drawn on paper. They only have two dimensions: length and width.</p>
+                        <div class="shape-card-2d-container">
+                            <div class="shape-card-2d"><div class="icon">⬜️</div><div class="name">Square</div></div>
+                            <div class="shape-card-2d"><div class="icon">🔵</div><div class="name">Circle</div></div>
+                            <div class="shape-card-2d"><div class="icon">🔺</div><div class="name">Triangle</div></div>
+                            <div class="shape-card-2d"><div class="icon">▭</div><div class="name">Rectangle</div></div>
+                        </div>
+                    </div>
+                    <div class="intro-column">
+                        <h3>🧊 3D Shapes (Solid Shapes)</h3>
+                        <p>These shapes are solid objects that you can hold. They have three dimensions: length, width, and height.</p>
+                         <div class="shape-card-2d-container">
+                            <div class="shape-card-2d"><div class="icon">🎲</div><div class="name">Cube</div></div>
+                            <div class="shape-card-2d"><div class="icon">⚽️</div><div class="name">Sphere</div></div>
+                            <div class="shape-card-2d"><div class="icon">🥫</div><div class="name">Cylinder</div></div>
+                            <div class="shape-card-2d"><div class="icon">🍦</div><div class="name">Cone</div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section hidden" id="section2">
+                <h2 class="section-title">3D Shape Explorer</h2>
+                <p>Click on a shape to learn its secrets! They are all spinning!</p>
+                <div class="shape-viewer">
+                    <div class="shape-card cube" onclick="showShapeDetails('cube')"><h3>CUBE</h3><div class="scene"><div class="shape cube" id="cube-live"></div></div></div>
+                    <div class="shape-card cuboid" onclick="showShapeDetails('cuboid')"><h3>CUBOID</h3><div class="scene"><div class="shape cuboid" id="cuboid-live"></div></div></div>
+                    <div class="shape-card cylinder" onclick="showShapeDetails('cylinder')"><h3>CYLINDER</h3><div class="scene"><div class="shape cylinder" id="cylinder-live"></div></div></div>
+                    <div class="shape-card sphere" onclick="showShapeDetails('sphere')"><h3>SPHERE</h3><div class="scene"><div class="shape sphere" id="sphere-live"></div></div></div>
+                    <div class="shape-card cone" onclick="showShapeDetails('cone')"><h3>CONE</h3><div class="scene"><div class="shape cone" id="cone-live"></div></div></div>
+                </div>
+            </section>
+
+            <section class="lesson-section hidden" id="section3"><div class="quiz-container"></div></section>
+            
+            <section class="lesson-section hidden" id="section4" style="text-align: center;">
+                <div id="completion-icon">🎉</div>
+                <h2 class="section-title" style="border-left:none; padding-left:0; display:inline-block;">Congratulations!</h2>
+                <p>You've completed the Geometry Adventure!</p>
+                <p>Your final quiz score is:</p>
+                <div id="final-score"></div><br>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button class="nav-btn" onclick="goToLesson()">← Back to Lesson</button>
+                    <button class="nav-btn" onclick="restartLesson()">Restart Adventure</button>
+                    <button class="nav-btn" onclick="goToNextLesson()" style="background: linear-gradient(45deg, #8B5CF6, #A78BFA);">Next Lesson →</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="shapeModal">
+        <div class="modal-content">
+            <button id="closeModalBtn" onclick="closeModal()">×</button>
+            <h2 id="modalTitle"></h2>
+            <div id="modal-shape-container">
+                <div class="shape" id="modal-shape-live"></div>
+            </div>
+            <div id="viewButtons"></div>
+            <div id="modal-properties" style="text-align: left;"></div>
+        </div>
+    </div>
+
+    <script>
+    // --- STATE & DATA ---
+    let currentSection = 1;
+    const TOTAL_SECTIONS = 4;
+    let quizScore = 0;
+    let currentQuestionIndex = 0;
+    const shapeProperties = {
+        cube: { title: "Cube", properties: ["It has 6 flat faces (all squares).", "It has 12 edges.", "It has 8 vertices (corners)."], examples: ["Dice 🎲", "Ice Cube 🧊", "Rubik's Cube"] },
+        cuboid: { title: "Cuboid", properties: ["It has 6 flat faces (rectangles).", "It has 12 edges.", "It has 8 vertices (corners)."], examples: ["Book 📚", "Brick 🧱", "Juice Box"] },
+        cylinder: { title: "Cylinder", properties: ["It has 2 flat faces (circles).", "It has 1 curved surface.", "It has 2 edges and no vertices."], examples: ["Can of Soup 🥫", "Battery 🔋", "Log"] },
+        sphere: { title: "Sphere", properties: ["It has only 1 curved surface.", "It has no faces, edges, or vertices.", "It is perfectly round."], examples: ["Ball ⚽", "Planet Earth 🌍", "Orange 🍊"] },
+        cone: { title: "Cone", properties: ["It has 1 flat face (circle).", "It has 1 curved surface.", "It has 1 edge and 1 vertex (the point)."], examples: ["Party Hat 🎉", "Ice Cream Cone 🍦", "Traffic Cone"] },
+    };
+    const quizData = [
+        { q: "Which object looks like a SPHERE?", opts: ["A football ⚽", "A book 📚", "A dice 🎲", "A can 🥫"], a: 0 },
+        { q: "How many flat faces does a CUBE have?", opts: ["4", "8", "6", "12"], a: 2 },
+        { q: "A party hat 🎉 is an example of which shape?", opts: ["Cylinder", "Cone", "Sphere", "Cuboid"], a: 1 },
+        { q: "Which shape has NO flat faces and NO vertices?", opts: ["Sphere", "Cylinder", "Cone", "Cube"], a: 0 },
+        { q: "How many edges does a CUBOID have?", opts: ["6", "8", "10", "12"], a: 3 },
+        { q: "True or False: A cylinder has zero vertices.", opts: ["True", "False"], a: 0 },
+        { q: "What is the main difference between a cube and a cuboid?", opts: ["Number of faces", "All faces of a cube must be squares", "Number of edges", "Number of vertices"], a: 1 },
+        { q: "An unsharpened pencil looks most like a...", opts: ["Cone", "Sphere", "Cylinder", "Pyramid"], a: 2 }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderAllLiveShapes();
+        showSection(1);
+    });
+
+    function renderAllLiveShapes() {
+        Object.keys(shapeProperties).forEach(shapeName => {
+            const container = document.getElementById(`${shapeName}-live`);
+            if (container) container.innerHTML = getShapeHTML(shapeName);
+        });
+    }
+    
+    function showSection(sectionNumber) {
+        currentSection = sectionNumber;
+        document.querySelectorAll('.lesson-section').forEach(s => s.classList.add('hidden'));
+        const newSection = document.getElementById(`section${sectionNumber}`);
+        if(newSection) newSection.classList.remove('hidden');
+        if (sectionNumber === 3) startQuiz();
+        updateProgress();
+    }
+
+    function nextSection() { if (currentSection < TOTAL_SECTIONS) showSection(currentSection + 1); }
+    function goBack() { if (currentSection > 1) showSection(currentSection - 1); }
+    function goToLesson() { window.location.href = '01.0-Geometry.html'; }
+    function goToNextLesson() { window.location.href = '02- angles.html'; }
+    function restartLesson() { showSection(1); }
+
+    function updateProgress() {
+        const progress = ((currentSection - 1) / (TOTAL_SECTIONS - 1)) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('progressBar').textContent = Math.round(progress) + '%';
+    }
+
+    function getShapeHTML(shapeName) {
+        switch (shapeName) {
+            case 'cylinder':
+                let c_segments = '<div class="top"></div><div class="bottom"></div>';
+                for (let i = 0; i < 24; i++) {
+                    c_segments += `<div class="cylinder-segment" style="transform: rotateY(${i * 15}deg) translateZ(40px);"></div>`;
+                }
+                return c_segments;
+            case 'cone':
+                 let coneSegments = '<div class="base"></div>';
+                 for (let i=0; i<36; i++) {
+                     coneSegments += `<div class="cone-segment" style="border-bottom-color: hsla(44, 98%, ${60 + (i%2)*10}%, 0.7); transform: rotateY(${i * 10}deg) rotateX(-5deg);"></div>`;
+                 }
+                 return coneSegments;
+            case 'sphere':
+                return '<div class="ball"></div>';
+            default: // Cube and Cuboid
+                return `<div class="face front"></div><div class="face back"></div><div class="face left"></div><div class="face right"></div><div class="face top"></div><div class="face bottom"></div>`;
+        }
+    }
+
+    function showShapeDetails(shapeName) {
+        const data = shapeProperties[shapeName];
+        document.getElementById('modalTitle').innerText = data.title;
+        
+        const shapeContainer = document.getElementById('modal-shape-live');
+        shapeContainer.className = `shape ${shapeName}`;
+        shapeContainer.innerHTML = getShapeHTML(shapeName);
+        
+        document.getElementById('viewButtons').innerHTML = `
+            <button class="view-btn" onclick="changeView('front')">Front View</button>
+            <button class="view-btn" onclick="changeView('side')">Side View</button>
+            <button class="view-btn" onclick="changeView('top')">Top View</button>`;
+
+        let propertiesHTML = '<h3>Properties:</h3><ul>';
+        data.properties.forEach(p => propertiesHTML += `<li>${p}</li>`);
+        propertiesHTML += '</ul><h3>Examples:</h3><p>' + data.examples.join(', ') + '</p>';
+        document.getElementById('modal-properties').innerHTML = propertiesHTML;
+
+        document.getElementById('shapeModal').classList.add('visible');
+        changeView('default'); 
+    }
+
+    function closeModal() { document.getElementById('shapeModal').classList.remove('visible'); }
+
+    function changeView(view) {
+        const shapeEl = document.getElementById('modal-shape-live');
+        shapeEl.style.transition = 'transform 0.5s ease';
+        shapeEl.style.animation = 'none';
+
+        switch (view) {
+            case 'top': shapeEl.style.transform = 'rotateX(90deg)'; break;
+            case 'side': shapeEl.style.transform = 'rotateY(90deg)'; break;
+            case 'front': shapeEl.style.transform = 'rotateY(0deg) rotateX(0deg)'; break;
+            default: shapeEl.style.transform = 'rotateX(15deg) rotateY(25deg)'; break;
+        }
+    }
+
+    function startQuiz() {
+        quizScore = 0;
+        currentQuestionIndex = 0;
+        document.querySelector('#section3 .quiz-container').innerHTML = `
+            <h2 class="section-title" style="color:white;">Shape Quiz!</h2>
+            <div id="quiz-question" style="font-size: 1.5rem; text-align: center; margin-bottom: 20px;"></div>
+            <div id="quiz-options" class="quiz-options"></div>
+            <div id="quiz-feedback" style="text-align: center; margin-top: 20px; height: 30px; font-weight: bold;"></div>`;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentQuestionIndex >= quizData.length) {
+            showQuizEnd();
+            return;
+        }
+
+        const qData = quizData[currentQuestionIndex];
+        document.getElementById('quiz-question').innerText = qData.q;
+        document.getElementById('quiz-feedback').innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+        
+        const optionsContainer = document.getElementById('quiz-options');
+        optionsContainer.innerHTML = '';
+        qData.opts.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option';
+            btn.innerText = opt;
+            btn.onclick = () => selectAnswer(btn, index === qData.a);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectAnswer(btn, isCorrect) {
+        document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+        const feedback = document.getElementById('quiz-feedback');
+        
+        if (isCorrect) {
+            btn.classList.add('correct');
+            feedback.innerText = "Correct! Great job! ✨";
+            quizScore++;
+        } else {
+            btn.classList.add('incorrect');
+            feedback.innerText = "Not quite, try the next one! 👍";
+            const correctIndex = quizData[currentQuestionIndex].a;
+            document.querySelectorAll('.quiz-option')[correctIndex].classList.add('correct');
+        }
+
+        currentQuestionIndex++;
+        setTimeout(loadQuestion, 2000);
+    }
+    
+    function showQuizEnd() {
+        document.querySelector('#section3 .quiz-container').innerHTML = `
+            <h2 style="text-align:center;">Quiz Complete!</h2>
+            <p style="text-align:center; font-size: 1.5rem;">You scored ${quizScore} out of ${quizData.length}</p>
+            <div style="text-align:center; margin-top: 20px;"><button class="nav-btn" onclick="showSection(4)">See Your Results!</button></div>`;
+        document.getElementById('final-score').innerText = `${quizScore} / ${quizData.length}`;
+            }
+    </script>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Template Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    <script src="../../../../assets/js/language.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Language and Navigation Fix -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Apply initial language
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            applyBasicTranslations(savedLang);
+            
+            // Set active language button
+            const activeBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Language switcher functionality
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Remove active class from all buttons
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Store language preference
+                    localStorage.setItem('preferredLanguage', lang);
+                    
+                    // Apply translations if LanguageManager is available
+                    if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                        window.LanguageManager.switchLanguage(lang);
+                    } else {
+                        console.log('LanguageManager not available, applying basic translations');
+                        applyBasicTranslations(lang);
+                    }
+                });
+            });
+        });
+
+        function applyBasicTranslations(lang) {
+            const translations = {
+                en: {
+                    'messages.schoolName': 'Primary School Learning App',
+                    'navigation': 'Navigation',
+                    'home': 'Home',
+                    'allStandards': 'All Standards',
+                    'settings': 'Settings',
+                    'about': 'About',
+                    'loading': 'Loading...',
+                    'standards.standard1': '1st STD',
+                    'standards.standard2': '2nd STD',
+                    'standards.standard3': '3rd STD',
+                    'standards.standard4': '4th STD',
+                    'standards.standard5': '5th STD',
+                    'standards.standard6': '6th STD'
+                },
+                ta: {
+                    'messages.schoolName': 'ஆரம்ப பள்ளி கற்றல் பயன்பாடு',
+                    'navigation': 'வழிகாட்டுதல்',
+                    'home': 'முகப்பு',
+                    'allStandards': 'அனைத்து தரங்களும்',
+                    'settings': 'அமைப்புகள்',
+                    'about': 'பற்றி',
+                    'loading': 'ஏற்றுகிறது...',
+                    'standards.standard1': '1 ஆம் வகுப்பு',
+                    'standards.standard2': '2 ஆம் வகுப்பு',
+                    'standards.standard3': '3 ஆம் வகுப்பு',
+                    'standards.standard4': '4 ஆம் வகுப்பு',
+                    'standards.standard5': '5 ஆம் வகுப்பு',
+                    'standards.standard6': '6 ஆம் வகுப்பு'
+                },
+                ur: {
+                    'messages.schoolName': 'پرائمری اسکول لرننگ ایپ',
+                    'navigation': 'نیویگیشن',
+                    'home': 'ہوم',
+                    'allStandards': 'تمام معیارات',
+                    'settings': 'ترتیبات',
+                    'about': 'کے بارے میں',
+                    'loading': 'لوڈ ہو رہا ہے...',
+                    'standards.standard1': 'پہلی',
+                    'standards.standard2': 'دوسری',
+                    'standards.standard3': 'تیسری',
+                    'standards.standard4': 'چوتھی',
+                    'standards.standard5': 'پانچویں',
+                    'standards.standard6': 'چھٹی'
+                }
+            };
+
+            const langData = translations[lang] || translations.en;
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (langData[key]) {
+                    element.textContent = langData[key];
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

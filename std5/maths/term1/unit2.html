@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Unit 2: Numbers - Mathematics Term 1 for Standard 5 students">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Unit 2: Numbers | Mathematics Term 1 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/images/icons/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../../assets/images/icons/icon-16.png">
+    <link rel="apple-touch-icon" href="../../../assets/images/icons/icon-192.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="../../../assets/fonts/NotoSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../assets/fonts/NotoSansTamil-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../../../assets/fonts/NotoNastaliqUrdu-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+        .unit-header {
+            background: linear-gradient(135deg, #FF6B6B 0%, #EE5A52 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .unit-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="20" font-size="12" fill="rgba(255,255,255,0.1)">1 2 3 4 5</text><text y="40" font-size="12" fill="rgba(255,255,255,0.1)">6 7 8 9 0</text><text y="60" font-size="12" fill="rgba(255,255,255,0.1)">10,000</text><text y="80" font-size="12" fill="rgba(255,255,255,0.1)">100,000</text></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .unit-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .unit-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .unit-number-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .back-nav {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #E9ECEF;
+        }
+        
+        .back-link {
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-link:hover {
+            color: #EE5A52;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+
+        
+        .topic-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            cursor: pointer;
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF6B6B, #EE5A52);
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.2);
+            border-color: #FF6B6B;
+        }
+        
+        .topic-number {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .topic-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+        }
+        
+        .topic-description {
+            color: #6C757D;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .topic-examples {
+            background: #FFF5F5;
+            border-left: 4px solid #FF6B6B;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            color: #FF6B6B;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-content {
+            font-family: 'Courier New', monospace;
+            color: #2C3E50;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-secondary:hover {
+            background: #E9ECEF;
+            color: #495057;
+        }
+        
+        .interactive-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .interactive-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .number-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .place-value-chart {
+            background: white;
+            color: #2C3E50;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .place-value-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        
+        .place-value-table th,
+        .place-value-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .place-value-table th {
+            background: #FF6B6B;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .place-value-table td {
+            background: #F8F9FA;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .exercise-section {
+            background: #F8F9FA;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .exercise-title {
+            color: #2C3E50;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .exercise-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #FF6B6B;
+        }
+        
+        .exercise-question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2C3E50;
+        }
+        
+        .exercise-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .exercise-input:focus {
+            border-color: #FF6B6B;
+            outline: none;
+        }
+        
+        .check-answer-btn {
+            background: #28A745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .check-answer-btn:hover {
+            background: #218838;
+        }
+        
+        .answer-feedback {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .correct {
+            background: #D4EDDA;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background: #F8D7DA;
+            color: #721C24;
+        }
+        
+        .fun-fact {
+            background: linear-gradient(135deg, #FFA726 0%, #FB8C00 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .fun-fact::before {
+            content: "💡";
+            font-size: 2rem;
+            position: absolute;
+            top: -10px;
+            left: 1rem;
+        }
+        
+        .fun-fact-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            margin-left: 2rem;
+        }
+        
+        .fun-fact-content {
+            margin-left: 2rem;
+            line-height: 1.6;
+        }
+        
+        .progress-tracker {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .progress-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #E9ECEF;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-item.completed {
+            background: #28A745;
+            color: white;
+        }
+        
+        .progress-item.current {
+            background: #FF6B6B;
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        /* Responsive layout for mobile */
+        @media (max-width: 768px) {
+            .unit-title {
+                font-size: 2rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .topic-card {
+                padding: 1.5rem;
+            }
+            
+            .progress-tracker {
+                display: none;
+            }
+            
+            .place-value-chart {
+                overflow-x: scroll;
+            }
+            
+            .number-display {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name" data-translate="messages.schoolName">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+        
+        <div class="header-controls">
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                <button class="lang-btn" data-lang="ur">اردو</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2 data-translate="navigation">Navigation</h2>
+            <button class="close-btn" id="closeSidebar" aria-label="Close navigation">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="../../../index.html" class="nav-link" data-translate="home">Home</a></li>
+            <li><a href="../../std5.html" class="nav-link">Standard 5</a></li>
+            <li><a href="../index.html" class="nav-link">Mathematics</a></li>
+            <li><a href="../term1.html" class="nav-link">Term 1</a></li>
+            <li><a href="#" class="nav-link active">Unit 2: Numbers</a></li>
+        </ul>
+    </nav>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="../term1.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Term 1
+        </a>
+    </nav>
+
+    <!-- Unit Header -->
+    <header class="unit-header">
+        <div class="unit-number-badge">Unit 2</div>
+        <h1 class="unit-title">Numbers</h1>
+        <p class="unit-subtitle">Number System & Operations Beyond 10,000</p>
+    </header>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker" id="progressTracker">
+        <div class="progress-item current" data-section="topic-2-1">2.1</div>
+        <div class="progress-item" data-section="topic-2-2">2.2</div>
+        <div class="progress-item" data-section="topic-2-3">2.3</div>
+        <div class="progress-item" data-section="topic-2-4">2.4</div>
+        <div class="progress-item" data-section="topic-2-5">2.5</div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <div class="interactive-section">
+                <h2 class="interactive-title">🎯 Welcome to the World of Big Numbers!</h2>
+                <p>Get ready to explore numbers beyond 10,000! Let's discover how to read, write, and work with large numbers.</p>
+                <div class="number-display" id="bigNumberDisplay">1,25,847</div>
+                <p>Can you read this number? Let's learn together!</p>
+            </div>
+        </section>
+
+        <!-- Topics Grid -->
+        <div class="topics-grid">
+            <!-- Topic 2.1: Numbers Beyond 10,000 -->
+            <div class="topic-card" id="topic-2-1">
+                <div class="topic-number">2.1</div>
+                <h3 class="topic-title">Numbers Beyond 10,000</h3>
+                <p class="topic-description">
+                    Learn to identify, read, and write numbers greater than 10,000. Discover how large numbers are used in real life!
+                </p>
+                
+                <div class="topic-examples">
+                    <div class="example-title">Examples:</div>
+                    <div class="example-content">
+                        • 12,500 (Twelve thousand five hundred)<br>
+                        • 25,847 (Twenty five thousand eight hundred forty seven)<br>
+                        • 1,00,000 (One lakh)
+                    </div>
+                </div>
+                
+                <div class="fun-fact">
+                    <div class="fun-fact-title">Fun Fact!</div>
+                    <div class="fun-fact-content">
+                        The population of a small city can be around 1,50,000 people!
+                    </div>
+                </div>
+                
+                <a href="unit2/topic2-1.html" class="btn btn-primary">Start Learning</a>
+                <a href="#exercise-2-1" class="btn btn-secondary">Practice</a>
+            </div>
+
+            <!-- Topic 2.2: Place Value -->
+            <div class="topic-card" id="topic-2-2">
+                <div class="topic-number">2.2</div>
+                <h3 class="topic-title">Place Value of Numbers</h3>
+                <p class="topic-description">
+                    Understand the Indian place value system and learn to identify the value of each digit in large numbers.
+                </p>
+                
+                <div class="place-value-chart">
+                    <table class="place-value-table">
+                        <tr>
+                            <th>Lakhs</th>
+                            <th>Ten Thousands</th>
+                            <th>Thousands</th>
+                            <th>Hundreds</th>
+                            <th>Tens</th>
+                            <th>Ones</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>5</td>
+                            <td>8</td>
+                            <td>4</td>
+                            <td>7</td>
+                        </tr>
+                    </table>
+                    <p style="text-align: center; margin-top: 1rem; font-weight: 600;">
+                        Number: 1,25,847
+                    </p>
+                </div>
+                
+                <div class="fun-fact">
+                    <div class="fun-fact-title">Remember!</div>
+                    <div class="fun-fact-content">
+                        In India, we use commas after every 2 digits from the right, except the first comma which comes after 3 digits.
+                    </div>
+                </div>
+                
+                <a href="unit2/topic2-2.html" class="btn btn-primary">Learn Place Values</a>
+                <a href="#exercise-2-2" class="btn btn-secondary">Practice</a>
+            </div>
+
+            <!-- Topic 2.3: Comparison -->
+            <div class="topic-card" id="topic-2-3">
+                <div class="topic-number">2.3</div>
+                <h3 class="topic-title">Comparison of Numbers</h3>
+                <p class="topic-description">
+                    Learn to compare large numbers using >, <, and = symbols. Find the greatest and smallest numbers.
+                </p>
+                
+                <div class="topic-examples">
+                    <div class="example-title">Comparison Examples:</div>
+                    <div class="example-content">
+                        • 25,847 > 12,500<br>
+                        • 1,00,000 = 100,000<br>
+                        • 75,432 < 89,567
+                    </div>
+                </div>
+                
+                <div class="fun-fact">
+                    <div class="fun-fact-title">Quick Tip!</div>
+                    <div class="fun-fact-content">
+                        Compare digits from left to right. The number with more digits is usually larger!
+                    </div>
+                </div>
+                
+                <a href="unit2/topic2-3.html" class="btn btn-primary">Learn Comparison</a>
+                <a href="#exercise-2-3" class="btn btn-secondary">Practice</a>
+            </div>
+
+            <!-- Topic 2.4: Ordering -->
+            <div class="topic-card" id="topic-2-4">
+                <div class="topic-number">2.4</div>
+                <h3 class="topic-title">Ordering & Number Names</h3>
+                <p class="topic-description">
+                    Arrange numbers in ascending and descending order. Learn to write numbers in words and represent them on abacus.
+                </p>
+                
+                <div class="topic-examples">
+                    <div class="example-title">Number Names:</div>
+                    <div class="example-content">
+                        • 46,763 = Forty six thousand seven hundred sixty three<br>
+                        • 1,25,000 = One lakh twenty five thousand<br>
+                        • 3,45,678 = Three lakh forty five thousand six hundred seventy eight
+                    </div>
+                </div>
+                
+                <a href="unit2/topic2-4.html" class="btn btn-primary">Learn Ordering</a>
+                <a href="#exercise-2-4" class="btn btn-secondary">Practice</a>
+            </div>
+
+            <!-- Topic 2.5: Operations -->
+            <div class="topic-card" id="topic-2-5">
+                <div class="topic-number">2.5</div>
+                <h3 class="topic-title">Numbers and Operations</h3>
+                <p class="topic-description">
+                    Master addition, subtraction, multiplication, and division with large numbers. Solve real-life word problems.
+                </p>
+                
+                <div class="topic-examples">
+                    <div class="example-title">Operation Examples:</div>
+                    <div class="example-content">
+                        • Addition: 1,37,462 + 4,005 + 38 + 56,734<br>
+                        • Multiplication: 35 × ₹350 = ₹12,250<br>
+                        • Division: 53,675 ÷ 8 = 6,709 R 3
+                    </div>
+                </div>
+                
+                <div class="fun-fact">
+                    <div class="fun-fact-title">Real Life!</div>
+                    <div class="fun-fact-content">
+                        These operations help us calculate costs, distances, and quantities in everyday life!
+                    </div>
+                </div>
+                
+                <a href="unit2/topic2-5.html" class="btn btn-primary">Learn Operations</a>
+                <a href="#exercise-2-5" class="btn btn-secondary">Practice</a>
+            </div>
+        </div>
+
+        <!-- Exercise Sections -->
+        <section class="exercise-section" id="exercise-2-1">
+            <h2 class="exercise-title">🎯 Practice Exercise 2.1 - Numbers Beyond 10,000</h2>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="exercise-question">1. Write the number in digits: Twenty five thousand six hundred forty three</div>
+                    <input type="text" class="exercise-input" data-answer="25643" placeholder="Your answer...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="exercise-question">2. Fill in the missing number: 10,000, 20,000, 30,000, _____, 50,000</div>
+                    <input type="text" class="exercise-input" data-answer="40000" placeholder="Your answer...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="exercise-question">3. How many thousands are there in 1 lakh?</div>
+                    <input type="text" class="exercise-input" data-answer="100" placeholder="Your answer...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="exercise-section" id="exercise-2-2">
+            <h2 class="exercise-title">🎯 Practice Exercise 2.2 - Place Value</h2>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="exercise-question">1. What is the place value of 5 in 1,25,847?</div>
+                    <input type="text" class="exercise-input" data-answer="5000" placeholder="Your answer...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="exercise-question">2. Write 45,678 in expanded form</div>
+                    <input type="text" class="exercise-input" data-answer="40000+5000+600+70+8" placeholder="40,000 + 5,000 + ...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="exercise-question">3. Which digit is in the ten thousands place in 3,76,592?</div>
+                    <input type="text" class="exercise-input" data-answer="7" placeholder="Your answer...">
+                    <button class="check-answer-btn" onclick="checkAnswer(this)">Check Answer</button>
+                    <div class="answer-feedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Number Generator -->
+        <section class="interactive-section">
+            <h2 class="interactive-title">🎲 Random Number Generator</h2>
+            <p>Click the button to generate a random large number and practice reading it!</p>
+            <div class="number-display" id="randomNumber">Click Generate!</div>
+            <button class="btn btn-primary" onclick="generateRandomNumber()">Generate New Number</button>
+            <button class="btn btn-secondary" onclick="speakNumber()">🔊 Hear It</button>
+        </section>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p data-translate="loading">Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../assets/js/app.js"></script>
+    <script src="../../../assets/js/navigation.js"></script>
+    <script src="../../../assets/js/language.js"></script>
+    
+    <!-- Unit 2 Specific Scripts -->
+    <script>
+        // Exercise checking function
+        function checkAnswer(button) {
+            const input = button.previousElementSibling;
+            const feedback = button.nextElementSibling;
+            const userAnswer = input.value.trim().toLowerCase().replace(/,/g, '').replace(/\s+/g, '');
+            const correctAnswer = input.getAttribute('data-answer').toLowerCase().replace(/,/g, '').replace(/\s+/g, '');
+            
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "✅ Correct! Well done!";
+                feedback.className = "answer-feedback correct";
+                input.style.borderColor = "#28A745";
+            } else {
+                feedback.textContent = "❌ Try again! Think about it carefully.";
+                feedback.className = "answer-feedback incorrect";
+                input.style.borderColor = "#DC3545";
+            }
+        }
+        
+        // Random number generator
+        function generateRandomNumber() {
+            const min = 10000;
+            const max = 999999;
+            const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // Format with Indian comma system
+            const formatted = formatIndianNumber(randomNum);
+            document.getElementById('randomNumber').textContent = formatted;
+        }
+        
+        // Format number in Indian system
+        function formatIndianNumber(num) {
+            const numStr = num.toString();
+            if (numStr.length <= 3) return numStr;
+            
+            let result = '';
+            let count = 0;
+            
+            for (let i = numStr.length - 1; i >= 0; i--) {
+                if (count === 3 || (count > 3 && (count - 3) % 2 === 0)) {
+                    result = ',' + result;
+                }
+                result = numStr[i] + result;
+                count++;
+            }
+            
+            return result;
+        }
+        
+        // Speak number function
+        function speakNumber() {
+            const numberText = document.getElementById('randomNumber').textContent;
+            if (numberText === "Click Generate!") {
+                alert("Please generate a number first!");
+                return;
+            }
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(numberText);
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("Speech synthesis not supported in your browser.");
+            }
+        }
+        
+        // Progress tracker
+        function updateProgress() {
+            const sections = document.querySelectorAll('.section, .topic-card');
+            const progressItems = document.querySelectorAll('.progress-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        progressItems.forEach(item => {
+                            item.classList.remove('current');
+                            if (item.getAttribute('data-section') === sectionId) {
+                                item.classList.add('current');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => observer.observe(section));
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            
+            // Add click handlers for progress tracker
+            document.querySelectorAll('.progress-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    const targetElement = document.getElementById(section);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Update active progress item
+                        document.querySelectorAll('.progress-item').forEach(p => p.classList.remove('current'));
+                        this.classList.add('current');
+                    }
+                });
+            });
+            
+            // Auto-generate first number
+            generateRandomNumber();
+        });
+        
+        // Language functionality
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                langButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                localStorage.setItem('preferredLanguage', lang);
+                
+                if (window.LanguageManager && window.LanguageManager.switchLanguage) {
+                    window.LanguageManager.switchLanguage(lang);
+                }
+            });
+        });
+    </script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 

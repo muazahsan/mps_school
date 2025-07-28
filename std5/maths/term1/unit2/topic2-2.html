@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Topic 2.2: Place Value of Numbers - Interactive Learning for Standard 5">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Place Value of Numbers | Unit 2 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <style>
+        .topic-header {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .place-value-interactive {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .place-value-chart {
+            background: white;
+            color: #2C3E50;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-table th,
+        .chart-table td {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 3px solid #E9ECEF;
+            position: relative;
+        }
+        
+        .chart-table th {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .chart-table td {
+            background: #F8F9FA;
+            font-weight: 700;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .chart-table td:hover {
+            background: #E3F2FD;
+            transform: scale(1.1);
+        }
+        
+        .chart-table td.highlighted {
+            background: #FFE082;
+            transform: scale(1.2);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.5);
+        }
+        
+        .place-value-explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #E3F2FD;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .number-input-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #9C27B0;
+        }
+        
+        .number-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 2rem;
+            text-align: center;
+            border: 3px solid #E9ECEF;
+            border-radius: 10px;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+        
+        .number-input:focus {
+            border-color: #9C27B0;
+            outline: none;
+        }
+        
+        .abacus-section {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .abacus-visual {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .abacus-column {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .abacus-label {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .abacus-beads {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .bead {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #FFF;
+            border: 3px solid #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .bead.active {
+            background: #4CAF50;
+        }
+        
+        .expanded-form-section {
+            background: #F8F9FA;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .expanded-form-builder {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .form-part {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #E9ECEF;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+        
+        .form-part.plus {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+        
+        .interactive-exercises {
+            background: linear-gradient(135deg, #28A745 0%, #20C997 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .exercise-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-success {
+            background: #28A745;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .abacus-visual {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .chart-table {
+                font-size: 0.9rem;
+            }
+            
+            .chart-table td {
+                font-size: 1.5rem;
+                padding: 1rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+    </header>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav" style="background: white; padding: 1rem 2rem; border-bottom: 1px solid #E9ECEF;">
+        <a href="../unit2.html" style="color: #9C27B0; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Unit 2
+        </a>
+    </nav>
+
+    <!-- Topic Header -->
+    <header class="topic-header">
+        <h1 class="topic-title">2.2 Place Value of Numbers</h1>
+        <p>Understand where each digit sits and what it means!</p>
+    </header>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Interactive Number Input -->
+        <div class="number-input-section">
+            <h2>🎯 Enter a Number to Explore</h2>
+            <p>Type any number up to 6 digits and see its place value breakdown!</p>
+            <input type="text" class="number-input" id="numberInput" placeholder="Enter a number (e.g., 125847)" maxlength="7">
+            <button class="btn btn-primary" onclick="analyzeNumber()">Analyze Place Value</button>
+        </div>
+
+        <!-- Interactive Place Value Chart -->
+        <div class="place-value-chart">
+            <h2 style="text-align: center; color: #2C3E50; margin-bottom: 2rem;">Interactive Place Value Chart</h2>
+            <table class="chart-table" id="placeValueTable">
+                <tr>
+                    <th>Lakhs<br>(1,00,000s)</th>
+                    <th>Ten Thousands<br>(10,000s)</th>
+                    <th>Thousands<br>(1,000s)</th>
+                    <th>Hundreds<br>(100s)</th>
+                    <th>Tens<br>(10s)</th>
+                    <th>Ones<br>(1s)</th>
+                </tr>
+                <tr id="digitRow">
+                    <td onclick="explainPlace(100000, this)">1</td>
+                    <td onclick="explainPlace(10000, this)">2</td>
+                    <td onclick="explainPlace(1000, this)">5</td>
+                    <td onclick="explainPlace(100, this)">8</td>
+                    <td onclick="explainPlace(10, this)">4</td>
+                    <td onclick="explainPlace(1, this)">7</td>
+                </tr>
+            </table>
+            
+            <div class="place-value-explanation" id="explanation">
+                <strong>Click on any digit above to see its place value!</strong><br>
+                Current number: <span id="currentNumber">1,25,847</span>
+            </div>
+        </div>
+
+        <!-- Abacus Representation -->
+        <div class="abacus-section">
+            <h2>🧮 Abacus Representation</h2>
+            <p>See how numbers look on an abacus! Click the beads to change values.</p>
+            
+            <div class="abacus-visual" id="abacusVisual">
+                <div class="abacus-column">
+                    <div class="abacus-label">Lakhs</div>
+                    <div class="abacus-beads" data-place="lakhs">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-column">
+                    <div class="abacus-label">Ten Thousands</div>
+                    <div class="abacus-beads" data-place="ten-thousands">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-column">
+                    <div class="abacus-label">Thousands</div>
+                    <div class="abacus-beads" data-place="thousands">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-column">
+                    <div class="abacus-label">Hundreds</div>
+                    <div class="abacus-beads" data-place="hundreds">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-column">
+                    <div class="abacus-label">Tens</div>
+                    <div class="abacus-beads" data-place="tens">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-column">
+                    <div class="abacus-label">Ones</div>
+                    <div class="abacus-beads" data-place="ones">
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                        <div class="bead active" onclick="toggleBead(this)"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px; display: inline-block;">
+                    <strong>Abacus Number: <span id="abacusNumber">1,25,847</span></strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expanded Form Section -->
+        <div class="expanded-form-section">
+            <h2 style="text-align: center; color: #2C3E50;">📝 Expanded Form Builder</h2>
+            <p style="text-align: center; font-size: 1.1rem;">See how numbers break down into their place values!</p>
+            
+            <div class="expanded-form-builder" id="expandedForm">
+                <div class="form-part">1 × 100000</div>
+                <div class="form-part plus">+</div>
+                <div class="form-part">2 × 10000</div>
+                <div class="form-part plus">+</div>
+                <div class="form-part">5 × 1000</div>
+                <div class="form-part plus">+</div>
+                <div class="form-part">8 × 100</div>
+                <div class="form-part plus">+</div>
+                <div class="form-part">4 × 10</div>
+                <div class="form-part plus">+</div>
+                <div class="form-part">7 × 1</div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <div style="background: #E3F2FD; padding: 1rem; border-radius: 10px; display: inline-block;">
+                    <strong>Equals: <span id="expandedResult">1,00,000 + 20,000 + 5,000 + 800 + 40 + 7 = 1,25,847</span></strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Exercises -->
+        <div class="interactive-exercises">
+            <h2>🎮 Interactive Exercises</h2>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <h3>Exercise 1: Place Value Quiz</h3>
+                    <p>What is the place value of 6 in 3,67,892?</p>
+                    <div style="margin: 1rem 0;">
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="pv1" value="60000"> 60,000
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="pv1" value="6000"> 6,000
+                        </label>
+                        <label style="display: block; margin: 0.5rem 0; cursor: pointer;">
+                            <input type="radio" name="pv1" value="600"> 600
+                        </label>
+                    </div>
+                    <button class="btn btn-success" onclick="checkPlaceValueQuiz()">Check Answer</button>
+                    <div id="pvResult"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <h3>Exercise 2: Build a Number</h3>
+                    <p>Create a number with:</p>
+                    <ul>
+                        <li>3 in ten thousands</li>
+                        <li>7 in hundreds</li>
+                        <li>2 in ones</li>
+                        <li>0 in all other places</li>
+                    </ul>
+                    <input type="text" placeholder="Your answer" id="buildNumber" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;">
+                    <button class="btn btn-success" onclick="checkBuildNumber()">Check Answer</button>
+                    <div id="buildResult"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <h3>Exercise 3: Expanded Form</h3>
+                    <p>Write 45,678 in expanded form:</p>
+                    <textarea placeholder="Write the expanded form here..." id="expandedAnswer" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; height: 80px;"></textarea>
+                    <button class="btn btn-success" onclick="checkExpandedForm()">Check Answer</button>
+                    <div id="expandedCheck"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="topic2-1.html" class="btn btn-secondary">← Previous: Numbers Beyond 10,000</a>
+            <a href="topic2-3.html" class="btn btn-primary">Next: Comparison →</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    
+    <script>
+        let currentAnalyzedNumber = 125847;
+        
+        // Analyze entered number
+        function analyzeNumber() {
+            const input = document.getElementById('numberInput');
+            const number = parseInt(input.value.replace(/,/g, ''));
+            
+            if (isNaN(number) || number < 0 || number > 999999) {
+                alert('Please enter a valid number between 0 and 999,999');
+                return;
+            }
+            
+            currentAnalyzedNumber = number;
+            updatePlaceValueChart(number);
+            updateAbacus(number);
+            updateExpandedForm(number);
+        }
+        
+        // Update place value chart
+        function updatePlaceValueChart(number) {
+            const digits = number.toString().padStart(6, '0').split('').map(d => parseInt(d));
+            const digitRow = document.getElementById('digitRow');
+            const cells = digitRow.querySelectorAll('td');
+            
+            for (let i = 0; i < 6; i++) {
+                cells[i].textContent = digits[i];
+                cells[i].style.background = digits[i] === 0 ? '#F8F9FA' : '#E3F2FD';
+            }
+            
+            document.getElementById('currentNumber').textContent = formatIndianNumber(number);
+        }
+        
+        // Update abacus representation
+        function updateAbacus(number) {
+            const digits = number.toString().padStart(6, '0').split('').map(d => parseInt(d));
+            const columns = document.querySelectorAll('.abacus-beads');
+            
+            columns.forEach((column, index) => {
+                const beads = column.querySelectorAll('.bead');
+                const digitValue = digits[index];
+                
+                beads.forEach((bead, beadIndex) => {
+                    if (beadIndex < digitValue) {
+                        bead.classList.add('active');
+                    } else {
+                        bead.classList.remove('active');
+                    }
+                });
+            });
+            
+            document.getElementById('abacusNumber').textContent = formatIndianNumber(number);
+        }
+        
+        // Update expanded form
+        function updateExpandedForm(number) {
+            const digits = number.toString().padStart(6, '0').split('').map(d => parseInt(d));
+            const placeValues = [100000, 10000, 1000, 100, 10, 1];
+            const placeNames = ['1,00,000', '10,000', '1,000', '100', '10', '1'];
+            
+            const expandedForm = document.getElementById('expandedForm');
+            expandedForm.innerHTML = '';
+            
+            let hasNonZero = false;
+            let resultParts = [];
+            
+            for (let i = 0; i < 6; i++) {
+                if (digits[i] !== 0 || !hasNonZero) {
+                    if (hasNonZero) {
+                        const plusDiv = document.createElement('div');
+                        plusDiv.className = 'form-part plus';
+                        plusDiv.textContent = '+';
+                        expandedForm.appendChild(plusDiv);
+                    }
+                    
+                    const partDiv = document.createElement('div');
+                    partDiv.className = 'form-part';
+                    partDiv.textContent = `${digits[i]} × ${placeValues[i].toLocaleString()}`;
+                    expandedForm.appendChild(partDiv);
+                    
+                    if (digits[i] !== 0) {
+                        resultParts.push((digits[i] * placeValues[i]).toLocaleString());
+                        hasNonZero = true;
+                    }
+                }
+            }
+            
+            const result = resultParts.join(' + ') + ' = ' + number.toLocaleString();
+            document.getElementById('expandedResult').textContent = result;
+        }
+        
+        // Format number in Indian system
+        function formatIndianNumber(num) {
+            return num.toLocaleString('en-IN');
+        }
+        
+        // Explain place value
+        function explainPlace(placeValue, element) {
+            // Remove previous highlights
+            document.querySelectorAll('.chart-table td').forEach(td => td.classList.remove('highlighted'));
+            
+            // Highlight clicked cell
+            element.classList.add('highlighted');
+            
+            const digit = parseInt(element.textContent);
+            const value = digit * placeValue;
+            const explanation = document.getElementById('explanation');
+            
+            explanation.innerHTML = `
+                <strong>Digit ${digit} is in the ${getPlaceName(placeValue)} place</strong><br>
+                Its place value is: ${digit} × ${placeValue.toLocaleString()} = ${value.toLocaleString()}
+            `;
+        }
+        
+        // Get place name
+        function getPlaceName(placeValue) {
+            const names = {
+                1: 'ones',
+                10: 'tens',
+                100: 'hundreds',
+                1000: 'thousands',
+                10000: 'ten thousands',
+                100000: 'lakhs'
+            };
+            return names[placeValue] || 'unknown';
+        }
+        
+        // Toggle abacus bead
+        function toggleBead(bead) {
+            bead.classList.toggle('active');
+            updateAbacusNumber();
+        }
+        
+        // Update abacus number
+        function updateAbacusNumber() {
+            const columns = document.querySelectorAll('.abacus-beads');
+            const placeValues = [100000, 10000, 1000, 100, 10, 1];
+            let total = 0;
+            
+            columns.forEach((column, index) => {
+                const activeBeads = column.querySelectorAll('.bead.active').length;
+                total += activeBeads * placeValues[index];
+            });
+            
+            document.getElementById('abacusNumber').textContent = formatIndianNumber(total);
+        }
+        
+        // Exercise functions
+        function checkPlaceValueQuiz() {
+            const selected = document.querySelector('input[name="pv1"]:checked');
+            const result = document.getElementById('pvResult');
+            
+            if (selected && selected.value === '60000') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct! 6 is in the ten thousands place, so its value is 60,000.</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Look at the position of 6 in 3,67,892.</p>';
+            }
+        }
+        
+        function checkBuildNumber() {
+            const answer = document.getElementById('buildNumber').value.replace(/,/g, '');
+            const result = document.getElementById('buildResult');
+            
+            if (answer === '30702') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! 30,702 is correct!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Remember: 3 in ten thousands, 7 in hundreds, 2 in ones.</p>';
+            }
+        }
+        
+        function checkExpandedForm() {
+            const answer = document.getElementById('expandedAnswer').value.toLowerCase().trim();
+            const result = document.getElementById('expandedCheck');
+            
+            if (answer.includes('40000') && answer.includes('5000') && answer.includes('600') && answer.includes('70') && answer.includes('8')) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Excellent! You got the expanded form right!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Break down 45,678 into place values: 40,000 + 5,000 + 600 + 70 + 8</p>';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAbacusNumber();
+            updateExpandedForm(currentAnalyzedNumber);
+        });
+    </script>
+</body>
+</html> 

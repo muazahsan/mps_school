@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Topic 2.1: Numbers Beyond 10,000 - Interactive Slides for Kids">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Numbers Beyond 10,000 | Unit 2 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide {
+            display: none;
+            padding: 2rem;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .slide-title {
+            font-size: 3rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: #FFE4E1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem auto;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .big-visual {
+            font-size: 4rem;
+            margin: 1rem 0;
+            color: #FF6B6B;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .number-display {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .interactive-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .fun-button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .fun-button.primary {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+            color: white;
+        }
+        
+        .fun-button.secondary {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+        
+        .fun-button.success {
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
+            color: white;
+        }
+        
+        .fun-button.warning {
+            background: linear-gradient(135deg, #FFA726, #FB8C00);
+            color: white;
+        }
+        
+        .fun-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .game-area {
+            background: #F8F9FA;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 3px solid #FF6B6B;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-option {
+            padding: 1.5rem;
+            background: #E3F2FD;
+            border: 3px solid #2196F3;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quiz-option:hover {
+            background: #BBDEFB;
+            transform: scale(1.05);
+        }
+        
+        .quiz-option.correct {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+            animation: bounce 0.5s ease;
+        }
+        
+        .quiz-option.wrong {
+            background: #FFCDD2;
+            border-color: #F44336;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button.prev {
+            background: linear-gradient(135deg, #6C757D, #495057);
+            color: white;
+        }
+        
+        .nav-button.next {
+            background: linear-gradient(135deg, #28A745, #20C997);
+            color: white;
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .number-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .number-card {
+            background: linear-gradient(135deg, #FFE4E1, #FFC0CB);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 3px solid #FF6B6B;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .number-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .feedback {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feedback.success {
+            background: #D4EDDA;
+            color: #155724;
+            border: 2px solid #28A745;
+        }
+        
+        .feedback.error {
+            background: #F8D7DA;
+            color: #721C24;
+            border: 2px solid #DC3545;
+        }
+        
+        .speaking-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #FF6B6B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: none;
+            animation: pulse 1s infinite;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .lang-button {
+            padding: 8px 15px;
+            margin: 2px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-button.active {
+            background: #FF6B6B;
+            color: white;
+        }
+        
+        .lang-button:not(.active) {
+            background: #E9ECEF;
+            color: #495057;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FF6B6B;
+            animation: confetti-fall 3s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: #E3F2FD;
+            border: 3px solid #2196F3;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+        }
+        
+        .memory-card.matched {
+            background: #FFE0B2;
+            border-color: #FF9800;
+        }
+        
+        .comparison-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .comparison-number {
+            background: linear-gradient(135deg, #E1F5FE, #B3E5FC);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 3px solid #03A9F4;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .comparison-symbol {
+            font-size: 4rem;
+            color: #FF6B6B;
+            font-weight: bold;
+        }
+        
+        .drag-drop-area {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .drop-zone {
+            width: 150px;
+            height: 100px;
+            border: 3px dashed #FF6B6B;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFF3E0;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .drop-zone.filled {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+            border-style: solid;
+        }
+        
+        .draggable-number {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #FFE4E1, #FFC0CB);
+            border: 3px solid #FF6B6B;
+            border-radius: 15px;
+            cursor: move;
+            font-weight: bold;
+            margin: 0.5rem;
+            user-select: none;
+        }
+        
+        .draggable-number:hover {
+            transform: scale(1.05);
+        }
+        
+        /* RTL Support for Urdu */
+        [dir="rtl"] .navigation {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .interactive-buttons {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .language-selector {
+            left: auto;
+            right: 20px;
+        }
+        
+        [dir="rtl"] .speaking-indicator {
+            right: auto;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="speaking-indicator" id="speakingIndicator">🔊 Speaking...</div>
+    
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-button active" onclick="setLanguage('en')" data-lang="en">EN</button>
+        <button class="lang-button" onclick="setLanguage('ta')" data-lang="ta">தமிழ்</button>
+        <button class="lang-button" onclick="setLanguage('ur')" data-lang="ur">اردو</button>
+    </div>
+    
+    <div class="presentation-container">
+        <!-- Slide 1: Welcome -->
+        <div class="slide active" id="slide1">
+            <div class="slide-header">
+                <h1 class="slide-title">🎉 Welcome Kids! 🎉</h1>
+                <p class="slide-subtitle">Let's Learn About BIG Numbers!</p>
+            </div>
+            <div class="content-card">
+                <div class="big-visual">🚀</div>
+                <h2 style="color: #667eea; font-size: 2.5rem;">Numbers Beyond 10,000</h2>
+                <p style="font-size: 1.5rem; margin: 2rem 0; color: #666;">
+                    Today we're going on an adventure to discover HUGE numbers!<br>
+                    Are you ready to become a Number Explorer? 🧭
+                </p>
+                <button class="fun-button primary" onclick="speakText('welcome')">
+                    🔊 Let's Start!
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Big Numbers? -->
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                <h1 class="slide-title">🤔 What are BIG Numbers?</h1>
+                <p class="slide-subtitle">Numbers bigger than 10,000!</p>
+            </div>
+            <div class="content-card">
+                <div class="number-display">10,000</div>
+                <p style="font-size: 1.3rem; margin: 1rem 0;">
+                    This is ten thousand! 👆<br>
+                    Any number BIGGER than this is a BIG number!
+                </p>
+                <div class="interactive-buttons">
+                    <button class="fun-button secondary" onclick="showBigNumber(15000)">15,000</button>
+                    <button class="fun-button secondary" onclick="showBigNumber(25000)">25,000</button>
+                    <button class="fun-button secondary" onclick="showBigNumber(50000)">50,000</button>
+                </div>
+                <div id="numberFeedback"></div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Numbers Around Us -->
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                <h1 class="slide-title">🌍 Big Numbers Around Us</h1>
+                <p class="slide-subtitle">Where do we see big numbers?</p>
+            </div>
+            <div class="content-card">
+                <div class="number-showcase">
+                    <div class="number-card" onclick="explainExample('house')">
+                        <div style="font-size: 3rem;">🏠</div>
+                        <div style="font-size: 1.8rem; color: #667eea; font-weight: bold;">₹15,00,000</div>
+                        <div>House Price</div>
+                    </div>
+                    <div class="number-card" onclick="explainExample('car')">
+                        <div style="font-size: 3rem;">🚗</div>
+                        <div style="font-size: 1.8rem; color: #667eea; font-weight: bold;">₹8,00,000</div>
+                        <div>Car Price</div>
+                    </div>
+                    <div class="number-card" onclick="explainExample('people')">
+                        <div style="font-size: 3rem;">👥</div>
+                        <div style="font-size: 1.8rem; color: #667eea; font-weight: bold;">50,000</div>
+                        <div>People in Stadium</div>
+                    </div>
+                    <div class="number-card" onclick="explainExample('books')">
+                        <div style="font-size: 3rem;">📚</div>
+                        <div style="font-size: 1.8rem; color: #667eea; font-weight: bold;">25,000</div>
+                        <div>Books in Library</div>
+                    </div>
+                </div>
+                <div id="exampleFeedback" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Reading Big Numbers -->
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                <h1 class="slide-title">👀 How to READ Big Numbers</h1>
+                <p class="slide-subtitle">Let's learn step by step!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">Magic Number Reader! ✨</h3>
+                    <div class="number-display" id="displayNumber">12,345</div>
+                    <p style="font-size: 1.2rem; margin: 1rem 0;">
+                        Read from LEFT to RIGHT: <span style="color: #FF6B6B; font-weight: bold;">Twelve thousand three hundred forty five</span>
+                    </p>
+                    <div class="interactive-buttons">
+                        <button class="fun-button success" onclick="readNumber(23456)">Try 23,456</button>
+                        <button class="fun-button success" onclick="readNumber(67890)">Try 67,890</button>
+                        <button class="fun-button primary" onclick="speakDisplayedNumber()">🔊 Hear It!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Place Value Game -->
+        <div class="slide" id="slide5">
+            <div class="slide-header">
+                <h1 class="slide-title">🎯 Place Value Detective</h1>
+                <p class="slide-subtitle">Find the value of each digit!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <div class="number-display" id="placeValueNumber">45,678</div>
+                    <p style="font-size: 1.3rem; margin: 1rem 0;">
+                        Click on the digit to find its place value! 🕵️‍♂️
+                    </p>
+                    <div id="placeValueDisplay" style="font-size: 3rem; margin: 2rem 0; min-height: 100px;">
+                        <span class="digit-button" onclick="showPlaceValue(4, 'Ten Thousands')">4</span>
+                        <span class="digit-button" onclick="showPlaceValue(5, 'Thousands')">5</span>
+                        <span style="color: #ccc;">,</span>
+                        <span class="digit-button" onclick="showPlaceValue(6, 'Hundreds')">6</span>
+                        <span class="digit-button" onclick="showPlaceValue(7, 'Tens')">7</span>
+                        <span class="digit-button" onclick="showPlaceValue(8, 'Ones')">8</span>
+                    </div>
+                    <div id="placeValueResult" style="font-size: 1.5rem; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Comparing Numbers -->
+        <div class="slide" id="slide6">
+            <div class="slide-header">
+                <h1 class="slide-title">⚖️ Comparing Big Numbers</h1>
+                <p class="slide-subtitle">Which number is bigger?</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Number Comparison Challenge!</h3>
+                    <div class="comparison-area">
+                        <div class="comparison-number">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #2196F3;" id="compareNum1">25,467</div>
+                        </div>
+                        <div class="comparison-symbol" id="compareSymbol">?</div>
+                        <div class="comparison-number">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #2196F3;" id="compareNum2">23,891</div>
+                        </div>
+                    </div>
+                    <div class="interactive-buttons">
+                        <button class="fun-button primary" onclick="checkComparison('>')">First is Bigger ></button>
+                        <button class="fun-button warning" onclick="checkComparison('<')">Second is Bigger <</button>
+                        <button class="fun-button secondary" onclick="checkComparison('=')">Both are Equal =</button>
+                    </div>
+                    <div id="comparisonFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Quiz Time -->
+        <div class="slide" id="slide7">
+            <div class="slide-header">
+                <h1 class="slide-title">🧩 Quiz Time!</h1>
+                <p class="slide-subtitle">Test your knowledge!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">How do you read 34,567?</h3>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">
+                            Three four five six seven
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, true)">
+                            Thirty four thousand five hundred sixty seven
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">
+                            Three thousand four hundred fifty six
+                        </div>
+                        <div class="quiz-option" onclick="checkAnswer(this, false)">
+                            Thirty four five sixty seven
+                        </div>
+                    </div>
+                    <div id="quizFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Number Writing Game -->
+        <div class="slide" id="slide8">
+            <div class="slide-header">
+                <h1 class="slide-title">✏️ Number Writing Challenge</h1>
+                <p class="slide-subtitle">Write numbers from words!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">Write this number:</h3>
+                    <p style="font-size: 1.8rem; color: #FF6B6B; font-weight: bold; margin: 2rem 0;">
+                        "Twenty five thousand six hundred twelve"
+                    </p>
+                    <input type="text" id="numberInput" placeholder="Type the number here..." 
+                           style="font-size: 2rem; padding: 1rem; border: 3px solid #667eea; border-radius: 10px; text-align: center; width: 300px;">
+                    <br><br>
+                    <button class="fun-button primary" onclick="checkNumberWriting()">Check My Answer!</button>
+                    <div id="writingFeedback" style="margin-top: 2rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Skip Counting Game -->
+        <div class="slide" id="slide9">
+            <div class="slide-header">
+                <h1 class="slide-title">🎲 Skip Counting Fun</h1>
+                <p class="slide-subtitle">Count by thousands!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <p style="font-size: 1.5rem; margin-bottom: 2rem;">
+                        Fill in the missing numbers! Count by 1000s:
+                    </p>
+                    <div style="font-size: 2rem; margin: 2rem 0;">
+                        <span style="background: #E3F2FD; padding: 10px; border-radius: 10px; margin: 5px;">10,000</span>
+                        <span style="background: #E3F2FD; padding: 10px; border-radius: 10px; margin: 5px;">11,000</span>
+                        <input type="text" id="count1" style="width: 120px; padding: 10px; border-radius: 10px; text-align: center; font-size: 1.5rem; border: 3px solid #2196F3;" placeholder="?">
+                        <input type="text" id="count2" style="width: 120px; padding: 10px; border-radius: 10px; text-align: center; font-size: 1.5rem; border: 3px solid #2196F3;" placeholder="?">
+                        <span style="background: #E3F2FD; padding: 10px; border-radius: 10px; margin: 5px;">14,000</span>
+                    </div>
+                    <button class="fun-button success" onclick="checkCounting()">Check My Counting!</button>
+                    <div id="countingFeedback" style="margin-top: 2rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Ordering Numbers -->
+        <div class="slide" id="slide10">
+            <div class="slide-header">
+                <h1 class="slide-title">📊 Number Ordering Game</h1>
+                <p class="slide-subtitle">Arrange from smallest to biggest!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Drag and Drop to Order!</h3>
+                    <div id="numberOrderSet" style="margin: 2rem 0;">
+                        <div class="draggable-number" draggable="true" data-value="45678">45,678</div>
+                        <div class="draggable-number" draggable="true" data-value="23456">23,456</div>
+                        <div class="draggable-number" draggable="true" data-value="67890">67,890</div>
+                        <div class="draggable-number" draggable="true" data-value="12345">12,345</div>
+                    </div>
+                    <div class="drag-drop-area">
+                        <div class="drop-zone" data-position="1">Smallest</div>
+                        <div class="drop-zone" data-position="2">Second</div>
+                        <div class="drop-zone" data-position="3">Third</div>
+                        <div class="drop-zone" data-position="4">Biggest</div>
+                    </div>
+                    <button class="fun-button primary" onclick="checkOrdering()">Check Order!</button>
+                    <div id="orderingFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Memory Game -->
+        <div class="slide" id="slide11">
+            <div class="slide-header">
+                <h1 class="slide-title">🧠 Number Memory Game</h1>
+                <p class="slide-subtitle">Match numbers with their words!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Find the Matching Pairs!</h3>
+                    <div class="memory-grid" id="memoryGrid">
+                        <!-- Memory cards will be generated by JavaScript -->
+                    </div>
+                    <button class="fun-button warning" onclick="resetMemoryGame()">Reset Game</button>
+                    <div id="memoryFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Rounding Numbers -->
+        <div class="slide" id="slide12">
+            <div class="slide-header">
+                <h1 class="slide-title">🎯 Rounding Numbers</h1>
+                <p class="slide-subtitle">Round to the nearest thousand!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Rounding Challenge!</h3>
+                    <div class="number-display" id="roundingNumber">34,567</div>
+                    <p style="font-size: 1.3rem; margin: 2rem 0;">
+                        Round this number to the nearest thousand:
+                    </p>
+                    <div class="interactive-buttons">
+                        <button class="fun-button secondary" onclick="checkRounding(34000)">34,000</button>
+                        <button class="fun-button secondary" onclick="checkRounding(35000)">35,000</button>
+                        <button class="fun-button secondary" onclick="checkRounding(30000)">30,000</button>
+                    </div>
+                    <div id="roundingFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Word Problems -->
+        <div class="slide" id="slide13">
+            <div class="slide-header">
+                <h1 class="slide-title">📖 Story Problems</h1>
+                <p class="slide-subtitle">Solve real-life math problems!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Help Solve This Problem!</h3>
+                    <div style="font-size: 1.3rem; margin: 2rem 0; line-height: 1.8; text-align: left;">
+                        🏫 <strong>Problem:</strong><br>
+                        A school library has 15,678 books. They bought 2,456 new books. 
+                        How many books do they have now?
+                    </div>
+                    <input type="text" id="wordProblemAnswer" placeholder="Type your answer..." 
+                           style="font-size: 1.5rem; padding: 1rem; border: 3px solid #667eea; border-radius: 10px; text-align: center; width: 200px;">
+                    <br><br>
+                    <button class="fun-button primary" onclick="checkWordProblem()">Check Answer!</button>
+                    <div id="wordProblemFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Number Patterns -->
+        <div class="slide" id="slide14">
+            <div class="slide-header">
+                <h1 class="slide-title">🔍 Number Patterns</h1>
+                <p class="slide-subtitle">Find the missing pattern!</p>
+            </div>
+            <div class="content-card">
+                <div class="game-area">
+                    <h3 style="color: #667eea; margin-bottom: 2rem;">Pattern Detective!</h3>
+                    <div style="font-size: 2rem; margin: 2rem 0;">
+                        <span style="background: #E3F2FD; padding: 15px; border-radius: 10px; margin: 10px;">12,000</span>
+                        <span style="background: #E3F2FD; padding: 15px; border-radius: 10px; margin: 10px;">15,000</span>
+                        <span style="background: #E3F2FD; padding: 15px; border-radius: 10px; margin: 10px;">18,000</span>
+                        <span style="background: #FFE0B2; padding: 15px; border-radius: 10px; margin: 10px;">?</span>
+                        <span style="background: #E3F2FD; padding: 15px; border-radius: 10px; margin: 10px;">24,000</span>
+                    </div>
+                    <p style="font-size: 1.3rem; margin: 2rem 0;">
+                        What number comes next in the pattern?
+                    </p>
+                    <div class="interactive-buttons">
+                        <button class="fun-button secondary" onclick="checkPattern(20000)">20,000</button>
+                        <button class="fun-button secondary" onclick="checkPattern(21000)">21,000</button>
+                        <button class="fun-button secondary" onclick="checkPattern(19000)">19,000</button>
+                    </div>
+                    <div id="patternFeedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Celebration -->
+        <div class="slide" id="slide15">
+            <div class="slide-header">
+                <h1 class="slide-title">🎉 Congratulations! 🎉</h1>
+                <p class="slide-subtitle">You're a Number Expert now!</p>
+            </div>
+            <div class="content-card">
+                <div class="big-visual">🏆</div>
+                <h2 style="color: #667eea; font-size: 2.5rem; margin: 2rem 0;">
+                    You've mastered BIG Numbers!
+                </h2>
+                <div style="font-size: 1.3rem; margin: 2rem 0; line-height: 1.8;">
+                    ✅ You can READ big numbers<br>
+                    ✅ You know PLACE VALUES<br>
+                    ✅ You can COMPARE numbers<br>
+                    ✅ You can WRITE number words<br>
+                    ✅ You can COUNT by thousands<br>
+                    ✅ You can ORDER numbers<br>
+                    ✅ You can ROUND numbers<br>
+                    ✅ You can solve WORD PROBLEMS<br>
+                </div>
+                <button class="fun-button primary" onclick="celebrate()">🎊 Celebrate!</button>
+                <div style="margin-top: 2rem;">
+                    <a href="../unit2.html" class="fun-button secondary">← Back to Unit 2</a>
+                    <a href="topic2-2.html" class="fun-button success">Next Topic →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-button prev" id="prevBtn" onclick="prevSlide()" disabled>
+            ← Previous
+        </button>
+        <div class="slide-counter" id="slideCounter">
+            Slide 1 of 15
+        </div>
+        <button class="nav-button next" id="nextBtn" onclick="nextSlide()">
+            Next →
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+        let currentLanguage = 'en';
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        
+        // Comprehensive multilingual text content
+        const translations = {
+            en: {
+                // Navigation
+                previous: "Previous",
+                next: "Next",
+                slideOf: "Slide",
+                of: "of",
+                
+                // Slide Titles
+                welcomeTitle: "🎉 Welcome Kids! 🎉",
+                welcomeSubtitle: "Let's Learn About BIG Numbers!",
+                whatAreBigTitle: "🤔 What are BIG Numbers?",
+                whatAreBigSubtitle: "Numbers bigger than 10,000!",
+                numbersAroundTitle: "🌍 Big Numbers Around Us",
+                numbersAroundSubtitle: "Where do we see big numbers?",
+                readingTitle: "👀 How to READ Big Numbers",
+                readingSubtitle: "Let's learn step by step!",
+                placeValueTitle: "🎯 Place Value Detective",
+                placeValueSubtitle: "Find the value of each digit!",
+                comparingTitle: "⚖️ Comparing Big Numbers",
+                comparingSubtitle: "Which number is bigger?",
+                quizTitle: "🧩 Quiz Time!",
+                quizSubtitle: "Test your knowledge!",
+                writingTitle: "✏️ Number Writing Challenge",
+                writingSubtitle: "Write numbers from words!",
+                countingTitle: "🎲 Skip Counting Fun",
+                countingSubtitle: "Count by thousands!",
+                orderingTitle: "📊 Number Ordering Game",
+                orderingSubtitle: "Arrange from smallest to biggest!",
+                memoryTitle: "🧠 Number Memory Game",
+                memorySubtitle: "Match numbers with their words!",
+                roundingTitle: "🎯 Rounding Numbers",
+                roundingSubtitle: "Round to the nearest thousand!",
+                storyTitle: "📖 Story Problems",
+                storySubtitle: "Solve real-life math problems!",
+                patternsTitle: "🔍 Number Patterns",
+                patternsSubtitle: "Find the missing pattern!",
+                celebrationTitle: "🎉 Congratulations! 🎉",
+                celebrationSubtitle: "You're a Number Expert now!",
+                
+                // Content
+                welcomeText: "Today we're going on an adventure to discover HUGE numbers!<br>Are you ready to become a Number Explorer? 🧭",
+                letStart: "🔊 Let's Start!",
+                bigNumberText: "This is ten thousand! 👆<br>Any number BIGGER than this is a BIG number!",
+                housePrice: "House Price",
+                carPrice: "Car Price",
+                peopleStadium: "People in Stadium",
+                booksLibrary: "Books in Library",
+                magicReader: "Magic Number Reader! ✨",
+                readLeftRight: "Read from LEFT to RIGHT:",
+                tryNumber: "Try",
+                hearIt: "🔊 Hear It!",
+                clickDigit: "Click on the digit to find its place value! 🕵️‍♂️",
+                comparisonChallenge: "Number Comparison Challenge!",
+                firstBigger: "First is Bigger >",
+                secondBigger: "Second is Bigger <",
+                bothEqual: "Both are Equal =",
+                quizQuestion: "How do you read 34,567?",
+                quizOption1: "Three four five six seven",
+                quizOption2: "Thirty four thousand five hundred sixty seven",
+                quizOption3: "Three thousand four hundred fifty six",
+                quizOption4: "Thirty four five sixty seven",
+                writeNumber: "Write this number:",
+                writeWords: "Twenty five thousand six hundred twelve",
+                typeHere: "Type the number here...",
+                checkAnswer: "Check My Answer!",
+                fillMissing: "Fill in the missing numbers! Count by 1000s:",
+                checkCounting: "Check My Counting!",
+                dragDrop: "Drag and Drop to Order!",
+                smallest: "Smallest",
+                second: "Second",
+                third: "Third",
+                biggest: "Biggest",
+                checkOrder: "Check Order!",
+                findPairs: "Find the Matching Pairs!",
+                resetGame: "Reset Game",
+                roundingChallenge: "Rounding Challenge!",
+                roundText: "Round this number to the nearest thousand:",
+                storyProblem: "Help Solve This Problem!",
+                problemText: "🏫 <strong>Problem:</strong><br>A school library has 15,678 books. They bought 2,456 new books. How many books do they have now?",
+                typeAnswer: "Type your answer...",
+                patternDetective: "Pattern Detective!",
+                patternQuestion: "What number comes next in the pattern?",
+                masterText: "You've mastered BIG Numbers!",
+                skillsList: "✅ You can READ big numbers<br>✅ You know PLACE VALUES<br>✅ You can COMPARE numbers<br>✅ You can WRITE number words<br>✅ You can COUNT by thousands<br>✅ You can ORDER numbers<br>✅ You can ROUND numbers<br>✅ You can solve WORD PROBLEMS<br>",
+                celebrate: "🎊 Celebrate!",
+                backUnit: "← Back to Unit 2",
+                nextTopic: "Next Topic →",
+                
+                // Audio feedback
+                welcome: "Welcome to our number adventure! Are you ready to explore big numbers?",
+                houseDesc: "A house costs fifteen lakh rupees! That's a very big number!",
+                carDesc: "A car costs eight lakh rupees! Cars are expensive!",
+                stadium: "Fifty thousand people can fit in a big stadium! That's a lot of people!",
+                library: "A big library has twenty five thousand books! So many stories!",
+                excellent: "Excellent! You got it right!",
+                tryAgain: "Try again! The correct answer is",
+                perfect: "Perfect! You are correct!",
+                congratulations: "Congratulations! You are now a number expert! Well done!",
+                correctComparison: "Great job! You compared the numbers correctly!",
+                wrongComparison: "Try again! Look at the numbers more carefully.",
+                memoryComplete: "Amazing! You found all the pairs!",
+                roundingCorrect: "Excellent rounding! You got it right!",
+                wordProblemCorrect: "Perfect! You solved the problem correctly!",
+                patternCorrect: "Great pattern recognition! You found the missing number!"
+            },
+            ta: {
+                // Navigation
+                previous: "முந்தைய",
+                next: "அடுத்த",
+                slideOf: "स्लाइड",
+                of: "में से",
+                
+                // Slide Titles
+                welcomeTitle: "🎉 குழந்தைகளே வரவேற்கிறோம்! 🎉",
+                welcomeSubtitle: "பெரிய எண்களை கற்போம்!",
+                whatAreBigTitle: "🤔 பெரிய எண்கள் என்றால் என்ன?",
+                whatAreBigSubtitle: "10,000-க்கு மேற்பட்ட எண்கள்!",
+                numbersAroundTitle: "🌍 நம் சுற்றுப்புற பெரிய எண்கள்",
+                numbersAroundSubtitle: "பெரிய எண்களை எங்கே காண்கிறோம்?",
+                readingTitle: "👀 பெரிய எண்களை எப்படி படிப்பது",
+                readingSubtitle: "படிப்படியாக கற்போம்!",
+                placeValueTitle: "🎯 இட மதிப்பு துப்பறியும்",
+                placeValueSubtitle: "ஒவ்வொரு இலக்கத்தின் மதிப்பை கண்டறி!",
+                comparingTitle: "⚖️ பெரிய எண்களை ஒப்பிடுதல்",
+                comparingSubtitle: "எந்த எண் பெரியது?",
+                quizTitle: "🧩 வினாடி வினா நேரம்!",
+                quizSubtitle: "உங்கள் அறிவை பரிசோதிக்கவும்!",
+                writingTitle: "✏️ எண் எழுதும் சவால்",
+                writingSubtitle: "வார்த்தைகளிலிருந்து எண்களை எழுதுங்கள்!",
+                countingTitle: "🎲 தாவி எண்ணும் வேடிக்கை",
+                countingSubtitle: "ஆயிரங்களால் எண்ணுங்கள்!",
+                orderingTitle: "📊 எண் வரிசைப்படுத்தும் விளையாட்டு",
+                orderingSubtitle: "சிறியதிலிருந்து பெரியது வரை வரிசைப்படுத்துங்கள்!",
+                memoryTitle: "🧠 எண் நினைவக விளையாட்டு",
+                memorySubtitle: "எண்களை அவற்றின் வார்த்தைகளுடன் பொருத்துங்கள்!",
+                roundingTitle: "🎯 எண்களை வட்டமிடுதல்",
+                roundingSubtitle: "அருகிலுள்ள ஆயிரத்திற்கு வட்டமிடுங்கள்!",
+                storyTitle: "📖 கதை பிரச்சினைகள்",
+                storySubtitle: "உண்மையான வாழ்க்கை கணித பிரச்சினைகளை தீர்க்கவும்!",
+                patternsTitle: "🔍 எண் வடிவங்கள்",
+                patternsSubtitle: "காணாமல் போன வடிவத்தை கண்டறியுங்கள்!",
+                celebrationTitle: "🎉 வாழ்த்துக்கள்! 🎉",
+                celebrationSubtitle: "நீங்கள் இப்போது எண் நிபுணர்!",
+                
+                // Content
+                welcomeText: "இன்று நாம் பெரிய எண்களை கண்டுபிடிக்கும் சாகசத்திற்கு செல்கிறோம்!<br>எண் ஆராய்ச்சியாளராக ஆக தயாரா? 🧭",
+                letStart: "🔊 தொடங்குவோம்!",
+                bigNumberText: "இது பத்தாயிரம்! 👆<br>இதை விட பெரிய எண்கள் அனைத்தும் பெரிய எண்கள்!",
+                housePrice: "வீட்டின் விலை",
+                carPrice: "காரின் விலை",
+                peopleStadium: "ஸ்டேடியத்தில் மக்கள்",
+                booksLibrary: "நூலகத்தில் புத்தகங்கள்",
+                magicReader: "மாய எண் வாசகர்! ✨",
+                readLeftRight: "இடமிருந்து வலமாக படிக்கவும்:",
+                tryNumber: "முயற்சி",
+                hearIt: "🔊 கேளுங்கள்!",
+                clickDigit: "இட மதிப்பைக் கண்டறிய இலக்கத்தை கிளிக் செய்யுங்கள்! 🕵️‍♂️",
+                comparisonChallenge: "எண் ஒப்பீட்டு சவால்!",
+                firstBigger: "முதல் எண் பெரியது >",
+                secondBigger: "இரண்டாவது எண் பெரியது <",
+                bothEqual: "இரண்டும் சமம் =",
+                quizQuestion: "34,567-ஐ எப்படி படிப்பீர்கள்?",
+                quizOption1: "மூன்று நான்கு ஐந்து ஆறு ஏழு",
+                quizOption2: "முப்பத்தி நான்காயிரம் ஐநூற்று அறுபத்தி ஏழு",
+                quizOption3: "மூன்றாயிரம் நானூற்று ஐம்பத்தி ஆறு",
+                quizOption4: "முப்பத்தி நான்கு ஐந்து அறுபத்தி ஏழு",
+                writeNumber: "இந்த எண்ணை எழுதுங்கள்:",
+                writeWords: "இருபத்தி ஐந்தாயிரம் அறுநூற்று பன்னிரண்டு",
+                typeHere: "இங்கே எண்ணை தட்டச்சு செய்யுங்கள்...",
+                checkAnswer: "என் பதிலை சரிபார்!",
+                fillMissing: "காணாமல் போன எண்களை நிரப்பவும்! 1000களால் எண்ணுங்கள்:",
+                checkCounting: "என் எண்ணிக்கையை சரிபார்!",
+                dragDrop: "இழுத்து விட்டு வரிசைப்படுத்துங்கள்!",
+                smallest: "மிகச்சிறியது",
+                second: "இரண்டாவது",
+                third: "மூன்றாவது",
+                biggest: "மிகப்பெரியது",
+                checkOrder: "வரிசையை சரிபார்!",
+                findPairs: "பொருத்தமான ஜோடிகளை கண்டறியுங்கள்!",
+                resetGame: "விளையாட்டை மீட்டமை",
+                roundingChallenge: "வட்டமிடும் சவால்!",
+                roundText: "இந்த எண்ணை அருகிலுள்ள ஆயிரத்திற்கு வட்டமிடுங்கள்:",
+                storyProblem: "இந்த பிரச்சினையை தீர்க்க உதவுங்கள்!",
+                problemText: "🏫 <strong>பிரச்சினை:</strong><br>பள்ளி நூலகத்தில் 15,678 புத்தகங்கள் உள்ளன. அவர்கள் 2,456 புதிய புத்தகங்களை வாங்கினர். இப்போது அவர்களிடம் எத்தனை புத்தகங்கள் உள்ளன?",
+                typeAnswer: "உங்கள் பதிலை தட்டச்சு செய்யுங்கள்...",
+                patternDetective: "வடிவ துப்பறியும்!",
+                patternQuestion: "வடிவத்தில் அடுத்து வரும் எண் எது?",
+                masterText: "நீங்கள் பெரிய எண்களில் தேர்ச்சி பெற்றுவிட்டீர்கள்!",
+                skillsList: "✅ நீங்கள் பெரிய எண்களை படிக்கலாம்<br>✅ இட மதிப்புகளை அறிந்துள்ளீர்கள்<br>✅ எண்களை ஒப்பிடலாம்<br>✅ எண் வார்த்தைகளை எழுதலாம்<br>✅ ஆயிரங்களால் எண்ணலாம்<br>✅ எண்களை வரிசைப்படுத்தலாம்<br>✅ எண்களை வட்டமிடலாம்<br>✅ வார்த்தை பிரச்சினைகளை தீர்க்கலாம்<br>",
+                celebrate: "🎊 கொண்டாடுங்கள்!",
+                backUnit: "← அலகு 2-க்கு திரும்பு",
+                nextTopic: "அடுத்த தலைப்பு →",
+                
+                // Audio feedback
+                welcome: "எண் சாகசத்திற்கு வரவேற்கிறோம்! பெரிய எண்களை கண்டுபிடிக்க தயாரா?",
+                houseDesc: "ஒரு வீட்டின் விலை பதினைந்து லட்சம் ரூபாய்! இது மிக பெரிய எண்!",
+                carDesc: "ஒரு காரின் விலை எட்டு லட்சம் ரூபாய்! கார்கள் விலை அதிகம்!",
+                stadium: "ஐம்பதாயிரம் மக்கள் ஒரு பெரிய ஸ்டேடியத்தில் அமரலாம்! அது நிறைய மக்கள்!",
+                library: "ஒரு பெரிய நூலகத்தில் இருபத்தி ஐந்தாயிரம் புத்தகங்கள் உள்ளன! எவ்வளவு கதைகள்!",
+                excellent: "அருமை! நீங்கள் சரியாக பதில் சொன்னீர்கள்!",
+                tryAgain: "மீண்டும் முயற்சி செய்யுங்கள்! சரியான பதில்",
+                perfect: "சரியானது! நீங்கள் சரியாக சொன்னீர்கள்!",
+                congratulations: "வாழ்த்துக்கள்! நீங்கள் இப்போது எண் நிபுணர்! நன்றாக செய்தீர்கள்!",
+                correctComparison: "நல்ல வேலை! நீங்கள் எண்களை சரியாக ஒப்பிட்டீர்கள்!",
+                wrongComparison: "மீண்டும் முயற்சி செய்யுங்கள்! எண்களை கவனமாக பாருங்கள்.",
+                memoryComplete: "அற்புதம்! நீங்கள் எல்லா ஜோடிகளையும் கண்டுபிடித்தீர்கள்!",
+                roundingCorrect: "சிறந்த வட்டமிடல்! நீங்கள் சரியாக செய்தீர்கள்!",
+                wordProblemCorrect: "சரியானது! நீங்கள் பிரச்சினையை சரியாக தீர்த்தீர்கள்!",
+                patternCorrect: "சிறந்த வடிவ அங்கீகாரம்! நீங்கள் காணாமல் போன எண்ணை கண்டீர்கள்!"
+            },
+            ur: {
+                // Navigation
+                previous: "پچھلا",
+                next: "اگلا",
+                slideOf: "سلائیڈ",
+                of: "میں سے",
+                
+                // Slide Titles
+                welcomeTitle: "🎉 بچوں خوش آمدید! 🎉",
+                welcomeSubtitle: "آؤ بڑے نمبرز سیکھیں!",
+                whatAreBigTitle: "🤔 بڑے نمبرز کیا ہیں؟",
+                whatAreBigSubtitle: "10,000 سے بڑے نمبرز!",
+                numbersAroundTitle: "🌍 ہمارے آس پاس بڑے نمبرز",
+                numbersAroundSubtitle: "ہم بڑے نمبرز کہاں دیکھتے ہیں؟",
+                readingTitle: "👀 بڑے نمبرز کیسے پڑھیں",
+                readingSubtitle: "قدم بہ قدم سیکھیں!",
+                placeValueTitle: "🎯 قدر کی جگہ جاسوس",
+                placeValueSubtitle: "ہر ہندسے کی قیمت تلاش کریں!",
+                comparingTitle: "⚖️ بڑے نمبرز کا موازنہ",
+                comparingSubtitle: "کون سا نمبر بڑا ہے؟",
+                quizTitle: "🧩 کوئز کا وقت!",
+                quizSubtitle: "اپنے علم کو آزمائیں!",
+                writingTitle: "✏️ نمبر لکھنے کا چیلنج",
+                writingSubtitle: "الفاظ سے نمبرز لکھیں!",
+                countingTitle: "🎲 چھلانگ لگا کر گنتی کی مزہ",
+                countingSubtitle: "ہزاروں سے گنتی کریں!",
+                orderingTitle: "📊 نمبر ترتیب دینے کا کھیل",
+                orderingSubtitle: "سب سے چھوٹے سے سب سے بڑے تک ترتیب دیں!",
+                memoryTitle: "🧠 نمبر میموری کھیل",
+                memorySubtitle: "نمبروں کو ان کے الفاظ سے ملائیں!",
+                roundingTitle: "🎯 نمبرز کو گول کرنا",
+                roundingSubtitle: "قریبی ہزار تک گول کریں!",
+                storyTitle: "📖 کہانی کے مسائل",
+                storySubtitle: "حقیقی زندگی کے ریاضی کے مسائل حل کریں!",
+                patternsTitle: "🔍 نمبر کے نمونے",
+                patternsSubtitle: "گمشدہ نمونہ تلاش کریں!",
+                celebrationTitle: "🎉 مبارک ہو! 🎉",
+                celebrationSubtitle: "آپ اب نمبر کے ماہر ہیں!",
+                
+                // Content
+                welcomeText: "آج ہم بڑے نمبرز کو دریافت کرنے کے مہم جوئی پر جا رہے ہیں!<br>کیا آپ نمبر ایکسپلورر بننے کے لیے تیار ہیں؟ 🧭",
+                letStart: "🔊 چلیں شروع کرتے ہیں!",
+                bigNumberText: "یہ دس ہزار ہے! 👆<br>اس سے بڑا کوئی بھی نمبر بڑا نمبر ہے!",
+                housePrice: "گھر کی قیمت",
+                carPrice: "کار کی قیمت",
+                peopleStadium: "اسٹیڈیم میں لوگ",
+                booksLibrary: "لائبریری میں کتابیں",
+                magicReader: "جادوئی نمبر ریڈر! ✨",
+                readLeftRight: "بائیں سے دائیں پڑھیں:",
+                tryNumber: "کوشش",
+                hearIt: "🔊 سنیں!",
+                clickDigit: "قیمت کی جگہ تلاش کرنے کے لیے ہندسے پر کلک کریں! 🕵️‍♂️",
+                comparisonChallenge: "نمبر موازنہ چیلنج!",
+                firstBigger: "پہلا بڑا ہے >",
+                secondBigger: "دوسرا بڑا ہے <",
+                bothEqual: "دونوں برابر ہیں =",
+                quizQuestion: "34,567 کو کیسے پڑھیں گے؟",
+                quizOption1: "تین چار پانچ چھ سات",
+                quizOption2: "چونتیس ہزار پانچ سو ستائیس",
+                quizOption3: "تین ہزار چار سو چھپن",
+                quizOption4: "چونتیس پانچ ستائیس",
+                writeNumber: "یہ نمبر لکھیں:",
+                writeWords: "پچیس ہزار چھ سو بارہ",
+                typeHere: "یہاں نمبر ٹائپ کریں...",
+                checkAnswer: "میرا جواب چیک کریں!",
+                fillMissing: "گمشدہ نمبرز بھریں! 1000s سے گنتی کریں:",
+                checkCounting: "میری گنتی چیک کریں!",
+                dragDrop: "گھسیٹ کر چھوڑ کر ترتیب دیں!",
+                smallest: "سب سے چھوٹا",
+                second: "دوسرا",
+                third: "تیسرا",
+                biggest: "سب سے بڑا",
+                checkOrder: "ترتیب چیک کریں!",
+                findPairs: "ملتے جلتے جوڑے تلاش کریں!",
+                resetGame: "کھیل دوبارہ شروع کریں",
+                roundingChallenge: "گول کرنے کا چیلنج!",
+                roundText: "اس نمبر کو قریبی ہزار تک گول کریں:",
+                storyProblem: "اس مسئلے کو حل کرنے میں مدد کریں!",
+                problemText: "🏫 <strong>مسئلہ:</strong><br>اسکول کی لائبریری میں 15,678 کتابیں ہیں۔ انہوں نے 2,456 نئی کتابیں خریدیں۔ اب ان کے پاس کتنی کتابیں ہیں؟",
+                typeAnswer: "اپنا جواب ٹائپ کریں...",
+                patternDetective: "نمونہ جاسوس!",
+                patternQuestion: "نمونے میں اگلا کون سا نمبر آئے گا؟",
+                masterText: "آپ نے بڑے نمبرز میں مہارت حاصل کر لی ہے!",
+                skillsList: "✅ آپ بڑے نمبرز پڑھ سکتے ہیں<br>✅ آپ جگہ کی قیمتیں جانتے ہیں<br>✅ آپ نمبروں کا موازنہ کر سکتے ہیں<br>✅ آپ نمبر کے الفاظ لکھ سکتے ہیں<br>✅ آپ ہزاروں سے گن سکتے ہیں<br>✅ آپ نمبروں کو ترتیب دے سکتے ہیں<br>✅ آپ نمبروں کو گول کر سکتے ہیں<br>✅ آپ الفاظ کے مسائل حل کر سکتے ہیں<br>",
+                celebrate: "🎊 جشن منائیں!",
+                backUnit: "← یونٹ 2 میں واپس",
+                nextTopic: "اگلا موضوع →",
+                
+                // Audio feedback
+                welcome: "ہمارے نمبر کے مہم جوئی میں خوش آمدید! کیا آپ بڑے نمبرز کو دریافت کرنے کے لیے تیار ہیں؟",
+                houseDesc: "ایک گھر کی قیمت پندرہ لاکھ روپے ہے! یہ بہت بڑا نمبر ہے!",
+                carDesc: "ایک کار کی قیمت آٹھ لاکھ روپے ہے! کاریں مہنگی ہیں!",
+                stadium: "پچاس ہزار لوگ ایک بڑے اسٹیڈیم میں بیٹھ سکتے ہیں! یہ بہت سارے لوگ ہیں!",
+                library: "ایک بڑی لائبریری میں پچیس ہزار کتابیں ہیں! کتنی کہانیاں!",
+                excellent: "بہترین! آپ نے صحیح جواب دیا!",
+                tryAgain: "دوبارہ کوشش کریں! صحیح جواب ہے",
+                perfect: "کامل! آپ صحیح ہیں!",
+                congratulations: "مبارک ہو! اب آپ نمبر کے ماہر ہیں! بہت اچھا!",
+                correctComparison: "بہترین کام! آپ نے نمبروں کا صحیح موازنہ کیا!",
+                wrongComparison: "دوبارہ کوشش کریں! نمبروں کو زیادہ احتیاط سے دیکھیں۔",
+                memoryComplete: "حیرت انگیز! آپ نے تمام جوڑے ڈھونڈ لیے!",
+                roundingCorrect: "بہترین راؤنڈنگ! آپ نے صحیح کیا!",
+                wordProblemCorrect: "کامل! آپ نے مسئلہ صحیح طریقے سے حل کیا!",
+                patternCorrect: "بہترین پیٹرن کی شناخت! آپ نے گمشدہ نمبر ڈھونڈا!"
+            }
+        };
+        
+        // Set language and update UI
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+            
+            // Set text direction for Urdu
+            if (lang === 'ur') {
+                document.body.style.direction = 'rtl';
+            } else {
+                document.body.style.direction = 'ltr';
+            }
+            
+            // Update all text content
+            updatePageText();
+        }
+        
+        // Update all text content based on selected language
+        function updatePageText() {
+            const t = translations[currentLanguage];
+            
+            // Update navigation
+            document.getElementById('prevBtn').innerHTML = `← ${t.previous}`;
+            document.getElementById('nextBtn').innerHTML = `${t.next} →`;
+            document.getElementById('slideCounter').textContent = `${t.slideOf} ${currentSlide} ${t.of} ${totalSlides}`;
+            
+            // Update slide content
+            updateSlideContent();
+        }
+        
+        // Update content for specific slides
+        function updateSlideContent() {
+            const t = translations[currentLanguage];
+            
+            // Slide 1
+            if (document.getElementById('slide1')) {
+                const slide1 = document.getElementById('slide1');
+                slide1.querySelector('.slide-title').textContent = t.welcomeTitle;
+                slide1.querySelector('.slide-subtitle').textContent = t.welcomeSubtitle;
+                slide1.querySelector('h2').textContent = "Numbers Beyond 10,000"; // Keep English for consistency
+                slide1.querySelector('p').innerHTML = t.welcomeText;
+                slide1.querySelector('button').innerHTML = t.letStart;
+            }
+            
+            // Slide 2
+            if (document.getElementById('slide2')) {
+                const slide2 = document.getElementById('slide2');
+                slide2.querySelector('.slide-title').textContent = t.whatAreBigTitle;
+                slide2.querySelector('.slide-subtitle').textContent = t.whatAreBigSubtitle;
+                slide2.querySelector('p').innerHTML = t.bigNumberText;
+            }
+            
+            // Slide 3
+            if (document.getElementById('slide3')) {
+                const slide3 = document.getElementById('slide3');
+                slide3.querySelector('.slide-title').textContent = t.numbersAroundTitle;
+                slide3.querySelector('.slide-subtitle').textContent = t.numbersAroundSubtitle;
+                
+                const cards = slide3.querySelectorAll('.number-card div:last-child');
+                if (cards.length >= 4) {
+                    cards[0].textContent = t.housePrice;
+                    cards[1].textContent = t.carPrice;
+                    cards[2].textContent = t.peopleStadium;
+                    cards[3].textContent = t.booksLibrary;
+                }
+            }
+            
+            // Slide 4
+            if (document.getElementById('slide4')) {
+                const slide4 = document.getElementById('slide4');
+                slide4.querySelector('.slide-title').textContent = t.readingTitle;
+                slide4.querySelector('.slide-subtitle').textContent = t.readingSubtitle;
+                slide4.querySelector('h3').innerHTML = t.magicReader;
+                slide4.querySelector('p').innerHTML = `${t.readLeftRight} <span style="color: #FF6B6B; font-weight: bold;">Twelve thousand three hundred forty five</span>`;
+                
+                const buttons = slide4.querySelectorAll('button');
+                if (buttons.length >= 3) {
+                    buttons[0].innerHTML = `${t.tryNumber} 23,456`;
+                    buttons[1].innerHTML = `${t.tryNumber} 67,890`;
+                    buttons[2].innerHTML = t.hearIt;
+                }
+            }
+            
+            // Slide 5
+            if (document.getElementById('slide5')) {
+                const slide5 = document.getElementById('slide5');
+                slide5.querySelector('.slide-title').textContent = t.placeValueTitle;
+                slide5.querySelector('.slide-subtitle').textContent = t.placeValueSubtitle;
+                slide5.querySelector('p').innerHTML = t.clickDigit;
+            }
+            
+            // Slide 6
+            if (document.getElementById('slide6')) {
+                const slide6 = document.getElementById('slide6');
+                slide6.querySelector('.slide-title').textContent = t.comparingTitle;
+                slide6.querySelector('.slide-subtitle').textContent = t.comparingSubtitle;
+                slide6.querySelector('h3').innerHTML = t.comparisonChallenge;
+                
+                const buttons = slide6.querySelectorAll('button');
+                if (buttons.length >= 3) {
+                    buttons[0].textContent = t.firstBigger;
+                    buttons[1].textContent = t.secondBigger;
+                    buttons[2].textContent = t.bothEqual;
+                }
+            }
+            
+            // Slide 7
+            if (document.getElementById('slide7')) {
+                const slide7 = document.getElementById('slide7');
+                slide7.querySelector('.slide-title').textContent = t.quizTitle;
+                slide7.querySelector('.slide-subtitle').textContent = t.quizSubtitle;
+                slide7.querySelector('h3').innerHTML = t.quizQuestion;
+                
+                const options = slide7.querySelectorAll('.quiz-option');
+                if (options.length >= 4) {
+                    options[0].textContent = t.quizOption1;
+                    options[1].textContent = t.quizOption2;
+                    options[2].textContent = t.quizOption3;
+                    options[3].textContent = t.quizOption4;
+                }
+            }
+            
+            // Slide 8
+            if (document.getElementById('slide8')) {
+                const slide8 = document.getElementById('slide8');
+                slide8.querySelector('.slide-title').textContent = t.writingTitle;
+                slide8.querySelector('.slide-subtitle').textContent = t.writingSubtitle;
+                slide8.querySelector('h3').innerHTML = t.writeNumber;
+                slide8.querySelector('p').innerHTML = `"${t.writeWords}"`;
+                slide8.querySelector('input').placeholder = t.typeHere;
+                slide8.querySelector('button').textContent = t.checkAnswer;
+            }
+            
+            // Slide 9
+            if (document.getElementById('slide9')) {
+                const slide9 = document.getElementById('slide9');
+                slide9.querySelector('.slide-title').textContent = t.countingTitle;
+                slide9.querySelector('.slide-subtitle').textContent = t.countingSubtitle;
+                slide9.querySelector('p').innerHTML = t.fillMissing;
+                slide9.querySelector('button').textContent = t.checkCounting;
+            }
+            
+            // Slide 10
+            if (document.getElementById('slide10')) {
+                const slide10 = document.getElementById('slide10');
+                slide10.querySelector('.slide-title').textContent = t.orderingTitle;
+                slide10.querySelector('.slide-subtitle').textContent = t.orderingSubtitle;
+                slide10.querySelector('h3').innerHTML = t.dragDrop;
+                slide10.querySelector('button').textContent = t.checkOrder;
+                
+                const dropZones = slide10.querySelectorAll('.drop-zone');
+                if (dropZones.length >= 4) {
+                    dropZones[0].textContent = t.smallest;
+                    dropZones[1].textContent = t.second;
+                    dropZones[2].textContent = t.third;
+                    dropZones[3].textContent = t.biggest;
+                }
+            }
+            
+            // Slide 11
+            if (document.getElementById('slide11')) {
+                const slide11 = document.getElementById('slide11');
+                slide11.querySelector('.slide-title').textContent = t.memoryTitle;
+                slide11.querySelector('.slide-subtitle').textContent = t.memorySubtitle;
+                slide11.querySelector('h3').innerHTML = t.findPairs;
+                slide11.querySelector('button').textContent = t.resetGame;
+            }
+            
+            // Slide 12
+            if (document.getElementById('slide12')) {
+                const slide12 = document.getElementById('slide12');
+                slide12.querySelector('.slide-title').textContent = t.roundingTitle;
+                slide12.querySelector('.slide-subtitle').textContent = t.roundingSubtitle;
+                slide12.querySelector('h3').innerHTML = t.roundingChallenge;
+                slide12.querySelector('p').innerHTML = t.roundText;
+            }
+            
+            // Slide 13
+            if (document.getElementById('slide13')) {
+                const slide13 = document.getElementById('slide13');
+                slide13.querySelector('.slide-title').textContent = t.storyTitle;
+                slide13.querySelector('.slide-subtitle').textContent = t.storySubtitle;
+                slide13.querySelector('h3').innerHTML = t.storyProblem;
+                slide13.querySelector('.game-area div:nth-child(2)').innerHTML = t.problemText;
+                slide13.querySelector('input').placeholder = t.typeAnswer;
+                slide13.querySelector('button').textContent = t.checkAnswer;
+            }
+            
+            // Slide 14
+            if (document.getElementById('slide14')) {
+                const slide14 = document.getElementById('slide14');
+                slide14.querySelector('.slide-title').textContent = t.patternsTitle;
+                slide14.querySelector('.slide-subtitle').textContent = t.patternsSubtitle;
+                slide14.querySelector('h3').innerHTML = t.patternDetective;
+                slide14.querySelector('p').innerHTML = t.patternQuestion;
+            }
+            
+            // Slide 15
+            if (document.getElementById('slide15')) {
+                const slide15 = document.getElementById('slide15');
+                slide15.querySelector('.slide-title').textContent = t.celebrationTitle;
+                slide15.querySelector('.slide-subtitle').textContent = t.celebrationSubtitle;
+                slide15.querySelector('h2').innerHTML = t.masterText;
+                slide15.querySelector('div[style*="line-height"]').innerHTML = t.skillsList;
+                
+                const buttons = slide15.querySelectorAll('button, a');
+                if (buttons.length >= 3) {
+                    buttons[0].innerHTML = t.celebrate;
+                    buttons[1].innerHTML = t.backUnit;
+                    buttons[2].innerHTML = t.nextTopic;
+                }
+            }
+        }
+        
+        // Enhanced speech function with language support
+        function speakText(key) {
+            const text = translations[currentLanguage][key];
+            if (text) {
+                speak(text);
+            }
+        }
+        
+        // Navigation functions
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide++;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateNavigation();
+                updatePageText(); // Update text for new slide
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 1) {
+                document.getElementById(`slide${currentSlide}`).classList.remove('active');
+                currentSlide--;
+                document.getElementById(`slide${currentSlide}`).classList.add('active');
+                updateNavigation();
+                updatePageText(); // Update text for new slide
+            }
+        }
+        
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            const t = translations[currentLanguage];
+            document.getElementById('slideCounter').textContent = `${t.slideOf} ${currentSlide} ${t.of} ${totalSlides}`;
+        }
+        
+        // Speech function with language support
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                document.getElementById('speakingIndicator').style.display = 'block';
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set language-specific voice settings
+                switch(currentLanguage) {
+                    case 'ta':
+                        utterance.lang = 'ta-IN';
+                        utterance.rate = 0.6;
+                        break;
+                    case 'ur':
+                        utterance.lang = 'ur-PK';
+                        utterance.rate = 0.6;
+                        break;
+                    default:
+                        utterance.lang = 'en-US';
+                        utterance.rate = 0.7;
+                }
+                
+                utterance.pitch = 1.2;
+                utterance.onend = function() {
+                    document.getElementById('speakingIndicator').style.display = 'none';
+                };
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Slide 2 functions
+        function showBigNumber(number) {
+            const formatted = number.toLocaleString('en-IN');
+            const words = numberToWords(number);
+            document.getElementById('numberFeedback').innerHTML = `
+                <div class="feedback success">
+                    <div style="font-size: 3rem; margin: 1rem 0;">${formatted}</div>
+                    <div style="font-size: 1.5rem;">${words}</div>
+                </div>
+            `;
+            speak(`${formatted} is ${words}`);
+        }
+        
+        // Slide 3 functions
+        function explainExample(type) {
+            const key = type === 'house' ? 'houseDesc' : 
+                       type === 'car' ? 'carDesc' :
+                       type === 'people' ? 'stadium' : 'library';
+            
+            const explanation = translations[currentLanguage][key];
+            
+            document.getElementById('exampleFeedback').innerHTML = `
+                <div class="feedback success">
+                    <p style="font-size: 1.3rem;">${explanation}</p>
+                </div>
+            `;
+            speak(explanation);
+        }
+        
+        // Slide 4 functions
+        function readNumber(number) {
+            const formatted = number.toLocaleString('en-IN');
+            const words = numberToWords(number);
+            document.getElementById('displayNumber').textContent = formatted;
+            speak(words);
+        }
+        
+        function speakDisplayedNumber() {
+            const numberText = document.getElementById('displayNumber').textContent;
+            const number = parseInt(numberText.replace(/,/g, ''));
+            const words = numberToWords(number);
+            speak(words);
+        }
+        
+        // Slide 5 functions
+        function showPlaceValue(digit, place) {
+            const value = digit * getPlaceValue(place);
+            document.getElementById('placeValueResult').innerHTML = `
+                <div class="feedback success">
+                    The digit ${digit} is in the ${place} place<br>
+                    Its value is ${value.toLocaleString('en-IN')}
+                </div>
+            `;
+            speak(`The digit ${digit} is in the ${place} place. Its value is ${value}`);
+        }
+        
+        function getPlaceValue(place) {
+            const values = {
+                'Ones': 1,
+                'Tens': 10,
+                'Hundreds': 100,
+                'Thousands': 1000,
+                'Ten Thousands': 10000
+            };
+            return values[place];
+        }
+        
+        // Slide 6 functions - Comparison
+        function checkComparison(operator) {
+            const num1 = parseInt(document.getElementById('compareNum1').textContent.replace(/,/g, ''));
+            const num2 = parseInt(document.getElementById('compareNum2').textContent.replace(/,/g, ''));
+            
+            let isCorrect = false;
+            if (operator === '>' && num1 > num2) isCorrect = true;
+            if (operator === '<' && num1 < num2) isCorrect = true;
+            if (operator === '=' && num1 === num2) isCorrect = true;
+            
+            document.getElementById('compareSymbol').textContent = operator;
+            
+            const feedback = document.getElementById('comparisonFeedback');
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div class="feedback success">
+                        ${translations[currentLanguage]['correctComparison']}
+                    </div>
+                `;
+                speak(translations[currentLanguage]['correctComparison']);
+                createConfetti();
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['wrongComparison']}
+                    </div>
+                `;
+                speak(translations[currentLanguage]['wrongComparison']);
+            }
+        }
+        
+        // Slide 7 functions
+        function checkAnswer(element, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                document.getElementById('quizFeedback').innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['excellent']} 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['excellent']);
+                createConfetti();
+            } else {
+                element.classList.add('wrong');
+                document.getElementById('quizFeedback').innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']} "Thirty four thousand five hundred sixty seven"
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " thirty four thousand five hundred sixty seven");
+            }
+        }
+        
+        // Slide 8 functions
+        function checkNumberWriting() {
+            const input = document.getElementById('numberInput').value.replace(/,/g, '');
+            const correct = '25612';
+            
+            if (input === correct) {
+                document.getElementById('writingFeedback').innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['perfect']} 25,612! 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['perfect'] + " Twenty five thousand six hundred twelve is correct!");
+                createConfetti();
+            } else {
+                document.getElementById('writingFeedback').innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! Hint: Twenty five thousand six hundred twelve = 25,612
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " The answer is twenty five thousand six hundred twelve");
+            }
+        }
+        
+        // Slide 9 functions
+        function checkCounting() {
+            const answer1 = document.getElementById('count1').value.replace(/,/g, '');
+            const answer2 = document.getElementById('count2').value.replace(/,/g, '');
+            
+            if (answer1 === '12000' && answer2 === '13000') {
+                document.getElementById('countingFeedback').innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['excellent']} 12,000 and 13,000! 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['excellent'] + " Twelve thousand and thirteen thousand are correct!");
+                createConfetti();
+            } else {
+                document.getElementById('countingFeedback').innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! Count by 1000s: 12,000, then 13,000
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " Count by thousands: twelve thousand, then thirteen thousand");
+            }
+        }
+        
+        // Slide 10 functions - Ordering
+        function checkOrdering() {
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const correctOrder = ['12345', '23456', '45678', '67890'];
+            let userOrder = [];
+            
+            dropZones.forEach(zone => {
+                const value = zone.dataset.value || '';
+                userOrder.push(value);
+            });
+            
+            const isCorrect = JSON.stringify(userOrder) === JSON.stringify(correctOrder);
+            const feedback = document.getElementById('orderingFeedback');
+            
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['excellent']} 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['excellent']);
+                createConfetti();
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! Order: 12,345 → 23,456 → 45,678 → 67,890
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain']);
+            }
+        }
+        
+        // Slide 11 functions - Memory Game
+        function initMemoryGame() {
+            const numbers = [
+                {number: '12,345', words: 'Twelve thousand three hundred forty five'},
+                {number: '23,456', words: 'Twenty three thousand four hundred fifty six'},
+                {number: '34,567', words: 'Thirty four thousand five hundred sixty seven'},
+                {number: '45,678', words: 'Forty five thousand six hundred seventy eight'}
+            ];
+            
+            // Create pairs
+            memoryCards = [];
+            numbers.forEach(item => {
+                memoryCards.push({type: 'number', content: item.number, match: item.words});
+                memoryCards.push({type: 'words', content: item.words, match: item.number});
+            });
+            
+            // Shuffle cards
+            memoryCards = memoryCards.sort(() => Math.random() - 0.5);
+            
+            // Generate HTML
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'memory-card';
+                cardElement.dataset.index = index;
+                cardElement.textContent = '?';
+                cardElement.onclick = () => flipCard(index);
+                grid.appendChild(cardElement);
+            });
+            
+            flippedCards = [];
+            matchedPairs = 0;
+        }
+        
+        function flipCard(index) {
+            if (flippedCards.length >= 2 || flippedCards.includes(index)) return;
+            
+            const card = document.querySelector(`[data-index="${index}"]`);
+            card.textContent = memoryCards[index].content;
+            card.classList.add('flipped');
+            flippedCards.push(index);
+            
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 1000);
+            }
+        }
+        
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            const firstCard = memoryCards[first];
+            const secondCard = memoryCards[second];
+            
+            if (firstCard.match === secondCard.content || secondCard.match === firstCard.content) {
+                // Match found
+                document.querySelector(`[data-index="${first}"]`).classList.add('matched');
+                document.querySelector(`[data-index="${second}"]`).classList.add('matched');
+                matchedPairs++;
+                
+                if (matchedPairs === 4) {
+                    document.getElementById('memoryFeedback').innerHTML = `
+                        <div class="feedback success">
+                            🎉 ${translations[currentLanguage]['memoryComplete']} 🎉
+                        </div>
+                    `;
+                    speak(translations[currentLanguage]['memoryComplete']);
+                    createConfetti();
+                }
+            } else {
+                // No match
+                document.querySelector(`[data-index="${first}"]`).textContent = '?';
+                document.querySelector(`[data-index="${second}"]`).textContent = '?';
+                document.querySelector(`[data-index="${first}"]`).classList.remove('flipped');
+                document.querySelector(`[data-index="${second}"]`).classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+        
+        function resetMemoryGame() {
+            initMemoryGame();
+            document.getElementById('memoryFeedback').innerHTML = '';
+        }
+        
+        // Slide 12 functions - Rounding
+        function checkRounding(answer) {
+            const number = parseInt(document.getElementById('roundingNumber').textContent.replace(/,/g, ''));
+            const correctAnswer = Math.round(number / 1000) * 1000;
+            
+            const feedback = document.getElementById('roundingFeedback');
+            if (answer === correctAnswer) {
+                feedback.innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['roundingCorrect']} 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['roundingCorrect']);
+                createConfetti();
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! The answer is ${correctAnswer.toLocaleString('en-IN')}
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " The answer is " + correctAnswer);
+            }
+        }
+        
+        // Slide 13 functions - Word Problems
+        function checkWordProblem() {
+            const answer = parseInt(document.getElementById('wordProblemAnswer').value.replace(/,/g, ''));
+            const correct = 15678 + 2456; // 18134
+            
+            const feedback = document.getElementById('wordProblemFeedback');
+            if (answer === correct) {
+                feedback.innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['wordProblemCorrect']} 18,134 books! 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['wordProblemCorrect'] + " The answer is eighteen thousand one hundred thirty four books!");
+                createConfetti();
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! Add 15,678 + 2,456 = 18,134
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " Add fifteen thousand six hundred seventy eight plus two thousand four hundred fifty six equals eighteen thousand one hundred thirty four");
+            }
+        }
+        
+        // Slide 14 functions - Patterns
+        function checkPattern(answer) {
+            const correct = 21000; // Pattern: +3000 each time
+            
+            const feedback = document.getElementById('patternFeedback');
+            if (answer === correct) {
+                feedback.innerHTML = `
+                    <div class="feedback success">
+                        🎉 ${translations[currentLanguage]['patternCorrect']} 🎉
+                    </div>
+                `;
+                speak(translations[currentLanguage]['patternCorrect']);
+                createConfetti();
+            } else {
+                feedback.innerHTML = `
+                    <div class="feedback error">
+                        ${translations[currentLanguage]['tryAgain']}! The pattern adds 3,000 each time: 21,000
+                    </div>
+                `;
+                speak(translations[currentLanguage]['tryAgain'] + " The pattern adds three thousand each time. The answer is twenty one thousand");
+            }
+        }
+        
+        // Slide 15 functions
+        function celebrate() {
+            speak(translations[currentLanguage]['congratulations']);
+            createConfetti();
+            
+            // Create multiple confetti bursts
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createConfetti(), i * 100);
+            }
+        }
+        
+        // Utility functions
+        function numberToWords(num) {
+            const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+            const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            
+            if (num >= 100000) {
+                const lakhs = Math.floor(num / 100000);
+                const remainder = num % 100000;
+                return `${lakhs === 1 ? 'one' : numberToWords(lakhs)} lakh ${remainder > 0 ? numberToWords(remainder) : ''}`.trim();
+            }
+            
+            if (num >= 1000) {
+                const thousands = Math.floor(num / 1000);
+                const remainder = num % 1000;
+                return `${numberToWords(thousands)} thousand ${remainder > 0 ? numberToWords(remainder) : ''}`.trim();
+            }
+            
+            if (num >= 100) {
+                const hundreds = Math.floor(num / 100);
+                const remainder = num % 100;
+                return `${ones[hundreds]} hundred ${remainder > 0 ? numberToWords(remainder) : ''}`.trim();
+            }
+            
+            if (num >= 20) {
+                const tensDigit = Math.floor(num / 10);
+                const remainder = num % 10;
+                return `${tens[tensDigit]} ${remainder > 0 ? ones[remainder] : ''}`.trim();
+            }
+            
+            if (num >= 10) {
+                return teens[num - 10];
+            }
+            
+            return ones[num] || 'zero';
+        }
+        
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+        
+        // Drag and Drop functionality for ordering
+        function initDragDrop() {
+            const draggables = document.querySelectorAll('.draggable-number');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.value);
+                    e.dataTransfer.setData('text/html', e.target.textContent);
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                });
+                
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const value = e.dataTransfer.getData('text/plain');
+                    const content = e.dataTransfer.getData('text/html');
+                    
+                    zone.textContent = content;
+                    zone.dataset.value = value;
+                    zone.classList.add('filled');
+                });
+            });
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+        
+        // Add digit button styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .digit-button {
+                padding: 0.5rem 1rem;
+                margin: 0 0.2rem;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: inline-block;
+            }
+            .digit-button:hover {
+                transform: scale(1.1);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavigation();
+            initMemoryGame();
+            initDragDrop();
+            updatePageText(); // Initialize with correct language
+            
+            // Initialize slide-specific content
+            if (currentSlide === 6) {
+                // Generate random numbers for comparison
+                const num1 = Math.floor(Math.random() * 50000) + 10000;
+                const num2 = Math.floor(Math.random() * 50000) + 10000;
+                document.getElementById('compareNum1').textContent = num1.toLocaleString('en-IN');
+                document.getElementById('compareNum2').textContent = num2.toLocaleString('en-IN');
+            }
+        });
+    </script>
+</body>
+</html> 

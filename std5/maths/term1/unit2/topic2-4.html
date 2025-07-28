@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Topic 2.4: Ordering & Number Names - Interactive Learning for Standard 5">
+    <meta name="theme-color" content="#4ECDC4">
+    <title>Ordering & Number Names | Unit 2 | Standard 5</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../../../../manifest.json">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../../../assets/css/main.css">
+    <link rel="stylesheet" href="../../../../assets/css/animations.css">
+    
+    <style>
+        .topic-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .ordering-interactive {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .sortable-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .number-card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #2C3E50;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .number-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .number-card.dragging {
+            opacity: 0.7;
+            transform: rotate(5deg);
+        }
+        
+        .number-card.correct-position {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .number-card.incorrect-position {
+            background: #F44336;
+            color: white;
+        }
+        
+        .number-names-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .converter-tool {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .converter-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+        
+        .converter-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        .converter-output {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #4CAF50;
+            margin: 0.5rem 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .abacus-practice {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .mini-abacus {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .abacus-col {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .col-label {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .bead-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .mini-bead {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FFF;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mini-bead.active {
+            background: #4CAF50;
+        }
+        
+        .exercise-section {
+            background: #F8F9FA;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .exercise-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #F8F9FA;
+            color: #6C757D;
+            border: 2px solid #E9ECEF;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .sortable-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .mini-abacus {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <h1 class="school-name">
+            <span class="school-name-full">Primary School Learning App</span>
+            <span class="school-name-short">School App</span>
+        </h1>
+    </header>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav" style="background: white; padding: 1rem 2rem; border-bottom: 1px solid #E9ECEF;">
+        <a href="../unit2.html" style="color: #4CAF50; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Unit 2
+        </a>
+    </nav>
+
+    <!-- Topic Header -->
+    <header class="topic-header">
+        <h1 class="topic-title">2.4 Ordering & Number Names</h1>
+        <p>Arrange numbers and convert between digits and words!</p>
+    </header>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Interactive Ordering Activity -->
+        <div class="ordering-interactive">
+            <h2>🎯 Drag & Drop Number Ordering</h2>
+            <p>Drag the numbers to arrange them in ascending order (smallest to largest)!</p>
+            
+            <div class="sortable-container" id="sortableContainer">
+                <!-- Numbers will be dynamically added here -->
+            </div>
+            
+            <div style="margin: 2rem 0;">
+                <button class="btn btn-warning" onclick="generateNewNumbers()">Generate New Numbers</button>
+                <button class="btn btn-success" onclick="checkOrder()">Check Order</button>
+                <button class="btn btn-secondary" onclick="showSolution()">Show Solution</button>
+            </div>
+            
+            <div id="orderResult" style="margin-top: 1rem; font-size: 1.2rem; font-weight: 600;"></div>
+        </div>
+
+        <!-- Number Names Converter -->
+        <div class="number-names-section">
+            <h2>🔄 Number ↔ Words Converter</h2>
+            <p>Convert between numbers and their word forms!</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="converter-tool">
+                    <h3>Numbers to Words</h3>
+                    <input type="text" class="converter-input" id="numberToWords" placeholder="Enter a number (e.g., 46763)" maxlength="8">
+                    <button class="btn btn-primary" onclick="convertToWords()">Convert to Words</button>
+                    <div class="converter-output" id="wordsOutput">Enter a number above...</div>
+                </div>
+                
+                <div class="converter-tool">
+                    <h3>Words to Numbers</h3>
+                    <textarea class="converter-input" id="wordsToNumber" placeholder="Enter number in words (e.g., forty six thousand seven hundred sixty three)" style="height: 80px;"></textarea>
+                    <button class="btn btn-primary" onclick="convertToNumber()">Convert to Number</button>
+                    <div class="converter-output" id="numberOutput">Enter words above...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abacus Practice -->
+        <div class="abacus-practice">
+            <h2>🧮 Abacus Number Representation</h2>
+            <p>Click the beads to represent numbers on the abacus!</p>
+            
+            <div class="mini-abacus" id="miniAbacus">
+                <div class="abacus-col">
+                    <div class="col-label">L</div>
+                    <div class="bead-group" data-place="100000">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-col">
+                    <div class="col-label">TT</div>
+                    <div class="bead-group" data-place="10000">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-col">
+                    <div class="col-label">T</div>
+                    <div class="bead-group" data-place="1000">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-col">
+                    <div class="col-label">H</div>
+                    <div class="bead-group" data-place="100">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-col">
+                    <div class="col-label">Te</div>
+                    <div class="bead-group" data-place="10">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+                <div class="abacus-col">
+                    <div class="col-label">O</div>
+                    <div class="bead-group" data-place="1">
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                        <div class="mini-bead" onclick="toggleMiniBeam(this)"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px; display: inline-block; margin-bottom: 1rem;">
+                    <strong>Abacus shows: <span id="abacusDisplay">0</span></strong>
+                </div>
+                <br>
+                <button class="btn btn-warning" onclick="clearAbacus()">Clear All</button>
+                <button class="btn btn-secondary" onclick="setRandomNumber()">Random Number</button>
+            </div>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="exercise-section">
+            <h2>✏️ Practice Exercises</h2>
+            
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <h3>Exercise 1: Ascending Order</h3>
+                    <p>Arrange in ascending order:</p>
+                    <p><strong>78,432 | 87,234 | 74,823 | 84,372</strong></p>
+                    <textarea placeholder="Write in ascending order..." id="ascOrder" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; height: 60px;"></textarea>
+                    <button class="btn btn-success" onclick="checkAscending()">Check Answer</button>
+                    <div id="ascResult"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <h3>Exercise 2: Descending Order</h3>
+                    <p>Arrange in descending order:</p>
+                    <p><strong>45,678 | 54,876 | 48,567 | 56,487</strong></p>
+                    <textarea placeholder="Write in descending order..." id="descOrder" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; height: 60px;"></textarea>
+                    <button class="btn btn-success" onclick="checkDescending()">Check Answer</button>
+                    <div id="descResult"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <h3>Exercise 3: Number Names</h3>
+                    <p>Write in words: <strong>1,25,847</strong></p>
+                    <textarea placeholder="Write the number name..." id="numberName" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; height: 80px;"></textarea>
+                    <button class="btn btn-success" onclick="checkNumberName()">Check Answer</button>
+                    <div id="nameResult"></div>
+                </div>
+                
+                <div class="exercise-card">
+                    <h3>Exercise 4: Word to Number</h3>
+                    <p>Convert to number:</p>
+                    <p><strong>Three lakh forty five thousand six hundred seventy eight</strong></p>
+                    <input type="text" placeholder="Enter the number..." id="wordToNum" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;">
+                    <button class="btn btn-success" onclick="checkWordToNumber()">Check Answer</button>
+                    <div id="wordResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="topic2-3.html" class="btn btn-secondary">← Previous: Comparison</a>
+            <a href="topic2-5.html" class="btn btn-primary">Next: Operations →</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../../assets/js/app.js"></script>
+    <script src="../../../../assets/js/navigation.js"></script>
+    
+    <script>
+        let currentNumbers = [];
+        let correctOrder = [];
+        
+        // Generate new set of numbers for ordering
+        function generateNewNumbers() {
+            const numbers = [];
+            for (let i = 0; i < 5; i++) {
+                const num = Math.floor(Math.random() * 900000) + 100000;
+                numbers.push(num);
+            }
+            
+            currentNumbers = [...numbers];
+            correctOrder = [...numbers].sort((a, b) => a - b);
+            
+            const container = document.getElementById('sortableContainer');
+            container.innerHTML = '';
+            
+            // Shuffle the numbers
+            const shuffled = [...numbers].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(num => {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+                card.draggable = true;
+                card.textContent = formatIndianNumber(num);
+                card.dataset.value = num;
+                
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragend', handleDragEnd);
+                
+                container.appendChild(card);
+            });
+            
+            document.getElementById('orderResult').textContent = '';
+        }
+        
+        // Drag and drop handlers
+        let draggedElement = null;
+        
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            if (this !== draggedElement) {
+                const container = this.parentNode;
+                const allCards = [...container.children];
+                const draggedIndex = allCards.indexOf(draggedElement);
+                const targetIndex = allCards.indexOf(this);
+                
+                if (draggedIndex < targetIndex) {
+                    container.insertBefore(draggedElement, this.nextSibling);
+                } else {
+                    container.insertBefore(draggedElement, this);
+                }
+            }
+        }
+        
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedElement = null;
+        }
+        
+        // Check if numbers are in correct order
+        function checkOrder() {
+            const container = document.getElementById('sortableContainer');
+            const cards = [...container.children];
+            const currentOrder = cards.map(card => parseInt(card.dataset.value));
+            
+            let allCorrect = true;
+            cards.forEach((card, index) => {
+                card.classList.remove('correct-position', 'incorrect-position');
+                if (parseInt(card.dataset.value) === correctOrder[index]) {
+                    card.classList.add('correct-position');
+                } else {
+                    card.classList.add('incorrect-position');
+                    allCorrect = false;
+                }
+            });
+            
+            const result = document.getElementById('orderResult');
+            if (allCorrect) {
+                result.innerHTML = '<span style="color: #4CAF50;">🎉 Perfect! You got the ascending order correct!</span>';
+            } else {
+                result.innerHTML = '<span style="color: #F44336;">❌ Some numbers are in wrong positions. Try again!</span>';
+            }
+        }
+        
+        // Show solution
+        function showSolution() {
+            const container = document.getElementById('sortableContainer');
+            container.innerHTML = '';
+            
+            correctOrder.forEach(num => {
+                const card = document.createElement('div');
+                card.className = 'number-card correct-position';
+                card.textContent = formatIndianNumber(num);
+                card.dataset.value = num;
+                container.appendChild(card);
+            });
+            
+            document.getElementById('orderResult').innerHTML = '<span style="color: #4CAF50;">✅ This is the correct ascending order!</span>';
+        }
+        
+        // Number to words converter
+        function convertToWords() {
+            const input = document.getElementById('numberToWords');
+            const output = document.getElementById('wordsOutput');
+            const number = parseInt(input.value.replace(/,/g, ''));
+            
+            if (isNaN(number) || number < 0 || number > 9999999) {
+                output.textContent = 'Please enter a valid number between 0 and 99,99,999';
+                return;
+            }
+            
+            const words = numberToWords(number);
+            output.textContent = words.charAt(0).toUpperCase() + words.slice(1);
+        }
+        
+        // Words to number converter
+        function convertToNumber() {
+            const input = document.getElementById('wordsToNumber');
+            const output = document.getElementById('numberOutput');
+            const words = input.value.toLowerCase().trim();
+            
+            if (!words) {
+                output.textContent = 'Please enter number in words...';
+                return;
+            }
+            
+            try {
+                const number = wordsToNumber(words);
+                output.textContent = formatIndianNumber(number);
+            } catch (error) {
+                output.textContent = 'Could not convert. Please check your input.';
+            }
+        }
+        
+        // Convert number to words
+        function numberToWords(num) {
+            const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            
+            if (num === 0) return 'zero';
+            
+            function convertHundreds(n) {
+                let result = '';
+                if (n >= 100) {
+                    result += ones[Math.floor(n / 100)] + ' hundred ';
+                    n %= 100;
+                }
+                if (n >= 20) {
+                    result += tens[Math.floor(n / 10)] + ' ';
+                    n %= 10;
+                }
+                if (n > 0) {
+                    result += ones[n] + ' ';
+                }
+                return result.trim();
+            }
+            
+            let result = '';
+            
+            if (num >= 1000000) {
+                const lakhs = Math.floor(num / 100000);
+                result += convertHundreds(lakhs) + ' lakh ';
+                num %= 100000;
+            }
+            
+            if (num >= 1000) {
+                const thousands = Math.floor(num / 1000);
+                result += convertHundreds(thousands) + ' thousand ';
+                num %= 1000;
+            }
+            
+            if (num > 0) {
+                result += convertHundreds(num);
+            }
+            
+            return result.trim();
+        }
+        
+        // Convert words to number (simplified)
+        function wordsToNumber(words) {
+            // This is a simplified converter for common patterns
+            words = words.replace(/[,\-]/g, ' ').replace(/\s+/g, ' ').trim();
+            
+            // Handle some common patterns
+            if (words.includes('lakh')) {
+                const parts = words.split('lakh');
+                let result = 0;
+                if (parts[0].trim()) {
+                    result += parseSimpleNumber(parts[0].trim()) * 100000;
+                }
+                if (parts[1] && parts[1].trim()) {
+                    result += parseSimpleNumber(parts[1].replace('thousand', '').trim()) * (parts[1].includes('thousand') ? 1000 : 1);
+                }
+                return result;
+            }
+            
+            if (words.includes('thousand')) {
+                const parts = words.split('thousand');
+                let result = 0;
+                if (parts[0].trim()) {
+                    result += parseSimpleNumber(parts[0].trim()) * 1000;
+                }
+                if (parts[1] && parts[1].trim()) {
+                    result += parseSimpleNumber(parts[1].trim());
+                }
+                return result;
+            }
+            
+            return parseSimpleNumber(words);
+        }
+        
+        function parseSimpleNumber(words) {
+            const numbers = {
+                'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+                'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
+                'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15,
+                'sixteen': 16, 'seventeen': 17, 'eighteen': 18, 'nineteen': 19, 'twenty': 20,
+                'thirty': 30, 'forty': 40, 'fifty': 50, 'sixty': 60, 'seventy': 70,
+                'eighty': 80, 'ninety': 90, 'hundred': 100
+            };
+            
+            let result = 0;
+            const wordArray = words.split(' ');
+            
+            for (let i = 0; i < wordArray.length; i++) {
+                const word = wordArray[i];
+                if (numbers[word] !== undefined) {
+                    if (word === 'hundred' && result > 0) {
+                        result *= 100;
+                    } else {
+                        result += numbers[word];
+                    }
+                }
+            }
+            
+            return result;
+        }
+        
+        // Format number in Indian system
+        function formatIndianNumber(num) {
+            return num.toLocaleString('en-IN');
+        }
+        
+        // Abacus functions
+        function toggleMiniBeam(bead) {
+            bead.classList.toggle('active');
+            updateAbacusDisplay();
+        }
+        
+        function updateAbacusDisplay() {
+            const columns = document.querySelectorAll('.bead-group');
+            const placeValues = [100000, 10000, 1000, 100, 10, 1];
+            let total = 0;
+            
+            columns.forEach((column, index) => {
+                const activeBeads = column.querySelectorAll('.mini-bead.active').length;
+                total += activeBeads * placeValues[index];
+            });
+            
+            document.getElementById('abacusDisplay').textContent = formatIndianNumber(total);
+        }
+        
+        function clearAbacus() {
+            document.querySelectorAll('.mini-bead').forEach(bead => {
+                bead.classList.remove('active');
+            });
+            updateAbacusDisplay();
+        }
+        
+        function setRandomNumber() {
+            clearAbacus();
+            const randomNum = Math.floor(Math.random() * 900000) + 100000;
+            const digits = randomNum.toString().padStart(6, '0').split('').map(d => parseInt(d));
+            const columns = document.querySelectorAll('.bead-group');
+            
+            columns.forEach((column, index) => {
+                const beads = column.querySelectorAll('.mini-bead');
+                for (let i = 0; i < digits[index] && i < beads.length; i++) {
+                    beads[i].classList.add('active');
+                }
+            });
+            
+            updateAbacusDisplay();
+        }
+        
+        // Exercise check functions
+        function checkAscending() {
+            const answer = document.getElementById('ascOrder').value;
+            const result = document.getElementById('ascResult');
+            const correct = '74,823 | 78,432 | 84,372 | 87,234';
+            
+            if (answer.includes('74823') || answer.includes('74,823')) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct ascending order!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Start with the smallest number.</p>';
+            }
+        }
+        
+        function checkDescending() {
+            const answer = document.getElementById('descOrder').value;
+            const result = document.getElementById('descResult');
+            
+            if (answer.includes('56487') || answer.includes('56,487')) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Correct descending order!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Start with the largest number.</p>';
+            }
+        }
+        
+        function checkNumberName() {
+            const answer = document.getElementById('numberName').value.toLowerCase();
+            const result = document.getElementById('nameResult');
+            
+            if (answer.includes('one lakh') && answer.includes('twenty five thousand') && answer.includes('eight hundred') && answer.includes('forty seven')) {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Excellent! You got the number name right!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! 1,25,847 = One lakh twenty five thousand eight hundred forty seven</p>';
+            }
+        }
+        
+        function checkWordToNumber() {
+            const answer = document.getElementById('wordToNum').value.replace(/,/g, '');
+            const result = document.getElementById('wordResult');
+            
+            if (answer === '345678') {
+                result.innerHTML = '<p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">✅ Perfect! 3,45,678 is correct!</p>';
+            } else {
+                result.innerHTML = '<p style="color: #F44336; font-weight: bold; margin-top: 1rem;">❌ Try again! Three lakh forty five thousand six hundred seventy eight = 3,45,678</p>';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateNewNumbers();
+            updateAbacusDisplay();
+        });
+    </script>
+</body>
+</html> 
