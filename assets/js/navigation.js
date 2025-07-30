@@ -17,12 +17,42 @@ class Navigation {
      * Initialize navigation
      */
     init() {
+        // Wait a bit for DOM to be fully ready
+        setTimeout(() => {
+            this.sidebar = document.getElementById('sidebar');
+            this.menuToggle = document.getElementById('menuToggle');
+            this.closeBtn = document.getElementById('closeSidebar');
+            
+            if (!this.sidebar || !this.menuToggle) {
+                console.warn('Navigation elements not found');
+                // Try again after a longer delay
+                setTimeout(() => this.retryInit(), 500);
+                return;
+            }
+
+            // Ensure sidebar starts hidden
+            this.sidebar.classList.remove('active');
+            this.isOpen = false;
+
+            this.setupEventListeners();
+            this.createOverlay();
+            this.setupKeyboardNavigation();
+            this.setupTouchGestures();
+            
+            console.log('Navigation initialized');
+        }, 50);
+    }
+
+    /**
+     * Retry initialization if elements weren't found
+     */
+    retryInit() {
         this.sidebar = document.getElementById('sidebar');
         this.menuToggle = document.getElementById('menuToggle');
         this.closeBtn = document.getElementById('closeSidebar');
         
         if (!this.sidebar || !this.menuToggle) {
-            console.warn('Navigation elements not found');
+            console.error('Navigation elements still not found after retry');
             return;
         }
 
@@ -35,7 +65,7 @@ class Navigation {
         this.setupKeyboardNavigation();
         this.setupTouchGestures();
         
-        console.log('Navigation initialized');
+        console.log('Navigation initialized after retry');
     }
 
     /**

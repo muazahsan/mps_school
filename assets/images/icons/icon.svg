@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#45B7D1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="76" ry="76" fill="url(#bg-gradient)"/>
+  
+  <!-- Book Icon -->
+  <g transform="translate(128, 128)">
+    <!-- Book Base -->
+    <rect x="0" y="32" width="256" height="192" rx="8" ry="8" fill="white" opacity="0.9"/>
+    
+    <!-- Book Pages -->
+    <rect x="16" y="48" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    <rect x="16" y="72" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    <rect x="16" y="96" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    <rect x="16" y="120" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    <rect x="16" y="144" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    <rect x="16" y="168" width="224" height="8" fill="#4ECDC4" opacity="0.6"/>
+    
+    <!-- Book Spine -->
+    <rect x="0" y="32" width="16" height="192" rx="8" ry="8" fill="#45B7D1"/>
+    
+    <!-- Bookmark -->
+    <polygon points="232,32 248,32 240,56 232,48" fill="#FF6B6B"/>
+  </g>
+  
+  <!-- School Cap -->
+  <g transform="translate(64, 64)">
+    <ellipse cx="192" cy="80" rx="128" ry="32" fill="white" opacity="0.8"/>
+    <polygon points="192,48 128,80 256,80" fill="white" opacity="0.9"/>
+    <circle cx="256" cy="80" r="8" fill="#FF6B6B"/>
+    <line x1="256" y1="88" x2="256" y2="120" stroke="#FF6B6B" stroke-width="4"/>
+  </g>
+</svg> 

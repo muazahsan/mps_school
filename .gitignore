@@ -30,4 +30,8 @@ build/
 
 # Temporary files
 *.tmp
-*.temp 
+*.temp
+
+# Icon generation tools
+generate-icons.html
+icon-generator.html 

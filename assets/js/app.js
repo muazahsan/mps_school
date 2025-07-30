@@ -152,10 +152,8 @@ class SchoolApp {
      * Initialize app components
      */
     initializeComponents() {
-        // Initialize navigation
-        if (window.Navigation) {
-            window.Navigation.init();
-        }
+        // Initialize navigation with retry logic
+        this.initializeNavigation();
 
         // Initialize language system
         if (window.LanguageManager) {
@@ -164,6 +162,38 @@ class SchoolApp {
 
         // Set up intersection observer for animations
         this.setupIntersectionObserver();
+    }
+
+    /**
+     * Initialize navigation with retry logic
+     */
+    initializeNavigation() {
+        const tryInitNavigation = () => {
+            if (window.Navigation && typeof window.Navigation.init === 'function') {
+                try {
+                    window.Navigation.init();
+                    console.log('Navigation initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing navigation:', error);
+                }
+            } else {
+                // Retry after a short delay if Navigation is not ready
+                setTimeout(() => {
+                    if (window.Navigation && typeof window.Navigation.init === 'function') {
+                        try {
+                            window.Navigation.init();
+                            console.log('Navigation initialized successfully (retry)');
+                        } catch (error) {
+                            console.error('Error initializing navigation (retry):', error);
+                        }
+                    } else {
+                        console.warn('Navigation object not available after retry');
+                    }
+                }, 100);
+            }
+        };
+
+        tryInitNavigation();
     }
 
     /**
@@ -516,7 +546,7 @@ class SchoolApp {
     async initServiceWorker() {
         if ('serviceWorker' in navigator) {
             try {
-                const registration = await navigator.serviceWorker.register('/service-worker.js');
+                const registration = await navigator.serviceWorker.register('./service-worker.js');
                 console.log('Service Worker registered:', registration);
                 
                 // Handle service worker updates
